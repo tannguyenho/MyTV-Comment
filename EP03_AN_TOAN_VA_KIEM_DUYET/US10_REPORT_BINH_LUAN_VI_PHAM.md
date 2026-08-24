@@ -18,7 +18,6 @@ Report/AI/CMS dùng chung taxonomy nghiệp vụ:
 - Spam/quảng cáo
 - Xúc phạm/ngôn từ công kích
 - Nội dung không phù hợp
-- Sai thông tin
 - Vi phạm khác (UI có thể hiển thị “Khác”)
 
 ### Acceptance Criteria
