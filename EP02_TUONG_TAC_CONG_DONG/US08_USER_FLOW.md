@@ -14,7 +14,6 @@ flowchart TD
  F --> G{"Còn reply chưa tải?"}
  G -->|"Có"| H["lazy load với n = số reply còn lại"]
  I --> J["Giữ focus tại nút, announce số reply vừa tải qua aria-live, cập nhật lại {n}"]
- J --> G
  D --> K["Tap Trả lời"]
  K --> L["Phone bottom sheet / Web inline composer"]
  L --> M["Reply root hoặc reply khác"]
