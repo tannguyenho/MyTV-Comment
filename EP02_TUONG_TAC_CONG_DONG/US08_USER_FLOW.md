@@ -12,9 +12,7 @@ flowchart TD
  C -->|SmartTV| E["Mở trang Thread riêng chỉ đọc"]
  D --> F["Hiển thị tối đa 3 reply đầu, sort cũ → mới"]
  F --> G{"Còn reply chưa tải?"}
- G -->|"Không"| G1["Không hiển thị nút tải thêm"]
- G -->|"Có"| H["Hiện nút Xem thêm {n} phản hồi với n = số reply còn lại"]
- H --> I["User bấm nút: tải tối đa 10 reply, phần còn lại nhỏ hơn 10 thì tải hết"]
+ G -->|"Có"| H["lazy load với n = số reply còn lại"]
  I --> J["Giữ focus tại nút, announce số reply vừa tải qua aria-live, cập nhật lại {n}"]
  J --> G
  D --> K["Tap Trả lời"]
