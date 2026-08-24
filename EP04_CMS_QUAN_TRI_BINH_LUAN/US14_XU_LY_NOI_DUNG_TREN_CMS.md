@@ -1,4 +1,4 @@
-# US14 — Xử lý nội dung trên CMS
+﻿# US14 — Xử lý nội dung trên CMS
 
 > Thuộc EP04 — CMS quản trị bình luận
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -42,6 +42,11 @@ Các action bắt buộc reason dùng chung taxonomy AI/Report/CMS:
 5. Nhiều Report không tự đổi state trước quyết định CMS.
 6. Lịch sử xử lý từng Report được lưu và reporter nhận in-app notification theo US10.
 7. Gắn/bỏ **Flag** và thêm/bỏ **Spoiler** phải cập nhật đúng metadata/state hiển thị tương ứng của item và tạo audit; các action này không tự đồng nghĩa với Từ chối/Ẩn/Xóa nếu Admin chưa chọn moderation action đó.
+8. **Phạm vi action Spoiler của Admin là toàn bộ nội dung comment/reply.** Từ US04, Spoiler là thuộc tính của từng đoạn chữ do tác giả tự đánh; Admin **không** chỉnh sửa theo đoạn mà chỉ có một công tắc ở cấp item:
+   - **Thêm Spoiler:** toàn bộ phần chữ của comment/reply hiển thị dưới dạng làm mờ, người xem chạm để hiện như bình thường.
+   - **Bỏ Spoiler:** trả nội dung về **đúng định dạng gốc của tác giả**, gồm cả những đoạn tác giả đã tự làm mờ — thao tác của Admin không xóa lựa chọn của tác giả mà chỉ chồng lên khi đang bật.
+   - Audit ghi rõ đây là spoiler cấp item do Admin đặt, phân biệt với các đoạn làm mờ do tác giả tạo.
+   - CMS **không** cung cấp trình soạn thảo cho phép Admin sửa định dạng theo đoạn trong nội dung của người khác.
 
 ### Acceptance Criteria — Bulk moderation
 
@@ -64,7 +69,7 @@ Các action bắt buộc reason dùng chung taxonomy AI/Report/CMS:
 4. Undo Ẩn root làm thread hợp lệ hiện lại theo state riêng của từng reply; không coi reply từng bị visibility cascade là đã bị moderation.
 5. Mọi Admin/Moderator có quyền moderation tương ứng đều được Undo, không cần là người thực hiện action ban đầu.
 6. **Undo không bắt buộc nhập reason**.
-7. **Undo chỉ khôi phục content state**, không tự khôi phục Pin đã mất hoặc badge Bình luận nổi bật đã bị thu hồi do moderation. Pin phải được Admin ghim lại; Featured badge phải được hệ thống đánh giá/cấp lại theo rule hiện hành.
+7. **Undo chỉ khôi phục content state**, không tự khôi phục Pin đã mất hoặc huy hiệu Nổi bật đã bị thu hồi do moderation. Pin phải được Admin ghim lại; Featured badge phải được hệ thống đánh giá/cấp lại theo rule hiện hành.
 8. Undo tạo audit event mới với actor/time/action/before-after; không xóa/sửa audit cũ.
 
 ### Acceptance Criteria — SLA moderation
@@ -73,6 +78,7 @@ Các action bắt buộc reason dùng chung taxonomy AI/Report/CMS:
 2. CMS hiển thị thời gian chờ, cảnh báo item sắp/quá SLA.
 3. Quá 24 giờ vẫn giữ **Chờ duyệt**, đánh dấu **Quá SLA** và ưu tiên lên đầu trong cùng nhóm risk.
 4. Không tự Duyệt/Từ chối chỉ vì quá SLA.
+5. Nếu tác giả **hủy đăng** nội dung đang Chờ duyệt (US05 AC15), item **biến mất khỏi moderation queue ngay** và không tính vào SLA. Admin không cần và không thể ra quyết định cho item đã hủy; nếu Admin đang mở item đó thì thao tác Duyệt/Từ chối bị từ chối với thông báo nội dung không còn tồn tại. Thao tác hủy của tác giả **không tạo audit event** nên không xuất hiện trong lịch sử xử lý.
 
 ### Quy tắc nghiệp vụ
 
@@ -87,12 +93,6 @@ Các action bắt buộc reason dùng chung taxonomy AI/Report/CMS:
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) mục Bảo mật — XSS/sanitization cho note "Vi phạm khác" và export CSV/XLSX (formula injection), IDOR theo scope.*
 
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho moderation CMS trong scope hiện tại.
-
----
-
 ## Test Cases
 
 | ID | Loại | Tiền điều kiện / dữ liệu | Bước kiểm thử | Kết quả mong đợi |
@@ -102,7 +102,7 @@ Các action bắt buộc reason dùng chung taxonomy AI/Report/CMS:
 | TC-US14-003 | Other note | Từ chối/Ẩn/Xóa với reason “Vi phạm khác” | Thử note rỗng/whitespace, 1 ký tự, 500, 501 | Rỗng/whitespace/501 bị chặn; 1–500 ký tự hợp lệ được lưu nhất quán UI/API. |
 | TC-US14-004 | Standard reason note | Chọn một trong 5 reason chuẩn đầu | Bỏ note rồi xử lý | Được phép; note là optional. |
 | TC-US14-005 | No-reason actions | Bỏ qua Report/Flag/Spoiler | Thực hiện không nhập reason | Action được phép và có audit. |
-| TC-US14-006 | Flag/Spoiler effect | C1 đang Hiển thị | Gắn rồi bỏ Flag; thêm rồi bỏ Spoiler | Metadata/UI state tương ứng thay đổi đúng action; C1 không tự Từ chối/Ẩn/Xóa nếu chưa có moderation action riêng; audit đầy đủ. |
+| TC-US14-006 | Flag/Spoiler effect | C1 đang Hiển thị và **tác giả đã tự làm mờ một đoạn chữ** trong nội dung | Gắn rồi bỏ Flag; Admin thêm Spoiler rồi bỏ Spoiler; đối chiếu hiển thị phía người xem ở từng bước | Metadata/UI state tương ứng thay đổi đúng action; C1 không tự Từ chối/Ẩn/Xóa nếu chưa có moderation action riêng; khi Admin thêm Spoiler thì **toàn bộ** phần chữ bị làm mờ; khi Admin bỏ Spoiler thì nội dung trở lại **đúng định dạng gốc của tác giả**, đoạn tác giả tự làm mờ vẫn còn mờ; audit đầy đủ. |
 | TC-US14-007 | Author notification | Admin Từ chối/Ẩn/Xóa C1 | U1 kiểm tra kênh nhận thông tin | U1 thấy reason/notification theo US09/US16; Account Lock không phụ thuộc Notification Center. |
 | TC-US14-008 | CMS root delete cascade | C1 có R1/R2 với state riêng | CMS Xóa mềm C1 | C1 soft-delete; toàn thread không public; R1/R2 giữ state riêng và không tự thành soft-delete chỉ do cascade. |
 | TC-US14-009 | Hide root cascade | C1 có R1/R2 public | Admin Ẩn C1 | Toàn thread không public; R1/R2 không đổi moderation state. |

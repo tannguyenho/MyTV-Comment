@@ -11,8 +11,8 @@
 2. Comment là **tab riêng** trong trang nội dung. Phim bộ mặc định `Danh sách tập`; phim lẻ mặc định `Đề xuất`; user chủ động mở `Bình luận ({count})`. Deep link comment/thread active thẳng tab Bình luận.
 3. **Không còn user-facing scope Series.** Phim lẻ comment/rating cấp phim; phim bộ comment/rating chỉ theo tập hiện tại. CMS vẫn có default config cấp phim bộ + episode override.
 4. Effective Visibility Resolver là source of truth cho render/deep link/fallback.
-5. Scope Đóng giữ tab `Bình luận` nhưng bỏ count, hiển thị `Khu vực bình luận hiện không khả dụng` và ẩn rating/list/composer/actions.
-6. Phone composer = bottom sheet; Web = inline; SmartTV không tạo Comment/Reply/Mention/Report/Share nhưng vẫn cho đọc, Like/Unlike, Rating, Sort, reveal Spoiler và Timestamp seek.
+5. Scope Đóng giữ tab `Bình luận` nhưng bỏ count, hiển thị `Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau` và ẩn list/composer/actions (rating **không** bị ẩn — xem US03 AC11).
+6. Phone composer = thanh nhập inline cố định đáy màn hình (nở lên khi bàn phím bật); Web = inline; SmartTV không tạo Comment/Reply/Mention/Report/Share nhưng vẫn cho đọc, Like/Unlike, Rating, Sort, reveal Spoiler và Timestamp seek.
 7. SmartTV hướng dẫn + QR để chuyển sang smartphone khi muốn tham gia bình luận.
 8. WCAG 2.1 AA; touch target ≥44×44pt; focus/keyboard/remote navigation phải rõ; state không chỉ dùng màu.
 9. CMS moderation chỉ thiết kế **Web/Desktop**.

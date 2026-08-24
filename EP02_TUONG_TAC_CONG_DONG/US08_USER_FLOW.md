@@ -22,7 +22,7 @@ flowchart TD
 
 ## UX đã chốt
 
-- Root list không hiển thị sẵn reply; chỉ action `Xem {n} phản hồi`.
+- Root list không hiển thị sẵn reply; chỉ action `{n} phản hồi`.
 - Khi mở thread, **initial hiển thị tối đa 3 reply**, sort **cũ → mới** (AC9).
 - Phần reply còn lại tải dùng infinite scroll/lazy load theo cuộn. Mỗi lần bấm tải **tối đa 10 reply**; nếu phần còn lại <10 thì tải hết (AC10, TC-US08-008). Số `{n}` trên nút được cập nhật lại sau mỗi lần tải;
 - Lưu ý phạm vi: **infinite scroll vẫn đúng cho danh sách root comment (US02)**; 

@@ -35,7 +35,7 @@
 8. `Mới nhất`: root mới → cũ. `Nhiều lượt thích`: public Net Like giảm dần, tie → mới hơn.
 9. Initial load **10 root**; cuộn gần cuối lazy load **10 root/batch**, không trùng/bỏ sót.
 10. Comment dài tối đa 3 dòng → `Xem thêm` / `Thu gọn`.
-11. Root list không preload Reply; nếu có reply hiển thị `Xem {n} phản hồi` và đi US08.
+11. Root list không preload Reply; nếu có reply hiển thị lối vào thread `{n} phản hồi` và đi US08.
 12. Có comment mới khi đang đọc: không tự chèn; hiện `Có {n} bình luận mới`. Khi refresh, `Nổi bật`/`Nhiều lượt thích` luôn giữ đúng ranking; `Mới nhất` có thể đưa tới comment mới đầu tiên.
 13. Rời tab rồi quay lại cùng phiên giữ scroll/sort/thread/expand state và refresh ngầm không reset context.
 14. SmartTV cho đọc, đổi sort và lazy load bằng remote.
@@ -58,10 +58,6 @@
 - US12 — Quản lý trạng thái và phạm vi hiển thị bình luận (Effective Visibility Resolver).
 - US15 — Quản lý bình luận ghim và cấu hình theo phim.
 - US16 — Quản lý người dùng vi phạm và Account Lock.
-
-### Điểm cần PO chốt
-
-- Không còn điểm PO blocker cho phạm vi sắp xếp/pagination hiện tại.
 
 ---
 
@@ -101,7 +97,7 @@ Kiểm tra phân tách dữ liệu theo content scope hiện tại (phim lẻ c�
 | TC-US02-016 | Locked liker | U1 đã Like C1; sau đó U1 bị Account Lock rồi được mở khóa | Đối chiếu Net Like/Featured Score/ranking trước khóa, khi khóa và sau mở khóa | Khi khóa, Like của U1 tạm bị loại khỏi public Net Like/Featured Score/ranking nhưng record không mất; mở khóa tính lại nếu Like record và target vẫn hợp lệ. |
 | TC-US02-017 | New comments | Đang đọc ở sort `Nổi bật`, `Nhiều lượt thích` và `Mới nhất`; có comment mới được đăng | Quan sát list rồi bấm indicator | Không tự chèn comment mới vào list; hiện `Có {n} bình luận mới`. Khi refresh, `Nổi bật`/`Nhiều lượt thích` giữ đúng ranking; `Mới nhất` có thể đưa user tới comment mới đầu tiên. |
 | TC-US02-018 | Truncate | Có comment dài hơn 3 dòng | Mở list và bấm `Xem thêm` rồi `Thu gọn` | Mặc định rút gọn tối đa 3 dòng; `Xem thêm`/`Thu gọn` hoạt động đúng. |
-| TC-US02-019 | Reply preview | Root có reply và root không có reply | Mở list root | Không preload reply; root có reply hiển thị `Xem {n} phản hồi` và mở thread theo US08. |
+| TC-US02-019 | Reply preview | Root có reply và root không có reply | Mở list root | Không preload reply; root có reply hiển thị `{n} phản hồi` (không dùng nhãn khác như “{n} bình luận”) và mở thread theo US08. |
 | TC-US02-020 | Session context | Rời tab Bình luận rồi quay lại trong cùng phiên | Quay lại tab | Giữ scroll/sort/thread/expand state; refresh ngầm không reset context. |
 | TC-US02-021 | SmartTV | Thiết bị SmartTV, scope có >20 root | Dùng remote để đọc, mở dropdown đổi sort và cuộn lazy load | Đọc, đổi sort và lazy load thực hiện được đầy đủ bằng remote. |
 
@@ -109,6 +105,9 @@ Kiểm tra phân tách dữ liệu theo content scope hiện tại (phim lẻ c�
 
 | Trạng thái | Nội dung hiển thị |
 |---|---|
+| Nhãn control sort đang chọn | Dùng **đúng tên chế độ**, không thêm hậu tố: `Nổi bật` / `Mới nhất` / `Nhiều lượt thích`. Không dùng biến thể “Nổi bật nhất”. |
+| Tiêu đề sheet chọn sort | **Sắp xếp theo** |
+| Lối vào thread trên root card | **{n} phản hồi** |
 | Lựa chọn sort `Nổi bật` | **Nổi bật**<br>Ưu tiên bình luận được ghim và có tương tác cao, còn mới.<br>`[Chọn]` |
 | Lựa chọn sort `Mới nhất` | **Mới nhất**<br>Hiển thị bình luận theo thời gian đăng, mới nhất lên đầu.<br>`[Chọn]` |
 | Lựa chọn sort `Nhiều lượt thích` | **Nhiều lượt thích**<br>Hiển thị bình luận có số lượt thích công khai cao nhất lên đầu.<br>`[Chọn]` |

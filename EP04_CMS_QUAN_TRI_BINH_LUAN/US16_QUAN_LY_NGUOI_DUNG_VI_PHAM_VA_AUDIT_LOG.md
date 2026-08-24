@@ -1,4 +1,4 @@
-# US16 — Quản lý người dùng vi phạm và audit log
+﻿# US16 — Quản lý người dùng vi phạm và audit log
 
 > Thuộc EP04 — CMS quản trị bình luận
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -55,7 +55,7 @@ Admin bắt buộc chọn một reason chuẩn khi áp dụng cảnh báo/sancti
 - Với **Permanent Account Lock**, content tiếp tục non-public vô thời hạn; không tự chuyển sang soft-delete/Ẩn/Từ chối. Nếu cần xóa content, Admin phải thực hiện moderation action riêng.
 - Rating của account bị loại khỏi **cả điểm trung bình và tổng số lượt đánh giá công khai** trong thời gian khóa; khi mở khóa tự tính lại nếu rating record còn tồn tại theo US03.
 - Like do account đã tạo trước khi bị khóa vẫn giữ record nhưng tạm bị loại khỏi **Net Like công khai, Featured Score/ranking và Engagement**; mở khóa tính lại nếu Like/target còn hợp lệ theo US07/US19.
-- Pin và badge **Bình luận nổi bật** trên content của account bị khóa chỉ **tạm ẩn**, metadata được giữ; mở khóa có thể tự hiển thị lại nếu source vẫn hợp lệ và Pin chưa hết hạn. Nếu source bị moderation riêng trong thời gian khóa, không tự phục hồi.
+- Pin và huy hiệu **Nổi bật** trên content của account bị khóa chỉ **tạm ẩn**, metadata được giữ; mở khóa có thể tự hiển thị lại nếu source vẫn hợp lệ và Pin chưa hết hạn. Nếu source bị moderation riêng trong thời gian khóa, không tự phục hồi.
 - Content/Version đã **Chờ duyệt trước khi Account Lock** vẫn được Admin xử lý. Nếu Duyệt trong thời gian khóa, moderation state được Duyệt/Hiển thị nhưng **không public** cho tới khi mở khóa nếu content vẫn hợp lệ.
 
 ### Acceptance Criteria — Lịch sử/chế tài
@@ -110,12 +110,6 @@ Admin bắt buộc chọn một reason chuẩn khi áp dụng cảnh báo/sancti
 - IDOR ghi cross-scope (Moderator ngoài scope thao tác Cảnh báo/Khóa bình luận/Khóa tài khoản lên user không thuộc scope): xem test case IDOR ghi tại US13 (TC-US13-010), áp dụng tương tự cho các chế tài tại US16.
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) mục Bảo mật — session invalidation khi Account Lock, IDOR theo scope.*
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho sanction/appeal/audit trong scope hiện tại.
-
----
 
 ## Test Cases
 

@@ -12,7 +12,7 @@ flowchart TD
  E -->|Không| G[Config cấp phim]
  D --> H{Đóng?}
  H -->|Có| I[User tab Bình luận vẫn hiện nhưng bỏ count]
- I --> J[Khu vực bình luận hiện không khả dụng]
+ I --> J[Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau]
  H -->|Không| K[Render theo Effective Visibility Resolver]
 ```
 
@@ -20,6 +20,6 @@ flowchart TD
 
 - User-facing **không có scope Series**. Phim bộ chỉ đọc/comment/rating theo tập hiện tại.
 - CMS vẫn có cấu hình mặc định cấp phim bộ để vận hành, từng tập override Mode1/Mode2/Đóng.
-- Scope Đóng: tab `Bình luận` vẫn tồn tại, không count, không rating/list/composer/interaction.
+- Scope Đóng: tab `Bình luận` vẫn tồn tại, không count, không list/composer/interaction; rating vẫn hoạt động.
 - Deep link vào scope Đóng mở đúng phim/tập + tab Bình luận + fallback.
 - Resolver priority: self-delete → own moderation → Admin root cascade → Account Lock → scope Closed.

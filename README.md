@@ -76,8 +76,8 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 - Admin **Ẩn root** hoặc Account Lock của root author làm toàn thread tạm non-public nhưng không tự đổi moderation state của reply user khác.
 - User **self-delete root** là lifecycle khác: root + **toàn bộ reply cascade soft-delete thật**, không tách reply thành content độc lập.
 - Soft-delete comment/reply giữ **90 ngày**.
-- Scope Đóng bình luận ẩn toàn comment area/rating và chặn Comment/Reply/Like/Mention/Report/Rating/Share mới.
-- Deep link vào scope Đóng mở đúng phim/tập nhưng không hiển thị thread và hiện **“Khu vực bình luận hiện không khả dụng”**; mở lại scope thì link cũ hoạt động lại nếu target còn hợp lệ.
+- Scope Đóng bình luận giữ tab `Bình luận` nhưng bỏ count, ẩn list/composer/actions và chặn Comment/Reply/Like/Mention/Report/Share mới. **Rating không nằm trong phạm vi gate này** — rating thuộc khối thông tin phim/tập nên vẫn hiển thị aggregate và vẫn nhận đánh giá mới (US03 AC1, AC11).
+- Deep link vào scope Đóng mở đúng phim/tập nhưng không hiển thị thread và hiện **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**; mở lại scope thì link cũ hoạt động lại nếu target còn hợp lệ.
 
 ### 5.2. Sắp xếp, ghim và pagination
 
@@ -87,7 +87,7 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 - `Like` dùng cho Featured Score/sort là **Net Like công khai hiện tại**.
 - Like do account đang Account Lock tạo vẫn giữ record nhưng tạm **không tính public Net Like/Featured Score/ranking**; unlock tính lại nếu Like/target còn hợp lệ.
 - Initial root comments: **10**; lazy load **10/lần**.
-- Initial replies: **3**; “Xem thêm phản hồi” tải tối đa **10/lần**, phần còn lại <10 thì tải full.
+- Reply **không hiển thị trong danh sách root**; root có reply chỉ hiện lối vào `{n} phản hồi`. Trong màn Phản hồi: initial **3** reply, nút “Xem thêm {n} phản hồi” tải tối đa **10/lần**, phần còn lại <10 thì tải full.
 - Pin trên content của account bị Account Lock chỉ **tạm ẩn và giữ metadata**; unlock tự hiện lại nếu source còn hợp lệ và Pin chưa expiry.
 - Moderation Ẩn/Xóa/Từ chối làm mất Pin; **Undo moderation không tự khôi phục Pin**.
 
@@ -110,14 +110,14 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 
 ### 5.5. Edit/Delete và timestamp
 
-- User sửa comment/reply bất kỳ lúc nào khi còn quyền sửa; bản cũ vẫn public khi bản mới pending.
+- User sửa comment/reply bất kỳ lúc nào khi còn quyền sửa. Kết quả một lần sửa **phụ thuộc chế độ kiểm duyệt của phim/tập**: Chế độ 1 + AI Nhẹ thì bản mới public ngay; Chế độ 1 + AI Trung bình hoặc Chế độ 2 thì bản mới vào Chờ duyệt và **bản cũ vẫn public** trong lúc chờ; AI Nặng bị chặn tại submit và bản cũ giữ nguyên.
 - **Khóa bình luận chặn Edit mới** nhưng user vẫn được **self-delete** content của mình. Mỗi comment/reply có **Edit rate limit riêng tối đa 5 lần sửa/phút/target**; vượt ngưỡng bị chặn trước khi tạo version/gọi AI.
 - Comment/Reply/Edit đã gửi hợp lệ trước effective time của Khóa bình luận vẫn được moderation bình thường; Duyệt trong thời gian khóa vẫn có thể public nếu không có gate khác.
 - Bản sửa được duyệt có nhãn **“Đã chỉnh sửa”**; user không xem version history, CMS/Audit xem được.
 - User tự xóa không cần reason; **Admin không được Undo để public lại self-delete**.
 - User self-delete root → root + toàn bộ reply cascade soft-delete 90 ngày; contribution badge của các reply bị cascade cũng bị loại.
 - Undo Xóa tại CMS chỉ áp dụng **CMS/Admin soft-delete**: root + toàn bộ reply bị ẩn do cascade được khôi phục theo state riêng trước cascade, với điều kiện **ROOT còn trong 90 ngày retention**.
-- MVP không có frame/clip. US06 chỉ gắn tối đa **1 timestamp/comment hoặc reply**; user lấy current time hoặc chỉnh tay.
+- MVP không có frame/clip. US06 chỉ gắn tối đa **1 timestamp/comment hoặc reply**; **không có chức năng lấy current time từ player** — user tự gõ mốc thời gian trong nội dung, hệ thống nhận chuỗi hợp lệ đầu tiên.
 - Bấm timestamp → player seek tới mốc và tiếp tục phát; share deep link không tự seek.
 
 ### 5.6. Like/Mention/Notification
@@ -196,16 +196,17 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 - Fan kỳ cựu: rolling 90d, ≥30 active days + ≥30 comment/reply hợp lệ + ≥30 Like nhận.
 - Rolling window tiếp tục chạy trong Account Lock, không freeze; active day đã ghi trước lock giữ nguyên, sau lock không phát sinh active day mới.
 - Auto badge evaluation mỗi ngày; không đạt thì grace **7 ngày** trước khi thu hồi Fan badge.
-- UI hiển thị tối đa **1 badge**; ưu tiên **Admin/Chuyên gia > Bình luận nổi bật > Fan kỳ cựu > Fan tích cực**.
+- Tên badge hiển thị trên UI (theo thiết kế Phone đã chốt): **Fan tích cực**, **Fan kỳ cựu**, **Nổi bật** (badge tự động cấp toàn MyTV), **Custom** (badge Admin cấp thủ công/Chuyên gia).
+- UI hiển thị tối đa **1 badge**; ưu tiên **Custom (Admin/Chuyên gia cấp) > Nổi bật > Fan kỳ cựu > Fan tích cực**. Thứ tự liệt kê trong sheet giải thích huy hiệu chỉ để giới thiệu, **không** phải thứ tự ưu tiên hiển thị.
 - Account Lock **không tự invalid Fan contribution hợp lệ** của locked user hoặc reply user khác bị ẩn chỉ do locked root.
 - Like locked user đã nhận vẫn tính Fan badge nếu source chỉ non-public do Account Lock; chỉ loại nếu source bị moderation riêng/lifecycle Delete.
 - Like do một past liker sau đó Account Lock **vẫn tính cho Fan kỳ cựu của recipient**, dù Like đó tạm bị loại public Net Like/ranking/Engagement.
 - Admin Ẩn/Xóa root không làm mất badge contribution của reply user khác nếu reply không bị moderation state riêng.
 - **Self-delete root là ngoại lệ:** toàn reply cascade soft-delete thật nên reply/Like gắn với reply bị loại khỏi badge eligibility.
-- Bình luận nổi bật grant mới: source public có **≥20 public Net Like + ≥5 Reply + Top10% Featured Score toàn MyTV trong 30 ngày** tại thời điểm xét.
+- Badge **Nổi bật** grant mới: source public có **≥20 public Net Like + ≥5 Reply + Top10% Featured Score toàn MyTV trong 30 ngày** tại thời điểm xét.
 - Sau grant, Like<20/Reply<5/tụt Top10% **không tự revoke**; chỉ source moderation invalidation mới revoke.
-- Account Lock tác giả chỉ tạm ẩn Featured badge và unlock có thể tự hiện lại; **Undo moderation không tự restore badge**, phải re-evaluate/re-grant.
-- Badge Admin/Chuyên gia có expiry tùy chọn; tắt badge type ẩn UI nhưng giữ history/audit.
+- Account Lock tác giả chỉ tạm ẩn badge **Nổi bật** và unlock có thể tự hiện lại; **Undo moderation không tự restore badge**, phải re-evaluate/re-grant.
+- Badge **Custom** (Admin cấp/Chuyên gia) có expiry tùy chọn; tắt badge type ẩn UI nhưng giữ history/audit.
 
 ### 5.12. Share và deep link
 
@@ -215,7 +216,7 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 - Preview: poster/thumbnail + tên phim/tập + CTA + logo MyTV; không comment/Spoiler/PII.
 - Deep link không hết hạn; chưa cài app → mở MyTV Web đúng context.
 - Target moderation Ẩn/Xóa/Từ chối → phim/tập + **“Bình luận không còn khả dụng”**.
-- Scope Đóng → phim/tập + **“Khu vực bình luận hiện không khả dụng”**; mở scope lại thì link cũ hoạt động lại nếu target valid.
+- Scope Đóng → phim/tập + **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**; mở scope lại thì link cũ hoạt động lại nếu target valid.
 - Target/thread chỉ non-public do Account Lock → phim/tập + **“Bình luận hiện không khả dụng”**; unlock thì link cũ hoạt động lại nếu valid.
 - Comment có timestamp: share mở đúng comment nhưng không auto-seek player.
 - **Share event được tính khi OS share sheet mở thành công**; không cần xác nhận đã gửi sang app đích, cancel sau đó không hoàn tác event; retry/lỗi kỹ thuật phải dedup.
@@ -250,7 +251,7 @@ Khi một comment/thread rơi vào từ 2 gate ẩn trở lên cùng lúc, hệ 
 | 2 | Moderation state riêng (Ẩn/Xóa mềm/Từ chối do CMS/Admin) | **"Bình luận không còn khả dụng"** |
 | 3 | Admin root moderation cascade | **"Bình luận không còn khả dụng"** |
 | 4 | Account Lock (tác giả/root author) | **"Bình luận hiện không khả dụng"** |
-| 5 | Scope Đóng bình luận | **"Khu vực bình luận hiện không khả dụng"** |
+| 5 | Scope Đóng bình luận | **"Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau"** |
 
 Chi tiết đầy đủ tại US12.
 
@@ -260,7 +261,9 @@ Chi tiết đầy đủ tại US12.
 |---|---|---|
 | **Ghim (Pin)** | Comment được Admin ghim đầu danh sách (US15) | "Nổi bật" |
 | **Sắp xếp Nổi bật** (sort mode) | Chế độ sort mặc định dùng Featured Score (US02) | "Ghim" |
-| **Huy hiệu Bình luận nổi bật** (Featured badge) | Huy hiệu tự động cấp toàn MyTV (US17) | "Ghim", "Sắp xếp Nổi bật" |
+| **Huy hiệu Nổi bật** (Featured badge) | Huy hiệu tự động cấp toàn MyTV, hiển thị cạnh nickname (US17) | "Ghim" |
+
+> **Chữ “Nổi bật” mang hai nghĩa và điều này đã được chấp nhận có chủ đích.** Trên UI, `Nổi bật` là tên chế độ sắp xếp (control sort ở đầu danh sách) **và** tên một huy hiệu (chip cạnh nickname). Hai thứ ở hai vị trí khác nhau nên người dùng không nhầm; khi viết tài liệu, test case hoặc trao đổi nội bộ thì phải gọi đủ **“sắp xếp Nổi bật”** hoặc **“huy hiệu Nổi bật”**, không dùng chữ “Nổi bật” trần. Riêng **Ghim (Pin)** vẫn tuyệt đối không được gọi là "Nổi bật".
 | **Ẩn** | CHỈ dùng cho moderation state chính thức (US12 bảng state) | Không dùng cho trạng thái tạm do Account Lock/scope Đóng |
 | **Non-public tạm thời** | Trạng thái tạm do Account Lock hoặc scope Đóng (không đổi moderation_state) | "Ẩn" |
 

@@ -13,21 +13,22 @@
 
 ### Acceptance Criteria
 
-1. Comment hỗ trợ văn bản, emoji và Spoiler; **emoji-only là nội dung hợp lệ**.
+1. Comment hỗ trợ văn bản, emoji và Spoiler; **emoji-only là nội dung hợp lệ**. Spoiler là **thuộc tính của từng đoạn chữ trong nội dung**, không phải cờ của cả comment: khi soạn, user bôi chọn đoạn chữ muốn che rồi chọn **Làm mờ** trong menu định dạng của hệ điều hành. Một comment có thể chứa nhiều đoạn được làm mờ hoặc không có đoạn nào.
 2. Comment tối thiểu **1 ký tự hợp lệ hoặc 1 emoji**, không tính khoảng trắng; tối đa **1000 ký tự**. UI và API dùng cùng giới hạn.
 3. URL chỉ hợp lệ khi hostname là `mytv.com.vn` hoặc subdomain thực sự của `mytv.com.vn`; không chấp nhận domain giả như `mytv.com.vn.evil.com`.
 4. Mỗi user tối đa **5 comment/reply trong 1 phút**; quota được tính chung giữa comment và reply.
 5. Comment được gắn đúng series/tập hiện tại và đi qua moderation theo US11.
 6. Ở Chế độ 1, nội dung AI mức Nhẹ/An toàn được Hiển thị; Trung bình vào Chờ duyệt; Nặng bị chặn.
 7. Ở Chế độ 2, nội dung không bị chặn vẫn vào Chờ duyệt tới khi Admin duyệt.
-8. Spoiler được che với cảnh báo và chỉ mở khi người xem chủ động chọn.
-9. Nickname phải **unique không phân biệt hoa/thường**, dài **3–30 ký tự**; cho phép chữ, số, khoảng trắng, `_`, `-`; không cho URL, số điện thoại hoặc ký tự điều khiển.
-10. User được đổi nickname tối đa **1 lần đổi thành công/24 giờ/account** (submission bị validation/AI chặn không tiêu quota); nickname mới/đổi phải qua **global AI moderation policy độc lập với Chế độ 1/2 của phim/tập**, chỉ có **2 kết quả**: Nhẹ/An toàn → dùng ngay, cập nhật nickname công khai ngay lập tức; Trung bình HOẶC Nặng (gộp) → **bị chặn ngay lập tức tại thời điểm submit**, không tạo bất kỳ trạng thái chờ duyệt nào. Trường hợp AI không cho được quyết định hợp lệ (timeout >5 giây/5xx/dịch vụ không khả dụng, nickname bằng ngôn ngữ ngoài tiếng Việt/tiếng Anh, hoặc AI low-confidence) cũng **không tạo trạng thái chờ duyệt**: nickname không đổi, user được báo lỗi và cho thử lại, và **không tiêu quota** (theo US11).
-11. Khi nickname bị chặn tại submit, user thấy lỗi ngay, nickname không đổi và tiếp tục dùng nickname hợp lệ cũ. Nếu chưa từng có nickname hợp lệ, hiển thị số điện thoại đã mask: giữ `0` đầu + 3 số cuối, toàn bộ số giữa thành `*` theo độ dài thực tế, ví dụ `0912345124 → 0******124`.
-12. Không hiển thị đầy đủ số điện thoại hoặc PII nhạy cảm trên trải nghiệm người xem.
-13. Sau khi gửi thành công, ô nhập được xóa; retry không tạo comment trùng.
-14. Người không đăng nhập/không còn quyền bình luận không thể gửi qua UI hoặc API.
-15. Không cho upload ảnh/video cá nhân trong luồng comment.
+8. Đoạn chữ được đánh Spoiler hiển thị dưới dạng **dải làm mờ tại đúng vị trí trong nội dung**; người xem **chạm trực tiếp vào đoạn mờ** để hiện chữ. Không dùng overlay phủ cả comment và không có nút reveal riêng. Mở một đoạn không tự mở các đoạn mờ khác trong cùng comment.
+9. Menu định dạng khi soạn comment **chỉ gồm Làm mờ, Gạch chân, Đậm và Nghiêng**; **không có mục Link** — luồng comment không cung cấp chức năng chèn hyperlink. Việc dán URL dưới dạng text vẫn chịu validation hostname tại AC3.
+10. Nickname phải **unique không phân biệt hoa/thường**, dài **3–30 ký tự**; cho phép chữ, số, khoảng trắng, `_`, `-`; không cho URL, số điện thoại hoặc ký tự điều khiển.
+11. User được đổi nickname tối đa **1 lần đổi thành công/24 giờ/account** (submission bị validation/AI chặn không tiêu quota); nickname mới/đổi phải qua **global AI moderation policy độc lập với Chế độ 1/2 của phim/tập**, chỉ có **2 kết quả**: Nhẹ/An toàn → dùng ngay, cập nhật nickname công khai ngay lập tức; Trung bình HOẶC Nặng (gộp) → **bị chặn ngay lập tức tại thời điểm submit**, không tạo bất kỳ trạng thái chờ duyệt nào. Trường hợp AI không cho được quyết định hợp lệ (timeout >5 giây/5xx/dịch vụ không khả dụng, nickname bằng ngôn ngữ ngoài tiếng Việt/tiếng Anh, hoặc AI low-confidence) cũng **không tạo trạng thái chờ duyệt**: nickname không đổi, user được báo lỗi và cho thử lại, và **không tiêu quota** (theo US11).
+12. Khi nickname bị chặn tại submit, user thấy lỗi ngay, nickname không đổi và tiếp tục dùng nickname hợp lệ cũ. Nếu chưa từng có nickname hợp lệ, hiển thị số điện thoại đã mask: giữ `0` đầu + 3 số cuối, toàn bộ số giữa thành `*` theo độ dài thực tế, ví dụ `0912345124 → 0******124`.
+13. Không hiển thị đầy đủ số điện thoại hoặc PII nhạy cảm trên trải nghiệm người xem.
+14. Sau khi gửi thành công, ô nhập được xóa; retry không tạo comment trùng.
+15. Người không đăng nhập/không còn quyền bình luận không thể gửi qua UI hoặc API.
+16. Không cho upload ảnh/video cá nhân trong luồng comment.
 
 ### Quy tắc nghiệp vụ
 
@@ -41,10 +42,6 @@
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) — sanitization/XSS cho nội dung comment và nickname, chặn RTL override/zero-width/control char/homoglyph trong nickname.*
 
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho validation comment/nickname trong scope hiện tại.
-
 ---
 
 ## Test Cases
@@ -57,7 +54,8 @@
 | TC-US04-004 | Boundary | 999/1000/1001 ký tự | Gửi qua UI/API | 999/1000 hợp lệ; 1001 bị chặn nhất quán. |
 | TC-US04-005 | URL | Link `mytv.com.vn`, `www.mytv.com.vn`, `support.mytv.com.vn`, `mytv.com.vn.evil.com`, domain khác | Gửi | Chỉ domain MyTV và subdomain thực được phép. |
 | TC-US04-006 | Rate limit | U1 gửi comment/reply liên tiếp | Gửi 5 rồi nội dung thứ 6 trong rolling 1 phút | 5 nội dung đầu có thể được nhận; nội dung thứ 6 bị rate-limit và không tạo record. |
-| TC-US04-007 | Spoiler | Comment có Spoiler | Gửi và mở bằng U2 | Nội dung bị che; chỉ mở khi U2 chủ động chọn. |
+| TC-US04-007 | Spoiler | Comment của U1 có 2 đoạn được Làm mờ và phần chữ thường xen giữa | Gửi; U2 mở comment rồi chạm lần lượt vào từng đoạn mờ | Đúng 2 đoạn bị làm mờ tại vị trí gốc, phần chữ còn lại hiển thị bình thường; chạm đoạn thứ nhất chỉ hiện đoạn đó, đoạn thứ hai vẫn mờ; không có overlay phủ cả comment và không có nút reveal riêng. |
+| TC-US04-020 | Format menu | U1 đang soạn comment, bôi chọn một đoạn chữ | Mở menu định dạng của hệ điều hành trên iOS và Android | Menu chỉ có Làm mờ, Gạch chân, Đậm, Nghiêng; **không có mục Link**; không có đường nào tạo hyperlink trong nội dung comment. |
 | TC-US04-008 | Moderation | Mode 1 với mức Nhẹ/Trung bình/Nặng | Gửi từng mẫu | Nhẹ Hiển thị, Trung bình Chờ duyệt, Nặng bị chặn. |
 | TC-US04-009 | Mode 2 | Nội dung không bị chặn | Gửi | Vào Chờ duyệt; chưa public trước Admin. |
 | TC-US04-010 | Nickname uniqueness | Có `MyTVFan` | User khác thử `mytvfan`/`MYTVFAN` | Bị coi là trùng. |
@@ -77,7 +75,9 @@
 |---|---|
 | Chưa gửi được bình luận (mất mạng) | **Chưa gửi được bình luận**<br>Kiểm tra kết nối mạng và thử lại. Nội dung bạn đã nhập vẫn được giữ.<br>`[Thử lại]` |
 | Bạn đang bình luận hơi nhanh (rate limit) | **Bạn đang bình luận hơi nhanh**<br>Vui lòng chờ một chút rồi gửi lại.<br>`[Đóng]` |
-| Chưa đăng được bình luận (AI chặn Nặng) | **Chưa đăng được bình luận**<br>Nội dung có thể vi phạm quy định cộng đồng của MyTV.<br>`[Chỉnh sửa nội dung]` |
+| AI chặn nội dung khi gửi | **Nội dung có thể vi phạm quy định cộng đồng của MyTV** — hiển thị **inline dạng chữ đỏ ngay phía trên ô nhập**, viền ô nhập chuyển đỏ. Không dùng dialog và không có nút hành động; nội dung user đang soạn được giữ nguyên để sửa tiếp. Dùng **đúng một chuỗi trung tính này** cho mọi trường hợp bị AI chặn, không tiết lộ AI phân loại theo lý do gì. |
 | Tên này chưa phù hợp (nickname bị chặn) | **Tên này chưa phù hợp**<br>Vui lòng chọn tên khác phù hợp với quy định cộng đồng của MyTV.<br>`[Thử tên khác]` |
-| Spoiler overlay | **Có tiết lộ nội dung**<br>Chạm để hiện.<br>`[Hiện nội dung]` |
-| Xác nhận trước khi gửi ở Mode 2 | **Bình luận sẽ được kiểm duyệt**<br>Bình luận ở phim này được kiểm duyệt trước khi hiển thị.<br>`[Gửi bình luận]` |
+| Đoạn chữ bị Làm mờ (spoiler) | Không có nhãn văn bản trên UI — đoạn chữ hiển thị dạng dải mờ, chạm vào để hiện. Accessible name của vùng mờ: **“Hiện nội dung có tiết lộ”** (theo REQUIREMENTS_A11Y_SECURITY mục A.2). |
+| Placeholder ô nhập bình luận | **Viết bình luận** — dùng thống nhất ở mọi trạng thái (rỗng, focus, reply) |
+| Comment của tác giả đang chờ duyệt | **Bình luận của bạn sẽ sớm được xuất hiện** — dòng trạng thái inline dưới nội dung, chỉ tác giả thấy |
+| Gửi bình luận ở Mode 2 | **Không có bước xác nhận trước khi gửi.** Bấm gửi là gửi luôn; sau đó comment xuất hiện inline với dòng trạng thái “Bình luận của bạn sẽ sớm được xuất hiện” chỉ tác giả thấy. |

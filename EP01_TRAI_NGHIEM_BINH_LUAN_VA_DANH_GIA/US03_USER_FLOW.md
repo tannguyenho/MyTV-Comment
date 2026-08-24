@@ -8,23 +8,30 @@
 
 ```mermaid
 flowchart TD
- A[Mở tab Bình luận] --> B[Hiển thị 5 sao + average + total]
- B --> C{User chọn 1–5 sao?}
- C -->|Guest| D[Auth gate]
- D --> E[Login → quay lại đúng content, không auto rating]
- C -->|Đã login| F[Submit ngay]
- F --> G{Server success?}
- G -->|Có| H[Cập nhật rating hiện hành + aggregate]
- G -->|Không| I[Revert rating hợp lệ trước đó + báo lỗi]
- H --> J[Muốn thay đổi → chọn số sao khác]
+ A[Mở trang phim/tập] --> B[Khối thông tin phim hiển thị điểm trung bình]
+ B --> C[User chạm vào điểm đánh giá]
+ C --> D[Bottom sheet: average + total + 5 sao + nút Gửi đánh giá]
+ D --> E{User chọn 1–5 sao?}
+ E -->|Guest| F[Auth gate]
+ F --> G[Login → quay lại đúng content, không auto rating]
+ E -->|Đã login| H[Nút Gửi đánh giá bật; user được đổi lựa chọn tự do]
+ H --> I{Bấm Gửi đánh giá?}
+ I -->|Chưa| H
+ I -->|Có| J{Server success?}
+ J -->|Có| K[Cập nhật rating hiện hành + aggregate + toast Cảm ơn bạn đã để lại đánh giá]
+ J -->|Không| L[Revert rating hợp lệ trước đó + báo lỗi]
+ K --> M[Muốn thay đổi → mở lại sheet, chọn mức khác rồi Gửi]
 ```
 
 ## UX/Business đã chốt
 
+- Rating nằm ở **khối thông tin phim/tập**, không nằm trong tab Bình luận; entry point là điểm trung bình trên khối đó.
 - Phim lẻ: rating cấp phim. Phim bộ: rating **chỉ cấp tập hiện tại**; không còn rating Series.
 - Một account có 1 rating hiện hành/content scope.
 - User **được thay đổi 1–5 sao nhưng không được xóa rating**.
-- Chọn sao là submit ngay, không có nút `Gửi đánh giá`.
+- Chọn sao **chưa** gửi; phải bấm nút `Gửi đánh giá` để xác nhận. Nút disabled khi chưa chọn sao. Đóng sheet giữa chừng thì rating cũ giữ nguyên.
+- Mở lại sheet khi đã từng đánh giá thì hiển thị sẵn mức sao hiện hành.
 - Submit lỗi: revert rating cũ, không tự retry.
+- **Scope Đóng bình luận không ảnh hưởng rating**: vẫn hiển thị aggregate và vẫn nhận đánh giá mới.
 - SmartTV cho đánh giá bằng remote nếu đã đăng nhập.
 - A11y: radiogroup, mỗi option label `{n} sao`.

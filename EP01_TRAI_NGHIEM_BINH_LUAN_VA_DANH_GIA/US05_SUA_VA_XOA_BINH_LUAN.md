@@ -14,7 +14,10 @@
 ### Acceptance Criteria
 
 1. Tác giả có thể sửa comment/reply của mình bất kỳ lúc nào khi tài khoản còn quyền sửa; user đang **Khóa bình luận** không được tạo edit mới, nhưng vẫn được **tự xóa** nội dung của mình.
-2. Nội dung sửa tạo version mới và đi qua moderation; người khác tiếp tục thấy version công khai cũ trong lúc version mới Chờ duyệt.
+2. Nội dung sửa tạo version mới và đi qua moderation **theo đúng chế độ kiểm duyệt của phim/tập** (US11/US12):
+   - **Chế độ 1 + AI mức Nhẹ/An toàn:** version mới public ngay, hiển thị toast **“Chỉnh sửa thành công”**.
+   - **Chế độ 1 + AI mức Trung bình, hoặc Chế độ 2:** version mới vào Chờ duyệt, hiển thị toast **“Đã gửi bản chỉnh sửa, đang chờ duyệt”**; người khác tiếp tục thấy version công khai cũ, còn tác giả thấy bản chờ kèm dòng trạng thái “Bình luận của bạn sẽ sớm được xuất hiện”.
+   - **AI mức Nặng:** version mới bị chặn ngay tại submit, không tạo bản chờ, version công khai cũ giữ nguyên.
 3. Khi version mới được duyệt, hệ thống thay thế nội dung công khai nhưng giữ nguyên comment ID, Like và thread; comment hiển thị nhãn **“Đã chỉnh sửa”**.
 4. Khi version mới bị Từ chối hoặc bị AI mức Nặng chặn, version công khai gần nhất vẫn tiếp tục Hiển thị.
 5. Người dùng cuối chỉ xem version hiện tại + nhãn “Đã chỉnh sửa”; toàn bộ version history chỉ CMS/Audit được xem.
@@ -27,6 +30,12 @@
 12. Người khác không thể sửa/xóa nội dung không thuộc sở hữu của họ.
 13. Khi user self-delete root làm reply của user khác bị cascade soft-delete (mang cờ `hidden_by_root_cascade = true`), các reply đó được coi là **đã Xóa mềm** cho eligibility của badge/KPI; không giữ contribution badge chỉ vì tác giả reply không phải người xóa root.
 14. Mỗi comment/reply áp dụng **rate limit Edit riêng tối đa 5 lần sửa/phút/target**; lần sửa vượt ngưỡng bị chặn trước khi tạo version mới hoặc gọi AI moderation.
+15. **Hủy đăng nội dung đang Chờ duyệt.** Tác giả được hủy chính comment/reply của mình khi nội dung đó đang ở trạng thái Chờ duyệt, sau một bước xác nhận và không cần nhập reason. Quy tắc:
+    - Nội dung bị hủy **biến mất hoàn toàn** khỏi UI của tác giả, không để placeholder, và **chưa từng public** nên không ảnh hưởng tổng số công khai.
+    - **Không hoàn lại quota** rate limit 5 nội dung/phút/user của US04: lần gửi đã tiêu một suất và việc hủy không trả lại suất đó.
+    - **Không ghi audit log** cho thao tác hủy này; nội dung bị hủy không được lưu lại phục vụ điều tra.
+    - Nội dung được **gỡ khỏi moderation queue ngay**; Admin không còn thấy và không cần ra quyết định cho item đã hủy.
+    - Nếu nội dung đã được Admin duyệt trước khi user bấm hủy, thao tác hủy bị từ chối; user dùng luồng tự xóa thông thường tại AC6–AC8.
 
 ### Quy tắc nghiệp vụ
 
@@ -40,6 +49,8 @@
 - Undo root delete tại US14 chỉ đảo action **CMS/Admin soft-delete**, không áp dụng self-delete của user.
 - Pending edit gửi trước sanction không bị hồi tố hủy chỉ vì Khóa bình luận có hiệu lực sau đó.
 - Edit rate limit được tính riêng cho từng comment/reply: tối đa **5 edit/phút/target**; không dùng chung quota Comment+Reply của US04.
+- Kết quả hiển thị của một lần sửa **do chế độ kiểm duyệt của phim/tập quyết định**, không phải luôn public ngay; UI phải phân biệt rõ hai toast “Chỉnh sửa thành công” và “Đã gửi bản chỉnh sửa, đang chờ duyệt”.
+- **Hủy đăng nội dung Chờ duyệt là lifecycle riêng**, không phải self-delete: nội dung chưa từng public nên không có soft-delete 90 ngày, không có audit record và không có đường khôi phục. Vì không ghi audit, hành vi gửi rồi hủy liên tục **không** được tính vào lịch sử vi phạm tại US16; rào cản duy nhất là quota 5 nội dung/phút không được hoàn lại.
 
 ### Phụ thuộc
 
@@ -48,10 +59,6 @@
 - US16 — Khóa bình luận/Account Lock.
 - US17/US19 — Eligibility badge và KPI khi content bị cascade soft-delete.
 
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho edit/delete trong scope hiện tại.
-
 ---
 
 ## Test Cases
@@ -59,7 +66,10 @@
 | ID | Loại | Tiền điều kiện / dữ liệu | Bước kiểm thử | Kết quả mong đợi |
 |---|---|---|---|---|
 | TC-US05-001 | Authorization | U1 sở hữu C1; U2 không | U1/U2 thử sửa/xóa | Chỉ U1 được phép thao tác content của U1. |
-| TC-US05-002 | Versioning | C1 Hiển thị | U1 sửa | Tạo version mới; C1 cũ vẫn public trong lúc chờ. |
+| TC-US05-002 | Versioning | C1 Hiển thị; phim ở Chế độ 1 và nội dung sửa bị AI đánh Trung bình | U1 sửa | Tạo version mới ở Chờ duyệt; C1 cũ vẫn public trong lúc chờ; toast “Đã gửi bản chỉnh sửa, đang chờ duyệt”. |
+| TC-US05-019 | Edit theo mode | C1 Hiển thị; lần lượt: (a) Chế độ 1 + AI Nhẹ, (b) Chế độ 1 + AI Trung bình, (c) Chế độ 2, (d) AI Nặng | U1 sửa C1 ở từng trường hợp và quan sát UI của U1 lẫn U2 | (a) public ngay + toast “Chỉnh sửa thành công”; (b) và (c) vào Chờ duyệt + toast “Đã gửi bản chỉnh sửa, đang chờ duyệt”, U2 vẫn thấy bản cũ; (d) bị chặn tại submit, không tạo bản chờ, bản cũ giữ nguyên. |
+| TC-US05-020 | Hủy pending | C1 của U1 đang Chờ duyệt; U1 vừa gửi 1 nội dung trong cửa sổ 1 phút | U1 hủy đăng C1 rồi thử gửi thêm nội dung cho tới khi đạt 5; đối chiếu moderation queue và audit log | C1 biến mất khỏi UI không để placeholder; **quota không được hoàn** (vẫn chỉ gửi thêm được tới tổng 5 nội dung trong cửa sổ đó); C1 bị gỡ khỏi moderation queue ngay; **không có audit record** nào cho thao tác hủy. |
+| TC-US05-021 | Hủy pending race | C1 của U1 đang Chờ duyệt | Admin bấm Duyệt C1 đúng lúc U1 bấm Hủy đăng | Chỉ một kết quả cuối cùng tồn tại: nếu Duyệt tới trước thì thao tác hủy bị từ chối và C1 public (U1 phải dùng luồng tự xóa); nếu Hủy tới trước thì C1 mất khỏi queue và quyết định Duyệt không public được nội dung nào. |
 | TC-US05-003 | Approve | V2 được duyệt | Refresh | V2 public, giữ ID/Like/thread và có nhãn “Đã chỉnh sửa”. |
 | TC-US05-004 | Reject/heavy | V2 bị Từ chối hoặc AI mức Nặng | Mở bằng U2 | C1 cũ vẫn public; V2 không thay thế. |
 | TC-US05-005 | Version history | C1 đã sửa nhiều lần | U1 mở app và Admin mở CMS | U1 chỉ thấy current + “Đã chỉnh sửa”; CMS/Audit thấy history. |
@@ -81,5 +91,12 @@
 
 | Trạng thái | Nội dung hiển thị |
 |---|---|
-| Xác nhận xóa root có cascade | **Xóa bình luận này?**<br>{n} phản hồi của người khác trong thảo luận này cũng sẽ bị xóa theo. Thao tác này không thể hoàn tác — kể cả bộ phận hỗ trợ cũng không khôi phục được.<br>`[Xóa cả thảo luận]` `[Hủy]` |
+| Menu thao tác của tác giả — nội dung đã public | `Chỉnh sửa bình luận` · `Xóa bình luận` — bottom sheet mở từ kebab (⋯) trên card |
+| Menu thao tác của tác giả — nội dung đang Chờ duyệt | `Chỉnh sửa bình luận` · **`Hủy đăng bình luận`** — dùng chữ “hủy đăng”, không dùng “xóa”, vì hai thao tác có hệ quả dữ liệu khác nhau (hủy đăng không soft-delete 90 ngày, không cascade reply, không ghi audit) |
+| Xác nhận xóa comment không có reply | **Xóa bình luận này?**<br>Bình luận này sẽ không xuất hiện nữa. Thao tác này không thể hoàn tác — kể cả bộ phận hỗ trợ cũng không khôi phục được.<br>`[Xóa bình luận]` `[Quay lại]` |
+| Xác nhận xóa root có cascade | **Xóa bình luận này?**<br>{n} phản hồi của người khác trong thảo luận này cũng sẽ bị xóa theo. Thao tác này không thể hoàn tác — kể cả bộ phận hỗ trợ cũng không khôi phục được.<br>`[Xóa cả thảo luận]` `[Quay lại]` |
+| Xác nhận hủy nội dung đang chờ duyệt | **Hủy đăng bình luận này?**<br>Bình luận đang chờ duyệt sẽ bị hủy và không xuất hiện nữa.<br>`[Hủy đăng]` `[Quay lại]` |
+| Xóa thành công | **Xóa bình luận thành công** |
+| Sửa thành công, public ngay | **Chỉnh sửa thành công** |
+| Sửa xong nhưng vào chờ duyệt | **Đã gửi bản chỉnh sửa, đang chờ duyệt** |
 | Nhãn đã chỉnh sửa | **Đã chỉnh sửa · {thời gian tương đối}** |

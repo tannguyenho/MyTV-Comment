@@ -25,10 +25,10 @@
 
 ### Acceptance Criteria
 
-1. User có thể bấm **“Gắn thời gian hiện tại”** để lấy timestamp từ player.
-2. User có thể chỉnh tay timestamp trước khi gửi theo định dạng được UI hỗ trợ (`mm:ss` hoặc `hh:mm:ss` khi cần).
-3. Mỗi comment/reply được gắn tối đa **1 timestamp**.
-4. Timestamp phải thuộc phạm vi thời lượng của đúng phim/tập đang bình luận; giá trị âm hoặc vượt duration bị chặn.
+1. **Không có chức năng “Gắn thời gian hiện tại”.** Hệ thống không cung cấp nút hay thao tác nào lấy mốc đang phát từ player để chèn vào ô nhập.
+2. User **tự nhập mốc thời gian** trong nội dung comment/reply theo định dạng `mm:ss` hoặc `hh:mm:ss` khi cần; hệ thống nhận diện chuỗi hợp lệ và hiển thị thành mốc bấm được.
+3. Mỗi comment/reply được gắn tối đa **1 timestamp**. Nếu nội dung chứa nhiều chuỗi thời gian hợp lệ, chỉ chuỗi **đầu tiên** được nhận làm timestamp, phần còn lại giữ nguyên là text thường.
+4. Timestamp phải thuộc phạm vi thời lượng của đúng phim/tập đang bình luận; giá trị âm hoặc vượt duration bị chặn với thông báo **“Mốc thời gian không hợp lệ”**.
 5. Comment/reply lưu content ID, episode ID và timestamp cần thiết để tái tạo ngữ cảnh; không lưu/tạo frame/clip.
 6. Timestamp hiển thị dạng có thể bấm, ví dụ `18:00`.
 7. Khi user bấm timestamp, player **seek trực tiếp tới đúng mốc và tiếp tục phát từ đó**.
@@ -38,16 +38,13 @@
 
 ### Quy tắc nghiệp vụ
 
-- Một comment/reply tối đa một timestamp.
+- Một comment/reply tối đa một timestamp, lấy theo chuỗi thời gian hợp lệ đầu tiên trong nội dung.
+- **Không lấy mốc thời gian từ trạng thái player**; timestamp hoàn toàn do user gõ, nên không phụ thuộc việc user đang phát hay đang tạm dừng.
 - Không cho timestamp trỏ sang tập khác.
 - Không hỗ trợ frame/clip/watermark/DRM media trong scope hiện tại; các nhu cầu đó chuyển Future/Phase sau.
 - Deep link chia sẻ comment có timestamp không tự seek player; người nhận mở đúng comment rồi chủ động bấm timestamp theo US18.
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) — timestamp phải là `<button>` thật, accessible name "Xem từ phút {m} giây {s}".*
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho timestamp MVP hiện tại.
 
 ---
 
@@ -55,8 +52,8 @@
 
 | ID | Loại | Tiền điều kiện / dữ liệu | Bước kiểm thử | Kết quả mong đợi |
 |---|---|---|---|---|
-| TC-US06-001 | Functional | U1 đang xem E1 ở 18:00 | Bấm “Gắn thời gian hiện tại”, gửi | Comment lưu timestamp 18:00 đúng E1. |
-| TC-US06-002 | Manual edit | Player ở 18:00 | Gắn rồi sửa tay thành 17:55 | Timestamp hợp lệ được lưu 17:55. |
+| TC-US06-001 | Functional | U1 đang xem E1 | Rà toàn bộ UI ô nhập bình luận/reply tìm nút hoặc thao tác lấy mốc đang phát; sau đó tự gõ `18:00` vào nội dung và gửi | **Không tồn tại** chức năng “Gắn thời gian hiện tại” trên UI lẫn API; comment do user gõ tay lưu timestamp 18:00 đúng E1 và hiển thị thành mốc bấm được. |
+| TC-US06-002 | Manual input | Nội dung duration 45:00 | Gõ nội dung có `17:55`; sau đó gõ nội dung có hai chuỗi `17:55` và `20:10` | Trường hợp 1 lưu timestamp 17:55. Trường hợp 2 chỉ nhận `17:55` (chuỗi hợp lệ đầu tiên) làm timestamp, `20:10` giữ nguyên là text thường. |
 | TC-US06-003 | Boundary | Nội dung duration 45:00 | Gửi 00:00, 45:00, 45:01, số âm | Giá trị trong phạm vi được nhận; vượt/âm bị chặn theo boundary player thực tế. |
 | TC-US06-004 | Max one | Comment đã có timestamp | Thử gắn timestamp thứ hai | Không cho lưu hơn 1 timestamp/comment hoặc reply. |
 | TC-US06-005 | Scope | Đang comment E1 | Sửa request trỏ timestamp sang E2 | API từ chối mismatch. |
@@ -65,12 +62,13 @@
 | TC-US06-008 | No media | Kiểm tra UI/API | Tìm chức năng frame/clip/upload | Không có chức năng tạo/share frame/clip hoặc upload media cá nhân trong MVP. |
 | TC-US06-009 | Live scope | Nội dung Live | Kiểm tra timestamp comment | Không cung cấp tính năng timestamp theo US06 trong scope hiện tại. |
 | TC-US06-010 | Spoiler + timestamp cùng lúc | Comment vừa bật Spoiler vừa có timestamp hợp lệ | Gửi và mở bằng U2 | Timestamp không làm thay đổi rule Spoiler/moderation của phần text; text vẫn bị che theo Spoiler cho tới khi U2 chủ động mở, timestamp vẫn hiển thị/hoạt động độc lập với trạng thái che. |
-| TC-US06-011 | Timestamp format sai | Chuỗi "abc", "99:99", "12:60" nhập làm timestamp | Gửi qua UI/API | Toàn bộ giá trị định dạng sai bị chặn, không được lưu thành timestamp hợp lệ. |
+| TC-US06-011 | Timestamp format sai | Chuỗi "abc", "99:99", "12:60" nhập làm timestamp | Gửi qua UI/API | Toàn bộ giá trị định dạng sai bị chặn kèm thông báo “Mốc thời gian không hợp lệ”, không được lưu thành timestamp hợp lệ. |
 
 ### Microcopy
 
 | Trạng thái | Nội dung hiển thị |
 |---|---|
+| Mốc thời gian sai định dạng hoặc ngoài thời lượng | **Mốc thời gian không hợp lệ** — dùng chung cho giá trị âm, sai định dạng và vượt thời lượng tập. |
 | Mốc thời gian không còn khả dụng | **Mốc thời gian không còn khả dụng**<br>Nội dung tại mốc này hiện không thể phát.<br>(timestamp hiển thị dạng disable, không bấm được) |
 | Bấm timestamp khi chưa có player đang chạy (đã có quyền xem) | Hệ thống khởi tạo player và phát trực tiếp từ mốc `mm:ss` được gắn. |
 | Bấm timestamp khi chưa có quyền xem tập | **Xem tập phim để nhảy tới mốc {mm:ss}**<br>Bạn cần xem tập phim này để phát từ mốc được nhắc đến.<br>`[Xem ngay]` |

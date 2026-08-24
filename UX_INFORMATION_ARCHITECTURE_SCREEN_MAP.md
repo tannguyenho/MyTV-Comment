@@ -13,7 +13,7 @@
 
 IA/SM phải bảo đảm 6 mục tiêu:
 
-1. Người xem luôn hiểu mình đang thảo luận ở **phim lẻ nào, hoặc tập nào của phim bộ**.
+1. Người xem hiểu mình đang xem phim lẻ nào hoặc tập nào của phim bộ **qua player và khối thông tin nội dung**; khu vực Bình luận không cần lặp lại ngữ cảnh này.
 2. Guest có thể đọc ngay, nhưng mọi interaction đi qua **auth gate** và quay lại đúng context.
 3. Không có đường điều hướng nào làm lộ comment/thread đang non-public do moderation, cascade, Account Lock hoặc scope Đóng.
 4. Các trạng thái moderation/sanction phải có **lối ra rõ ràng**, không tạo dead-end khó hiểu.
@@ -41,7 +41,7 @@ Phía người xem **không tồn tại** phạm vi bình luận/rating “Toàn
 - **Phim lẻ:** comment và rating ở **cấp phim**.
 - **Phim bộ:** comment và rating **chỉ theo tập đang xem**. Đổi tập là đổi **context nội dung**, không phải đổi scope trong cùng một Comment Area.
 - Không tạo hai hệ thống comment độc lập ở navigation cấp app.
-- Comment Area phải luôn cho user biết mình đang đọc/viết ở phim nào, tập nào.
+- Comment Area **không bắt buộc** hiển thị lại tên phim/tập: ngữ cảnh đã rõ từ player và khối thông tin nội dung ngay phía trên. Đổi tập vẫn reload toàn bộ dữ liệu bình luận của tập mới.
 - Khi đổi tập, count/rating/Pin/list reload theo tập mới và sort **reset về `Nổi bật`** (US02 AC3).
 - **CMS vẫn giữ cấu hình cấp series** (mode/Đóng/threshold/schedule/Pin theo inheritance episode override → series override → default hệ thống, US15). Đây là **cấu hình vận hành**, hoàn toàn khác với scope bình luận của người xem — bỏ scope Series phía người xem **không** đồng nghĩa bỏ cấu hình CMS cấp series.
 
@@ -126,7 +126,7 @@ flowchart TD
 
     CONTENT --> COMMENT
     COMMENT --> SCOPE
-    COMMENT --> RATING
+    CONTENT --> RATING
     COMMENT --> LIST
     LIST --> THREAD
     LIST --> ACTIONS
@@ -193,7 +193,7 @@ flowchart TD
     CA["Comment Area"]
     TAB["Nhãn tab: Bình luận + public count"]
     CONTEXT["Content Context: phim lẻ / tập hiện tại"]
-    RATE["Rating Aggregate + User Rating"]
+    RATE["Rating: ở khối thông tin phim, NGOÀI Comment Area"]
     SORT["Sort Control"]
     PIN["Pinned Comments 0–3"]
     ROOTS["Root Comment List"]
@@ -203,7 +203,7 @@ flowchart TD
 
     CA --> TAB
     CA --> CONTEXT
-    CA --> RATE
+    CONTENT_INFO["Khối thông tin phim/tập"] --> RATE
     CA --> SORT
     CA --> PIN
     CA --> ROOTS
@@ -217,18 +217,19 @@ flowchart TD
 Đây là **thứ tự thông tin đề xuất**, không phải quyết định layout cứng:
 
 1. Content context hiện tại (phim lẻ hoặc tập đang xem).
-2. Rating aggregate + rating action.
-3. Public comment count — hiển thị ở **nhãn tab** `Bình luận ({count})`, không phải header đếm riêng bên trong Comment Area.
-4. Composer entry.
-5. Sort control.
-6. Pinned group.
-7. Root comment list.
-8. Load more/end state.
+2. Public comment count — hiển thị ở **nhãn tab** `Bình luận ({count})`, không phải header đếm riêng bên trong Comment Area.
+3. Sort control.
+4. Pinned group — cụm tối đa 3 comment ghim, cố định trên cùng, tách khỏi list thường bằng divider.
+5. Root comment list.
+6. Load more/end state.
+7. Composer entry — thanh nhập inline cố định ở đáy màn hình nên luôn nhìn thấy, không nằm trong thứ tự cuộn.
+
+Rating **không** nằm trong thứ tự này: theo US03 AC1 rating thuộc khối thông tin phim/tập bên ngoài tab Bình luận, và theo US03 AC11 rating không bị gate bởi scope Đóng bình luận.
 
 Lý do:
 
-- Content context phải rõ trước khi user đánh giá/viết.
-- Composer được nhìn thấy sớm để tăng khả năng tham gia.
+- Content context phải rõ trước khi user viết.
+- Composer cố định ở đáy nên được nhìn thấy sớm mà không chiếm chỗ đầu danh sách.
 - Pin là editorial layer và phải tách khỏi danh sách scoring để tránh hiểu nhầm thứ tự.
 
 ## 4.2. Comment Card IA
@@ -307,7 +308,7 @@ flowchart TD
     VIS -->|Public| TARGET["Mở Comment Area + focus target"]
     VIS -->|Moderation/Self-delete/Admin cascade| F1["Bình luận không còn khả dụng"]
     VIS -->|Account Lock| F2["Bình luận hiện không khả dụng"]
-    VIS -->|Scope Đóng| F3["Khu vực bình luận hiện không khả dụng"]
+    VIS -->|Scope Đóng| F3["Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau"]
 ```
 
 **UX rule:** fallback vẫn giữ content context và CTA quay về xem phim/tập; không hiển thị raw target data.
@@ -632,15 +633,15 @@ Một Screen ID có thể là **responsive destination dùng chung Web/Mobile**,
 | C01 | Content Detail / Watch | Primary | Phone, Web, SmartTV | Browse, search, deep link | C02, player, app nav | US01, US06, US18 |
 | C02 | Comment Area — populated | Contextual view | Phone, Web, SmartTV (TV read-only) | C01 | C05/C06/C08/O01/O04; TV → C17 | US01–US08 |
 | C05 | Focused Thread / Deep-link target | Context state | Phone, Web (TV dùng C17) | Notification/share/list | C02, C07/C08/actions | US01, US08, US09, US18 |
-| C06 | Comment Composer | Task view | Phone (bottom sheet), Web (inline) | C02 | C02 pending/public/error | US04, US06, US11 |
-| C07 | Reply Composer | Task view | Phone (bottom sheet), Web (inline) | C05 | C05 pending/public/error | US08, US09, US11 |
-| C08 | Rating interaction state | Component state | Phone, Web, SmartTV | C02 | C02 | US03 |
+| C06 | Comment Composer | Task view | Phone (thanh nhập inline đáy màn hình), Web (inline) | C02 | C02 pending/public/error | US04, US06, US11 |
+| C07 | Reply Composer | Task view | Phone (thanh nhập inline đáy màn hình), Web (inline) | C05 | C05 pending/public/error | US08, US09, US11 |
+| C08 | Rating bottom sheet | Task view (overlay) | Phone, Web, SmartTV | C01 — khối thông tin phim/tập (không thuộc C02) | C01 | US03 |
 | C09 | Nickname Settings | Secondary | Phone, Web | Profile hoặc composer identity | previous screen | US04, US11 |
 | C10 | Notification Center | Primary/secondary | Phone, Web | App shell | C01/C05/C13 | US09, US10, US14, US16, US17 |
 | C11 | Community Notification Settings | Secondary | Phone, Web | Profile/Settings | Profile | US09 |
 | C12 | Comment Lock Status | Secondary/status | Phone, Web | banner/notification/Profile | C13 hoặc previous | US16 |
 | C13 | Comment Lock Appeal | Task | Phone, Web | C12 | C12 confirmation/status | US16 |
-| C14 | Moderation Result Detail | Status/context | Phone, Web | mandatory notification | C01/C05 | US12, US14 |
+| C14 | Chi tiết thông báo (kết quả moderation/chế tài) | Status/context | Phone, Web | notification bắt buộc **không có comment target**; notification cộng đồng deep-link thẳng comment nên không đi qua màn này | C01/C05/C12 | US09, US12, US14 |
 | C15 | Badge feedback/context | Status | Phone, Web (TV chỉ hiển thị icon + tên) | notification/profile/comment identity | source context | US17 |
 | C16 | Share Deep-link Landing | Route state | Phone, Web | external link | C01/C05/S03–S05 | US18 |
 | C17 | Thread — SmartTV read-only | Primary (TV) | SmartTV | C02 trên TV: chọn root comment | quay lại C02; không có Reply composer | US01, US08 |
@@ -657,8 +658,8 @@ SmartTV không có destination tạo nội dung: C06, C07, O03–O06, O08, O09, 
 | O04 | Edit Comment/Reply | Phone, Web | O03 | submit version / validation/error | US05, US11 |
 | O05 | Delete confirmation | Phone, Web | O03 | self-delete / cancel | US05 |
 | O06 | Report sheet | Phone, Web | O03 | submit report / cooldown/rate-limit | US10 |
-| O07 | Spoiler reveal | Phone, Web, SmartTV | comment body | reveal content | US04, US08 |
-| O08 | Timestamp input/edit | Phone, Web | composer | attach one timestamp | US06 |
+| O07 | Spoiler reveal | Phone, Web, SmartTV | chạm vào đoạn chữ bị làm mờ trong comment | hiện nội dung đoạn đó | US04, US08 |
+| O08 | Timestamp — user gõ trong nội dung | Phone, Web | composer (không có control gắn mốc riêng) | nhận chuỗi thời gian hợp lệ đầu tiên làm 1 timestamp | US06 |
 | O09 | Mention suggestion | Phone, Web | composer after `@` | select account ID | US09 |
 | O10 | OS Share Sheet | Phone, Web | Share action | successful open = Share event | US18 |
 
@@ -670,7 +671,7 @@ SmartTV không có destination tạo nội dung: C06, C07, O03–O06, O08, O09, 
 | S02 | Comment Area Empty | Phone, Web, SmartTV | no public data | guest CTA login / logged-in CTA viết đầu tiên / SmartTV hướng dẫn + QR (S13) | US01 |
 | S03 | Target no longer available | Phone, Web, SmartTV | moderation/self-delete/admin cascade | “Bình luận không còn khả dụng” (vĩnh viễn) | US12, US18 |
 | S04 | Target temporarily unavailable | Phone, Web, SmartTV | Account Lock của tác giả/root author | “Bình luận hiện không khả dụng” (tạm thời; link hoạt động lại sau khi gỡ khóa) | US12, US16, US18 |
-| S05 | Comment Area closed | Phone, Web, SmartTV | scope Đóng | giữ tab `Bình luận` nhưng **bỏ count**; hiển thị “Khu vực bình luận hiện không khả dụng”; ẩn rating/list/composer/actions | US01, US12, US18 |
+| S05 | Comment Area closed | Phone, Web, SmartTV | scope Đóng | giữ tab `Bình luận` nhưng **bỏ count**; hiển thị “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; ẩn list/composer/actions (rating **không** bị ẩn — xem US03 AC11) | US01, US12, US18 |
 | S06 | Pending moderation — author only | Phone, Web | Comment/Reply/Edit pending | status visible only to author | US04, US05, US11, US12 |
 | S07 | Comment Lock interaction blocked | Phone, Web | Comment/Reply/Mention/Edit after lock | explain sanction + allowed alternatives | US16 |
 | S08 | Account Lock full-screen | Phone, Web, SmartTV | login/session effective lock | reason + hotline; no App Shell | US09, US16 |
@@ -833,7 +834,7 @@ flowchart TD
 |---|---|---|
 | US01 Đọc bình luận | C01, C02, C05, C17, O01, S01–S05, S13 | — |
 | US02 Content context/count/sort | C02, C05, C17, O02, S01 | — |
-| US03 Rating | C02, C08, O01 | M14 analytics |
+| US03 Rating | C01, C08, O01 | M14 analytics |
 | US04 Đăng comment | C06, C09, O07/O08, S13/S14/S16/S17 | M02/M04 moderation |
 | US05 Edit/Delete | O03/O04/O05, S06/S07/S15 | M04/M06/M17 |
 | US06 Timestamp | C06/C07, O08, S10, C01 player | — |
@@ -882,7 +883,7 @@ Không cần mọi screen có đủ 12 state; wireframe checklist phải xác đ
 ## Mobile (Phone)
 
 - Task ngắn ưu tiên bottom sheet/full-screen sheet: sort, Report, action menu, reason.
-- **Đã chốt:** Comment/Reply composer trên Phone là **bottom sheet**, không phải task screen riêng; phải giữ context nội dung hiện tại.
+- **Đã chốt:** Comment/Reply composer trên Phone là **thanh nhập inline cố định đáy màn hình**, nở lên khi bàn phím bật, không phải bottom sheet và không phải task screen riêng; phải giữ context nội dung hiện tại.
 - Deep-link target cần scroll + focus/announcement.
 
 ## Web
@@ -941,20 +942,27 @@ Các quyết định sau có thể coi là **UX structure baseline**:
 
 Đây là quyết định UX/UI, **không phải blocker business rule**:
 
-1. Pending comment của tác giả nằm inline theo vị trí thời gian hay khu riêng “Đang chờ duyệt”.
-2. Comment action menu dùng kebab/context menu hay action row.
-3. Notification Center có group/tab “Cộng đồng” vs “Hệ thống” hay chỉ một feed với type label.
-4. Comment Lock status hiển thị banner toàn app hay chỉ trong Comment Area/Profile.
-5. Nickname shortcut có xuất hiện trong composer hay chỉ ở Profile.
-6. CMS Moderation dùng table + right panel hay list → full detail page.
-7. Search & Queue là hai navigation item hay một screen có saved filters.
-8. Reports có tab riêng trong Moderation hay chỉ filter + detail context.
-9. Pin/Config chung một Content Operations page hay hai subpage.
-10. Appeal Queue nằm dưới Users hay Moderation Ops.
-11. Analytics KPI card order và default time range.
-12. AI Ops nằm trong từng Content Detail CMS hay menu Growth rồi chọn scope.
+1. Comment Lock status hiển thị banner toàn app hay chỉ trong Comment Area/Profile.
+2. Nickname shortcut có xuất hiện trong composer hay chỉ ở Profile.
+3. CMS Moderation dùng table + right panel hay list → full detail page.
+4. Search & Queue là hai navigation item hay một screen có saved filters.
+5. Reports có tab riêng trong Moderation hay chỉ filter + detail context.
+6. Pin/Config chung một Content Operations page hay hai subpage.
+7. Appeal Queue nằm dưới Users hay Moderation Ops.
+8. Analytics KPI card order và default time range.
+9. AI Ops nằm trong từng Content Detail CMS hay menu Growth rồi chọn scope.
 
-Các điểm sau **đã được chốt ở nơi khác** nên không còn nằm trong danh sách này: vị trí Comment Area (tab riêng trong trang nội dung — `UX_USER_FLOWS.md`), composer Phone = bottom sheet / Web = inline (`UX_USER_FLOWS.md`), truncate comment dài **3 dòng** trước `Xem thêm`/`Thu gọn` (US01), và bộ chuyển Series↔Tập phía người xem (đã bỏ hẳn — xem IA-02).
+## 24.1. Đã chốt qua thiết kế Phone (Figma, page “T8 Bình luận”)
+
+Ba điểm trước đây nằm trong danh sách trên đã được thiết kế trả lời:
+
+| Điểm | Quyết định |
+|---|---|
+| Vị trí pending comment của tác giả | **Inline theo vị trí thời gian** trong danh sách, kèm dòng trạng thái “Bình luận của bạn sẽ sớm được xuất hiện”; không có khu riêng “Đang chờ duyệt”. |
+| Comment action menu | **Kebab (⋯) mở bottom sheet**, không dùng action row. Hai biến thể theo quyền: tác giả thấy `Chỉnh sửa bình luận` / `Xóa bình luận`; người khác thấy `Báo cáo bình luận` / `Chia sẻ bình luận`. |
+| Notification Center | **Một feed chung** theo thời gian, phân biệt bằng type label/icon trên từng item; không tách tab “Cộng đồng” vs “Hệ thống”. |
+
+Các điểm sau **đã được chốt ở nơi khác** nên không nằm trong danh sách cần quyết định: vị trí Comment Area (tab riêng trong trang nội dung — `UX_USER_FLOWS.md`), composer Phone = thanh nhập inline đáy màn hình / Web = inline (`UX_USER_FLOWS.md`), truncate comment dài **3 dòng** trước `Xem thêm`/`Thu gọn` (US01), vị trí rating ở khối thông tin phim/tập (US03 AC1), và bộ chuyển Series↔Tập phía người xem (đã bỏ hẳn — xem IA-02).
 
 ---
 

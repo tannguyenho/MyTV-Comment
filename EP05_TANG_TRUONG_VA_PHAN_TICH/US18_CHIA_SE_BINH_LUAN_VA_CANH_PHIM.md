@@ -1,4 +1,4 @@
-# US18 — Chia sẻ bình luận
+﻿# US18 — Chia sẻ bình luận
 
 > Thuộc EP05 — Tăng trưởng và phân tích
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -28,7 +28,7 @@
 8. Nếu người nhận chưa cài app, deep link mở **MyTV Web đúng phim/tập/thread** nếu còn hợp lệ; web có thể có CTA cài app.
 9. Deep link **không hết hạn theo thời gian**; mỗi lần mở phải kiểm tra lại state/quyền hiện tại.
 10. Nếu target bị moderation **Ẩn/Xóa/Từ chối** hoặc không còn hợp lệ, link cũ mở đúng phim/tập và hiển thị **“Bình luận không còn khả dụng”**; không trả 404 và không lộ nội dung cũ. Khi nhiều gate cùng đúng, áp dụng Effective Visibility Resolver tại US12 (mục ưu tiên gate).
-11. Nếu target vẫn hợp lệ nhưng scope đang **Đóng bình luận**, link cũ mở đúng phim/tập, không hiển thị thread và hiện **“Khu vực bình luận hiện không khả dụng”**. Khi scope mở lại, link cũ hoạt động lại nếu target vẫn hợp lệ. Khi nhiều gate cùng đúng, áp dụng Effective Visibility Resolver tại US12 (mục ưu tiên gate).
+11. Nếu target vẫn hợp lệ nhưng scope đang **Đóng bình luận**, link cũ mở đúng phim/tập, không hiển thị thread và hiện **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**. Khi scope mở lại, link cũ hoạt động lại nếu target vẫn hợp lệ. Khi nhiều gate cùng đúng, áp dụng Effective Visibility Resolver tại US12 (mục ưu tiên gate).
 12. Nếu target chỉ tạm non-public do **Account Lock của tác giả/root author**, link cũ mở đúng phim/tập, không hiển thị thread và hiện **“Bình luận hiện không khả dụng”**. Khi account được mở khóa, link cũ hoạt động lại nếu target/thread vẫn hợp lệ. Khi nhiều gate cùng đúng, áp dụng Effective Visibility Resolver tại US12 (mục ưu tiên gate).
 13. MVP dùng share sheet; không cần tích hợp SDK/API riêng Facebook/Zalo/TikTok.
 14. **Share event được tính khi user bấm Share và OS share sheet mở thành công**. Không cần chờ callback xác nhận user đã gửi sang ứng dụng đích.
@@ -44,16 +44,10 @@
 - Preview/text share chỉ dùng metadata an toàn của MyTV/phim.
 - Share target Chờ duyệt/Từ chối/Ẩn/Xóa hoặc đang non-public bị chặn tại thời điểm tạo share.
 - Việc người nhận đọc public comment không yêu cầu login.
-- Deep-link fallback phải phân biệt nguyên nhân: **scope Đóng** → “Khu vực bình luận hiện không khả dụng”; **Account Lock visibility** → “Bình luận hiện không khả dụng”; **target moderation invalid/deleted** → “Bình luận không còn khả dụng”.
+- Deep-link fallback phải phân biệt nguyên nhân: **scope Đóng** → “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; **Account Lock visibility** → “Bình luận hiện không khả dụng”; **target moderation invalid/deleted** → “Bình luận không còn khả dụng”.
 - Closed scope và Account Lock là visibility gate tạm thời nên link cũ có thể hoạt động lại; moderation invalidation tuân state hiện tại của target.
 - **Mốc ghi nhận Share = share sheet mở thành công**; đóng/cancel share sheet sau đó không hoàn tác Share event đã ghi.
 - Không có watermark/media/DRM sharing rule trong MVP vì frame/clip đã loại khỏi scope.
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho share MVP hiện tại.
-
----
 
 ## Test Cases
 
@@ -68,7 +62,7 @@
 | TC-US18-007 | No app | Thiết bị chưa cài MyTV | Mở link | Mở MyTV Web đúng context, không mất deep-link target nếu hợp lệ. |
 | TC-US18-008 | No expiry | Link cũ lâu ngày, target vẫn valid | Mở | Link vẫn hoạt động sau khi kiểm tra quyền/state hiện tại. |
 | TC-US18-009 | Removed target | C1 bị moderation Ẩn/Xóa/Từ chối | Mở link cũ | Mở phim/tập + “Bình luận không còn khả dụng”; không lộ C1. |
-| TC-US18-010 | Closed scope | C1 vẫn hợp lệ nhưng scope Đóng | Mở link cũ | Mở đúng phim/tập + “Khu vực bình luận hiện không khả dụng”; không đổi state C1. |
+| TC-US18-010 | Closed scope | C1 vẫn hợp lệ nhưng scope Đóng | Mở link cũ | Mở đúng phim/tập + “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; không đổi state C1. |
 | TC-US18-011 | Reopen scope | Scope từ Đóng chuyển Mở, C1 vẫn hợp lệ | Mở lại link cũ | Link lại mở đúng C1/thread. |
 | TC-US18-012 | Account Lock target | C1/root author bị Account Lock, content chỉ non-public do lock | Mở link cũ | Mở phim/tập + “Bình luận hiện không khả dụng”; không lộ thread và không đổi moderation state. |
 | TC-US18-013 | Unlock target | Account được mở khóa; C1/thread vẫn hợp lệ | Mở lại link cũ | Link lại mở đúng C1/thread. |
@@ -86,4 +80,4 @@
 | Fallback — scope Đóng bình luận | **Bình luận đang tạm đóng**<br>Phần thảo luận của {tên tập} tạm thời không mở.<br>`[Xem tập phim]` |
 | Fallback — Account Lock của tác giả/root author | **Bình luận hiện không khả dụng**<br>Nội dung này tạm thời không thể hiển thị.<br>`[Xem tập phim]` |
 
-Ghi chú: 3 chuỗi tiêu đề fallback (**"Bình luận không còn khả dụng"**, **"Khu vực bình luận hiện không khả dụng"**, **"Bình luận hiện không khả dụng"**) giữ nguyên đúng như đã chốt trong AC10–12; phần viết lại theo cấu trúc Tiêu đề/Giải thích/Lối ra ở trên chỉ là đề xuất nâng cao chất lượng hiển thị, không bắt buộc áp dụng.
+Ghi chú: 3 chuỗi tiêu đề fallback (**"Bình luận không còn khả dụng"**, **"Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau"**, **"Bình luận hiện không khả dụng"**) giữ nguyên đúng như đã chốt trong AC10–12; phần viết lại theo cấu trúc Tiêu đề/Giải thích/Lối ra ở trên chỉ là đề xuất nâng cao chất lượng hiển thị, không bắt buộc áp dụng.

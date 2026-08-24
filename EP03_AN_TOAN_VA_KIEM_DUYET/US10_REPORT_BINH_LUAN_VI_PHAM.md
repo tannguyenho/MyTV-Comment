@@ -1,4 +1,4 @@
-# US10 — Report bình luận vi phạm
+﻿# US10 — Report bình luận vi phạm
 
 > Thuộc EP03 — An toàn và kiểm duyệt
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -18,6 +18,7 @@ Report/AI/CMS dùng chung taxonomy nghiệp vụ:
 - Spam/quảng cáo
 - Xúc phạm/ngôn từ công kích
 - Nội dung không phù hợp
+- Sai thông tin
 - Vi phạm khác (UI có thể hiển thị “Khác”)
 
 ### Acceptance Criteria
@@ -41,17 +42,13 @@ Report/AI/CMS dùng chung taxonomy nghiệp vụ:
 - Description của “Khác/Vi phạm khác”: bắt buộc, **1–500 ký tự hợp lệ** sau khi loại trường hợp chỉ có khoảng trắng.
 - Rate limit 10 Report/giờ và cooldown 24h/cùng target áp dụng đồng thời.
 
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho Report trong scope hiện tại.
-
----
-
 ### Microcopy
 
 | Trạng thái | Nội dung hiển thị |
 |---|---|
-| Report đã gửi thành công | **Đã gửi báo cáo**<br>Chúng tôi sẽ xem xét và thông báo kết quả cho bạn.<br>`[Đóng]` |
+| Nhãn 6 lựa chọn trên form | `Có spoiler` · `Spam/Quảng cáo bình luận` · `Xúc phạm/ngôn từ công kích` · `Nội dung không phù hợp` · `Sai thông tin` · `Khác` |
+| Ô mô tả khi chọn Khác | Placeholder **“Nhập phản ánh của bạn về bình luận này”**, kèm bộ đếm `{n}/500`; nút `Báo cáo` disabled tới khi có nội dung hợp lệ |
+| Report đã gửi thành công | **Báo cáo thành công, bình luận sẽ được xem xét** — dạng toast tự tắt, không có nút hành động. |
 | Report cooldown 24h (Report lại cùng target quá sớm) | **Bạn đã báo cáo bình luận này**<br>Có thể báo cáo lại sau {n} giờ nếu nội dung vẫn còn.<br>`[Đóng]` |
 | Report rate limit 10/giờ | **Bạn đã gửi 10 báo cáo trong 1 giờ qua**<br>Vui lòng thử lại sau {mm:ss}.<br>`[Đóng]` |
 | Notification kết quả report (không tiết lộ chi tiết chế tài) | **Kết quả báo cáo của bạn**<br>MyTV đã xem xét báo cáo của bạn trong {tên tập}. Cảm ơn bạn đã giúp giữ cộng đồng an toàn.<br>`[Xem chi tiết]` |

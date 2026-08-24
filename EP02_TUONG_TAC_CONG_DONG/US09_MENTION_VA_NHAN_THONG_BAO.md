@@ -1,4 +1,4 @@
-# US09 — Mention và nhận thông báo
+﻿# US09 — Mention và nhận thông báo
 
 > Thuộc EP02 — Tương tác cộng đồng
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -23,8 +23,10 @@
 8. User có **một công tắc chung trong Cài đặt** để bật/tắt toàn bộ thông báo tương tác cộng đồng; không có switch riêng Reply/Mention.
 9. Công tắc cộng đồng chỉ ảnh hưởng Reply, Mention, huy hiệu và thông báo tương tác tương tự. Các thông báo bắt buộc về **Cảnh báo, Từ chối/Ẩn/Xóa, khóa bình luận/khóa tài khoản, appeal và kết quả Report** không bị tắt bởi setting này.
 10. In-app notification cộng đồng được lưu **90 ngày**.
-11. Bấm notification mở đúng phim/tập/thread/comment khi target và scope còn khả dụng. Nếu target không còn hợp lệ thì không lộ dữ liệu và dùng fallback phù hợp.
-12. Nếu deep link notification trỏ tới comment/thread thuộc scope đang **Đóng bình luận**, hệ thống mở đúng phim/tập nhưng không hiển thị thread và hiện **“Khu vực bình luận hiện không khả dụng”**; khi scope mở lại, link cũ hoạt động lại nếu target vẫn hợp lệ. Nếu target rơi vào nhiều gate ẩn cùng lúc (ví dụ vừa Đóng scope vừa Ẩn/Account Lock), thông báo hiển thị theo **Effective Visibility Resolver** (thứ tự ưu tiên gate) định nghĩa tại US12 — US09 không tự định nghĩa lại thứ tự này.
+11. Bấm notification mở đúng phim/tập/thread/comment khi target và scope còn khả dụng. Nếu target không còn hợp lệ thì không lộ dữ liệu và dùng fallback phù hợp. Cụ thể theo loại notification:
+    - **Cộng đồng (mention, reply, huy hiệu):** deep-link **thẳng tới comment/thread**, không đi qua màn trung gian.
+    - **Chế tài và thông báo hệ thống không có comment target:** mở màn **Chi tiết thông báo** (C14) chứa lý do và lối ra tương ứng (khiếu nại, tổng đài).
+12. Nếu deep link notification trỏ tới comment/thread thuộc scope đang **Đóng bình luận**, hệ thống mở đúng phim/tập nhưng không hiển thị thread và hiện **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**; khi scope mở lại, link cũ hoạt động lại nếu target vẫn hợp lệ. Nếu target rơi vào nhiều gate ẩn cùng lúc (ví dụ vừa Đóng scope vừa Ẩn/Account Lock), thông báo hiển thị theo **Effective Visibility Resolver** (thứ tự ưu tiên gate) định nghĩa tại US12 — US09 không tự định nghĩa lại thứ tự này.
 13. Payload push không lộ Spoiler hoặc PII nhạy cảm trên màn hình khóa.
 14. Khi user đang **Account Lock**, hệ thống **không tạo/gửi community notification mới** cho Reply/Mention/badge/tương tác cộng đồng; sau khi mở khóa **không backfill** các community notification đã bỏ qua trong thời gian khóa.
 15. Với **Account Lock**, user không vào được MyTV; lần đăng nhập phải vào màn hình tài khoản bị khóa hiển thị **trạng thái khóa + reason + Tổng đài MyTV 1800 1166 (miễn phí, hỗ trợ 24/7) để appeal**. Có thể gửi push nếu thiết bị nhận được; không phụ thuộc vào việc user đọc in-app Notification Center.
@@ -41,12 +43,6 @@
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) mục B.4 (PII trong push notification) và B.5 (PII trong gợi ý mention).*
 
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho mention/notification trong scope hiện tại.
-
----
-
 ## Test Cases
 
 | ID | Loại | Tiền điều kiện / dữ liệu | Bước kiểm thử | Kết quả mong đợi |
@@ -61,7 +57,7 @@
 | TC-US09-008 | Moderation | Nội dung Chờ duyệt | Theo dõi notification | Không gửi cho người khác trước khi nội dung public. |
 | TC-US09-009 | Retention | Có notification >/<90 ngày | Mở notification center | Chỉ dữ liệu còn trong retention theo policy được giữ. |
 | TC-US09-010 | Removed target | Target bị Ẩn/Xóa hoặc mất quyền | Bấm notification cũ | Không lộ nội dung; hiển thị fallback hợp lệ. |
-| TC-US09-011 | Closed-scope deep link | C1 hợp lệ nhưng scope đang Đóng | Bấm notification cũ tới C1 | Mở đúng phim/tập + “Khu vực bình luận hiện không khả dụng”; không hiển thị C1 và không đổi state C1. |
+| TC-US09-011 | Closed-scope deep link | C1 hợp lệ nhưng scope đang Đóng | Bấm notification cũ tới C1 | Mở đúng phim/tập + “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; không hiển thị C1 và không đổi state C1. |
 | TC-US09-012 | Account Lock community suppression | U2 đang Account Lock; phát sinh Reply/Mention/badge event cho U2 | Theo dõi push/in-app trong lock và sau unlock | Không tạo/gửi community notification mới; sau unlock không gửi bù các event đã suppress. |
 | TC-US09-013 | Locked-account notice | U2 bị Account Lock | U2 thử đăng nhập; kiểm tra push nếu thiết bị cho phép | Không vào app; thấy lock status + reason + **1800 1166 (miễn phí, hỗ trợ 24/7)** và hướng dẫn appeal; push có thể được gửi nhưng không phụ thuộc Notification Center. |
 | TC-US09-014 | Appeal mandatory channel | U2 đang Account Lock và Support/CMS cập nhật appeal | Theo dõi thông tin user nhận được | Sanction/appeal status vẫn thuộc nhóm bắt buộc; không bị community switch tắt. |

@@ -1,4 +1,4 @@
-# US17 — Huy hiệu người dùng
+﻿# US17 — Huy hiệu người dùng
 
 > Thuộc EP05 — Tăng trưởng và phân tích
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -26,8 +26,13 @@
 - Nhận ít nhất **30 Like** trong 90 ngày theo semantics badge tại US này.
 
 
-#### Admin cấp / Chuyên gia
-- Admin cấp thủ công cho user phù hợp.
+#### Nổi bật
+- Badge tự động cấp toàn MyTV cho tác giả có bình luận nổi bật.
+- Điều kiện grant và revoke theo README mục 5.11 (≥20 public Net Like + ≥5 Reply + Top10% Featured Score toàn MyTV trong 30 ngày).
+- Tên hiển thị trên UI là **Nổi bật**; trong tài liệu và test case gọi đủ là **huy hiệu Nổi bật** để không lẫn với **sắp xếp Nổi bật** (xem glossary README 5.15).
+
+#### Custom (Admin cấp / Chuyên gia)
+- Admin cấp thủ công cho user phù hợp; tên hiển thị trên UI là **Custom**.
 - Có thể đặt ngày hết hạn hoặc không; nếu không đặt thì giữ tới khi Admin thu hồi/tắt loại badge.
 
 ### Acceptance Criteria
@@ -39,7 +44,7 @@
 5. Rolling window 30/90 ngày vẫn chạy bình thường trong Account Lock, **không freeze**. Nếu Fan badge không còn đạt điều kiện thì vẫn áp dụng grace bình thường.
 6. Nếu user không còn đạt điều kiện Fan tích cực/Fan kỳ cựu, áp dụng **grace period 7 ngày**; hết 7 ngày vẫn không đạt mới tự thu hồi.
 7. Mỗi user chỉ hiển thị tối đa **1 badge** cạnh tên.
-8. Thứ tự ưu tiên hiển thị: **Admin cấp/Chuyên gia > Fan kỳ cựu > Fan tích cực**.
+8. Thứ tự ưu tiên hiển thị: **Custom (Admin/Chuyên gia cấp) > Nổi bật > Fan kỳ cựu > Fan tích cực**. Thứ tự này đồng bộ với README mục 5.11. Sheet giải thích huy hiệu trong thiết kế liệt kê theo trình tự khác, đó chỉ là thứ tự giới thiệu nội dung và **không** dùng làm thứ tự ưu tiên hiển thị badge cạnh nickname.
 9. Khi user được cấp hoặc bị thu hồi badge, gửi **push + in-app notification** nếu notification cộng đồng đang bật theo US09; nếu user đang Account Lock thì community notification bị suppress và không backfill sau unlock.
 10. Khi Admin tắt một loại badge, badge đó **ẩn khỏi UI ngay** nhưng lịch sử sở hữu/cấp/thu hồi vẫn được giữ cho audit; bật lại không tạo duplicate.
 11. Comment/reply bị **moderation riêng** Ẩn/Xóa/Từ chối/spam không được dùng để tích lũy điều kiện badge tự động.
@@ -64,12 +69,6 @@
 - Featured grant dùng public metrics tại thời điểm xét; sau grant, metric/ranking drop không tự revoke.
 - Unlock Account Lock có thể tự hiện lại Featured badge chỉ tạm ẩn; Undo moderation không tự restore badge đã revoke.
 - Khi user có nhiều badge hiệu lực, UI luôn chọn **badge có cấp ưu tiên cao nhất** theo thứ tự đã chốt.
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho badge trong scope hiện tại.
-
----
 
 ## Test Cases
 
@@ -96,16 +95,16 @@
 | TC-US17-020 | Featured moderation invalid | Source bị Ẩn/Xóa/Từ chối riêng | Chạy job | Badge bị thu hồi. |
 | TC-US17-021 | Featured Account Lock | Source hợp lệ nhưng tác giả bị Account Lock rồi mở khóa | Kiểm tra badge | Badge tạm ẩn trong lock, không revoke; mở khóa tự hiện lại nếu source vẫn hợp lệ. |
 | TC-US17-022 | Featured Undo moderation | Badge đã revoke vì source bị Admin Ẩn/Xóa; sau đó Undo | Chạy/không chạy evaluation | Undo content không tự restore badge; chỉ re-evaluation/re-grant theo rule hiện hành mới có thể cấp lại. |
-| TC-US17-023 | Priority display | U1 có đồng thời Admin/Chuyên gia, Fan kỳ cựu, Fan tích cực | Mở comment | Chỉ hiển thị 1 badge theo thứ tự Admin/Chuyên gia > Fan kỳ cựu > Fan tích cực. |
+| TC-US17-023 | Priority display | U1 có đồng thời cả 4 badge: Custom (Admin/Chuyên gia cấp), Nổi bật, Fan kỳ cựu, Fan tích cực | Mở comment; sau đó lần lượt thu hồi từng badge theo thứ tự ưu tiên và mở lại | Luôn chỉ hiển thị **1 badge** cạnh nickname theo thứ tự **Custom > Nổi bật > Fan kỳ cựu > Fan tích cực**: đủ 4 badge thì hiện Custom; thu hồi Custom thì hiện Nổi bật; thu hồi tiếp thì hiện Fan kỳ cựu; cuối cùng là Fan tích cực. |
 | TC-US17-024 | Admin badge expiry | Cấp badge với/không expiry | Kiểm tra trước/sau expiry | Có expiry thì hết hiệu lực đúng mốc; không expiry thì giữ tới thu hồi. |
 | TC-US17-025 | Toggle type | Tắt loại badge đang có owner | Refresh UI | Badge ẩn ngay; history còn; bật lại không duplicate. |
 | TC-US17-026 | Notification | Grant/revoke badge khi account bình thường và khi Account Lock | Kiểm tra push/in-app | Bình thường gửi theo setting US09; Account Lock suppress community notification và không backfill sau unlock. |
-| TC-US17-027 | Top 10% boundary calculation | Dataset 1000 comment public đăng trong 30 ngày, gộp toàn bộ phim lẻ và tập phim trên hệ thống, Featured Score (biến thể không freshness) đã biết trước cho từng comment; comment hạng 99, 100, 101 (quanh biên Top 10%) đều đạt ≥20 Net Like công khai + ≥5 Reply công khai; nhiễu thêm: 1 comment đang được Ghim, 1 comment non-public do Account Lock tác giả, 1 comment đã Ẩn, đều nằm trong 1000 comment gốc | Dân số dùng để tính Top 10% chỉ gồm comment đủ điều kiện public (loại trừ comment Ẩn và comment non-public do Account Lock; comment Ghim không bị loại chỉ vì đang ghim); comment hạng 99 và hạng 100 (đúng biên 10%) được cấp badge; comment hạng 101 không được cấp; chạy lại job nhiều lần với cùng dữ liệu cho kết quả xếp hạng đồng hạng ổn định, lặp lại giống nhau giữa các lần chạy. |
+| TC-US17-027 | Top 10% boundary calculation | Dataset 1000 comment public đăng trong 30 ngày, gộp toàn bộ phim lẻ và tập phim trên hệ thống, Featured Score (biến thể không freshness) đã biết trước cho từng comment; comment hạng 99, 100, 101 (quanh biên Top 10%) đều đạt ≥20 Net Like công khai + ≥5 Reply công khai; nhiễu thêm: 1 comment đang được Ghim, 1 comment non-public do Account Lock tác giả, 1 comment đã Ẩn, đều nằm trong 1000 comment gốc | Chạy job cấp huy hiệu Nổi bật, đối chiếu dân số dùng để tính Top 10% và danh sách comment được cấp; chạy lại job nhiều lần với cùng dữ liệu | Dân số dùng để tính Top 10% chỉ gồm comment đủ điều kiện public (loại trừ comment Ẩn và comment non-public do Account Lock; comment Ghim không bị loại chỉ vì đang ghim); comment hạng 99 và hạng 100 (đúng biên 10%) được cấp badge; comment hạng 101 không được cấp; chạy lại job nhiều lần với cùng dữ liệu cho kết quả xếp hạng đồng hạng ổn định, lặp lại giống nhau giữa các lần chạy. |
 | TC-US17-028 | Grace period 7 ngày boundary | U1 đang có Fan tích cực/Fan kỳ cựu, tụt dưới ngưỡng từ ngày D0 | Chạy job daily tại D+6, D+7, D+8; tình huống phụ: U1 đạt lại ngưỡng ở D+5 rồi tụt lại ở D+6 | D+6 badge còn giữ (trong grace); D+7 (đúng biên 7 ngày) và D+8 xử lý theo định nghĩa "hết 7 ngày vẫn không đạt mới tự thu hồi" đã chốt; tình huống phụ: khi U1 đạt lại ngưỡng ở D+5, bộ đếm grace được reset (hủy đếm dở), nên khi tụt lại ở D+6 grace 7 ngày mới được tính lại từ D+6, không cộng dồn với lần tụt trước. |
 
 ### Microcopy
 
 | Trạng thái | Nội dung hiển thị |
 |---|---|
-| Bottom sheet xem đầy đủ badge (chạm vào badge chính trên card) | **Huy hiệu khác của {nickname}:**<br>{tên badge còn lại, liệt kê theo thứ tự ưu tiên đã chốt}<br>`[Đóng]` |
+| Bottom sheet giải thích badge (chạm vào chip badge trên card) | **Huy hiệu thành viên**<br>Là huy hiệu dành cho những thành viên có những đóng góp tích cực trong hoạt động cộng đồng.<br>**Fan kỳ cựu** — Là huy hiệu dành cho những thành viên tích cực hoạt động trong thời gian dài. · **Fan tích cực** — Là huy hiệu dành cho những thành viên đã tích cực tham gia các hoạt động. · **Nổi bật** — Là huy hiệu dành riêng cho những thành viên nổi trội và những đóng góp nổi bật trong cộng đồng. · *và những huy hiệu độc quyền khác…*<br>`[Đóng]`<br><br>Đây là **thứ tự giới thiệu nội dung**, không phải thứ tự ưu tiên hiển thị badge cạnh nickname (xem AC8). |
 | Notification khi được cấp badge mới | **Bạn nhận huy hiệu {tên badge}**<br>Cảm ơn bạn đã đồng hành cùng cộng đồng MyTV.<br>`[Xem huy hiệu]` |

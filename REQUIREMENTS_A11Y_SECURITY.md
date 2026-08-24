@@ -7,8 +7,8 @@ Tài liệu này tổng hợp các yêu cầu **cross-cutting** (áp dụng xuy�
 ### A.1. Yêu cầu chung
 
 - Toàn bộ tính năng bình luận (web + mobile) phải tuân thủ **WCAG 2.1 mức AA**.
-- **Tương phản màu**: tối thiểu **4.5:1** cho văn bản thường, tối thiểu **3:1** cho thành phần UI/đồ họa (bao gồm viền/nền của **spoiler overlay** và trạng thái focus/underline của **timestamp link**).
-- **Touch target**: tối thiểu **44×44pt** cho mọi phần tử tương tác (nút Like, nút Report, timestamp, sao rating, nút reveal spoiler, nút "Xem thêm phản hồi"...).
+- **Tương phản màu**: tối thiểu **4.5:1** cho văn bản thường, tối thiểu **3:1** cho thành phần UI/đồ họa (bao gồm nền của **đoạn chữ bị làm mờ do Spoiler** và trạng thái focus/underline của **timestamp link**).
+- **Touch target**: tối thiểu **44×44pt** cho mọi phần tử tương tác (nút Like, nút Report, timestamp, sao rating, đoạn chữ bị làm mờ do Spoiler, nút "Xem thêm phản hồi"...).
 - **Font scaling / Dynamic Type**: hỗ trợ phóng to tới **200%** mà không bị cắt nội dung, không mất chức năng, không chồng chéo layout.
 - **Điều hướng bàn phím (web)**: toàn bộ luồng thao tác (đăng comment, reply, like, report, rating, mention, xem thêm phản hồi, seek timestamp) phải thao tác được đầy đủ bằng bàn phím, có thứ tự tab hợp lý và focus indicator rõ ràng.
 - **`prefers-reduced-motion`**: animation của optimistic Like (US07) và các hiệu ứng chuyển trạng thái khác phải tôn trọng cờ hệ điều hành này — khi bật, giảm/tắt hiệu ứng chuyển động, giữ nguyên chức năng.
@@ -18,7 +18,7 @@ Tài liệu này tổng hợp các yêu cầu **cross-cutting** (áp dụng xuy�
 | Thành phần | US liên quan | Yêu cầu |
 |---|---|---|
 | Nút Like (optimistic UI) | US07 | Dùng thuộc tính `aria-pressed` để phản ánh trạng thái đã Like/chưa Like; có vùng `aria-live="polite"` cho số Like để screen reader đọc số cập nhật; khi client reconcile với BE và phải revert (do lỗi/conflict), phải announce thay đổi qua vùng `aria-live` đó, không âm thầm đổi số trên UI. |
-| Spoiler overlay | US04 | Nội dung bị che phải đặt `aria-hidden="true"` cho tới khi user chủ động bấm reveal — **không được để screen reader đọc xuyên qua nội dung spoiler** trước khi user cho phép. Nút reveal có nhãn accessible rõ ràng: **"Hiện nội dung có tiết lộ"**. |
+| Đoạn chữ Spoiler (Làm mờ) | US04 | Đoạn chữ bị làm mờ phải đặt `aria-hidden="true"` cho tới khi user chủ động chạm để hiện — **không được để screen reader đọc xuyên qua nội dung spoiler** trước khi user cho phép. Vùng mờ phải là phần tử focusable/bấm được (không phải `<span>` trang trí) với accessible name **"Hiện nội dung có tiết lộ"**; mỗi đoạn mờ trong cùng một comment là một vùng độc lập. |
 | Timestamp bấm được | US06 | Phải là phần tử `<button>` thực sự (không dùng `<span>`/`<div>` gắn `onClick`) để đảm bảo focusable và có role đúng theo bàn phím/AT. Accessible name phải ở dạng đọc được, ví dụ **"Xem từ phút {m} giây {s}"**, không phải chuỗi số trần dạng "18:00". |
 | Rating 5 sao | US03 | Dùng pattern `radiogroup` (mỗi sao là một `radio`), điều hướng chọn giá trị bằng phím mũi tên trái/phải; mỗi sao có nhãn accessible riêng dạng **"{n} sao"**. |
 | Quay lại đúng comment sau login | US01 (AC6) | Sau khi login xong và điều hướng về đúng comment target, phải **chủ động set focus** vào phần tử comment đó (ví dụ bằng `tabindex="-1"` + `.focus()`), không chỉ scroll tới vị trí bằng mắt — nếu không, user dùng screen reader/bàn phím sẽ mất ngữ cảnh. |

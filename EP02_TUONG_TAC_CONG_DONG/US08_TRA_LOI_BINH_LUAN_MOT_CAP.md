@@ -21,7 +21,7 @@
 6. Comment + reply dùng chung rate limit **5 nội dung/1 phút/user**.
 7. Reply đi qua cùng moderation theo US11.
 8. Reply công khai làm tăng tổng số bình luận; reply Chờ duyệt/Từ chối/Ẩn/Xóa không làm tăng số công khai.
-9. Mỗi root comment ban đầu hiển thị tối đa **3 reply**.
+9. Danh sách root **không hiển thị reply nào**; root có reply chỉ hiện lối vào `{n} phản hồi` (US02 AC11). Khi mở màn **Phản hồi**, hệ thống tải **3 reply đầu**, phần còn lại tải bằng nút `Xem thêm {n} phản hồi` theo AC10.
 10. Xóa một reply riêng lẻ làm reply biến mất hoàn toàn khỏi UI, **không để placeholder**.
 11. Root không còn public thì thread không được hiển thị độc lập khỏi root. **Admin Ẩn root** làm toàn thread tạm không public nhưng không đổi moderation state của reply (reply chỉ mang cờ `hidden_by_root_cascade`, không có đồng hồ retention riêng); Undo Ẩn root làm các reply hợp lệ hiện lại theo state riêng, với điều kiện **root còn trong 90 ngày retention**.
 12. Nếu tác giả root bị **Account Lock**, root và toàn bộ thread tạm không public; reply của user khác **không bị đổi moderation state/không bị coi là vi phạm**. Khi root author được mở khóa, thread hiện lại nếu từng item vẫn hợp lệ.
@@ -32,17 +32,13 @@
 
 - Reply depth = 1.
 - Reply không tham gia danh sách root comment khi sort.
-- Pagination reply: initial 3, sau đó batch tối đa 10 cho tới hết.
+- Pagination reply **chỉ tồn tại trong màn Phản hồi**: initial 3, sau đó batch tối đa 10 cho tới hết. Danh sách root không preload và không hiển thị reply.
 - Tất cả validation text/emoji/URL/rate limit đồng bộ với US04.
 - **Visibility cascade** do Admin Hide hoặc Account Lock của root author không tự thay đổi state moderation của reply; reply chỉ mang cờ `hidden_by_root_cascade = true/false`, **không có đồng hồ retention 90 ngày riêng cho reply**.
 - **Delete cascade** là lifecycle riêng: self-delete root soft-delete toàn thread; CMS/Admin soft-delete root tuân US14. Root + toàn bộ reply bị ẩn do cascade được khôi phục cùng lúc khi Undo, với điều kiện **ROOT còn trong 90 ngày retention** (không phải reply còn retention).
 - Reply không được hiển thị như content độc lập khi root đang non-public.
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) mục A.2 — "Xem thêm phản hồi" phải giữ focus tại nút sau khi tải xong và announce số lượng vừa tải qua `aria-live`.*
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho Reply trong scope hiện tại.
 
 ---
 
@@ -56,7 +52,7 @@
 | TC-US08-004 | Emoji/minimum | Emoji-only, whitespace, 1 ký tự | Gửi | Emoji-only/1 ký tự hợp lệ; whitespace bị chặn. |
 | TC-US08-005 | URL | MyTV domain/subdomain và domain giả | Gửi | Chỉ hostname MyTV hợp lệ được nhận. |
 | TC-US08-006 | Rate limit | U1 đã tạo tổng 5 comment/reply trong phút | Gửi thêm reply | Bị rate-limit, không tạo record thứ 6. |
-| TC-US08-007 | Initial display | C1 có >3 reply public | Mở C1 | Ban đầu hiển thị 3 reply. |
+| TC-US08-007 | Initial display | C1 có >3 reply public | Mở danh sách root, sau đó mở màn Phản hồi của C1 | Trong danh sách root **không có reply nào** hiển thị, chỉ có lối vào `{n} phản hồi`; mở màn Phản hồi thì hiển thị đúng 3 reply đầu kèm nút `Xem thêm {n} phản hồi`. |
 | TC-US08-008 | Load more | C1 còn 24 reply sau initial | Bấm “Xem thêm {n} phản hồi” nhiều lần | Nút hiển thị đúng số lượng còn lại (ví dụ “Xem thêm 24 phản hồi”); lần lượt tải tối đa 10/10/phần còn lại; không trùng/bỏ sót; số hiển thị trên nút cập nhật đúng sau mỗi lần tải. |
 | TC-US08-009 | Delete reply | R1 bị user/Admin xóa | Refresh thread | R1 biến mất hoàn toàn, không placeholder; reply khác giữ nguyên. |
 | TC-US08-010 | Admin hide root | C1 public có R1/R2 hợp lệ | Admin Ẩn C1 rồi Undo Ẩn | Khi Ẩn: toàn thread không public, R1/R2 giữ state; Undo: các item hợp lệ hiện lại, item có moderation riêng vẫn theo state riêng. |
