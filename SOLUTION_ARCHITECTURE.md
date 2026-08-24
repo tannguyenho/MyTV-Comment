@@ -67,6 +67,8 @@ MyTV bổ sung khu vực thảo luận cho phim truyện/VOD: người xem đọ
 - Nickname đổi tối đa **1 lần thành công/24 giờ/account**; submission bị validation/AI chặn không tiêu quota.
 - Edit Comment/Reply tối đa **5 lần/phút/target**, chặn trước khi tạo version/gọi AI khi vượt ngưỡng.
 - Badge 90 ngày dùng tên hiển thị **Fan kỳ cựu**.
+- **Nội dung bình luận không còn là plain text.** Theo quyết định tại US04, Spoiler là **thuộc tính của từng đoạn chữ** (lệnh Làm mờ), bên cạnh Đậm/Nghiêng/Gạch chân. Vì vậy Comment Service phải lưu **văn bản kèm các dải định dạng** thay vì một cờ `is_spoiler` ở cấp bình luận. Bốn hệ quả bắt buộc: (1) sanitization phải chuẩn hóa và kiểm tra cả cấu trúc định dạng, không chỉ ký tự — dải định dạng chồng lấn hoặc lệch chỉ số là vector tấn công mới; (2) **AI moderation nhận toàn bộ văn bản gốc**, kể cả phần bị làm mờ, vì che chỉ là cách hiển thị; (3) CMS phải render đúng đoạn bị làm mờ để kiểm duyệt viên thấy nội dung thật; (4) preview khi chia sẻ không được để lộ đoạn đã làm mờ. **Không có chức năng chèn hyperlink** trong luồng bình luận.
+- **Mốc thời gian do người dùng tự gõ**, hệ thống không đọc trạng thái trình phát. Việc nhận diện và kiểm tra chuỗi thời gian phải làm ở **cả client và server** với cùng thuật toán, lấy chuỗi hợp lệ đầu tiên làm mốc duy nhất.
 - Accessibility **WCAG 2.1 AA** và yêu cầu bảo mật XSS/IDOR/PII là yêu cầu xuyên suốt theo `REQUIREMENTS_A11Y_SECURITY.md`.
 - **Nickname khi AI không có quyết định hợp lệ — đã chốt, không còn là điểm tồn đọng refinement:** nickname **không bao giờ** có trạng thái Chờ duyệt. AI timeout quá 5 giây, lỗi 5xx, dịch vụ AI không khả dụng, nickname ngoài tiếng Việt/tiếng Anh và nickname low-confidence đều được xử lý **giống nhau**: **không đổi nickname**, giữ nickname hợp lệ cũ (hoặc mask số điện thoại nếu chưa từng có nickname hợp lệ), báo lỗi **cho phép thử lại**, **không tạo hàng chờ duyệt / queue item** và **không tiêu quota** 1 lần đổi/24 giờ. Kiến trúc không tạo nickname-pending state; US11 đã được đồng bộ theo đúng invariant này.
 
@@ -97,7 +99,7 @@ flowchart LR
 
     comment --> auth
     comment --> content
-    comment <--> player
+    comment --> player
     comment --> push
     comment --> ai
     comment --> dwh
@@ -105,7 +107,7 @@ flowchart LR
 
 **Điểm cần lưu ý về ranh giới:**
 
-- **Trình phát video là quan hệ hai chiều** — bình luận đọc mốc thời gian hiện tại từ trình phát, và ra lệnh cho trình phát nhảy tới mốc. Đây là tích hợp chặt nhất, cần thống nhất hợp đồng giao tiếp sớm.
+- **Trình phát video là quan hệ một chiều** — bình luận chỉ ra lệnh cho trình phát nhảy tới mốc. Từ quyết định tại US06, hệ thống **không đọc mốc thời gian hiện tại từ trình phát** nữa (người dùng tự gõ mốc trong nội dung), nên hợp đồng giao tiếp thu hẹp còn một chiều `seek`.
 - **Nhà cung cấp AI là phụ thuộc bên ngoài có chi phí theo lượt gọi** — các submission cần moderation sau khi vượt qua validation/rate-limit sẽ phát sinh AI decision. Xem rủi ro R-04.
 - **Tổng đài CSKH là một "người dùng" thật của hệ thống**, không phải kênh phụ: họ tiếp nhận khiếu nại khóa tài khoản và nhập vào CMS. Cần đào tạo và quy trình, không chỉ cần phần mềm.
 
@@ -181,12 +183,12 @@ Các khối mang tên `... Service` trong tài liệu này là **logical compone
 
 | Khối | Trách nhiệm chính | User Story liên quan |
 |---|---|---|
-| **Comment Service** | Vòng đời bình luận/trả lời, lịch sử phiên bản khi sửa, xóa mềm 90 ngày, cascade khi xóa gốc | US01, US02, US04, US05, US08 |
-| **Rating Service** | Một đánh giá hiện hành mỗi tài khoản mỗi phạm vi, tính điểm trung bình | US03 |
+| **Comment Service** | Vòng đời bình luận/trả lời, lịch sử phiên bản khi sửa, xóa mềm 90 ngày, cascade khi xóa gốc, **hủy đăng nội dung đang Chờ duyệt** (không retention, không audit), lưu **định dạng theo đoạn** của nội dung | US01, US02, US04, US05, US08 |
+| **Rating Service** | Một đánh giá hiện hành mỗi tài khoản mỗi phạm vi, tính điểm trung bình. **Không đi qua gate “đóng khu vực bình luận”** của Effective Visibility Resolver — đánh giá thuộc khối thông tin phim/tập nên vẫn hoạt động khi khu vực bình luận đang đóng; riêng khóa tài khoản vẫn loại đánh giá khỏi cả điểm trung bình và tổng lượt | US03 |
 | **Interaction Service** | Thích/Bỏ thích gom theo lô 5 giây, gộp về trạng thái cuối, sự kiện Chia sẻ có khử trùng lặp | US07, US18 |
 | **Identity Service** | Tên hiển thị duy nhất không phân biệt hoa thường, chính sách kiểm duyệt riêng, mặt nạ số điện thoại | US04 |
 | **Effective Visibility Resolver** | **Nguồn chân lý duy nhất** trả lời "nội dung này có được hiển thị công khai không, và nếu không thì vì sao" | US12 (định nghĩa gốc), dùng bởi tất cả |
-| **Moderation Orchestrator** | Hàng chờ ưu tiên theo mức rủi ro, SLA 24 giờ, thao tác đơn và hàng loạt, hoàn tác | US11, US12, US13, US14 |
+| **Moderation Orchestrator** | Hàng chờ ưu tiên theo mức rủi ro, SLA 24 giờ, thao tác đơn và hàng loạt, hoàn tác, **gỡ item khỏi hàng chờ khi tác giả hủy đăng nội dung Chờ duyệt** | US11, US12, US13, US14 |
 | **AI Adapter** | Gọi nhà cung cấp AI, xử lý timeout/lỗi; Comment/Reply/Edit fail-safe về queue. Nickname giữ invariant **không có Pending** và không được đổi/public khi chưa có AI decision hợp lệ | US11 |
 | **Sanction Service** | Cảnh báo, khóa bình luận, khóa tài khoản, khiếu nại và SLA 48 giờ | US16 |
 | **Notification Service** | Tách bạch **thông báo bắt buộc** (kiểm duyệt, chế tài, khiếu nại) và **thông báo cộng đồng** có công tắc tắt | US09 |
@@ -221,7 +223,7 @@ flowchart TD
     q3 -->|Không| q4{"Tác giả hoặc chủ<br/>bình luận gốc<br/>đang bị khóa?"}
     q4 -->|Có| r3["Bình luận<br/>hiện không khả dụng"]
     q4 -->|Không| q5{"Khu vực bình luận<br/>đang đóng?"}
-    q5 -->|Có| r4["Khu vực bình luận<br/>hiện không khả dụng"]
+    q5 -->|Có| r4["Khu vực bình luận hiện không<br/>khả dụng. Vui lòng quay lại sau"]
     q5 -->|Không| r5["Hiển thị<br/>công khai"]
 ```
 
@@ -296,7 +298,7 @@ sequenceDiagram
 
     alt Rủi ro Nặng
         CS-->>C: Chặn, không tạo bản ghi
-        C-->>U: Gợi ý chỉnh sửa nội dung
+        C-->>U: Báo lỗi inline, giữ nội dung đang soạn
     else Rủi ro Nhẹ và đang Chế độ 1
         CS->>CS: Đặt trạng thái Hiển thị
         CS-->>C: Đăng thành công
@@ -429,7 +431,7 @@ Các ngưỡng số cụ thể cần baseline từ pilot, nhưng tối thiểu p
 | **R-03** | **Yêu cầu bảo mật/A11y đã có nhưng có nguy cơ được implement không đồng đều giữa Web/Mobile/CMS/service.** | Cao | Dùng `REQUIREMENTS_A11Y_SECURITY.md` làm Definition of Done xuyên suốt; test XSS/IDOR/PII/WCAG trên các critical flow; không coi AI moderation là security control |
 | **R-04** | **Chi phí AI tăng theo lượng nội dung/version cần phân loại** | Trung bình | Áp quota đã khóa: nickname 1 lần đổi thành công/24h/account, Edit 5 lần/phút/target; theo dõi cost/1.000 AI decisions ở pilot; cache không được làm sai policy version hoặc bỏ moderation bắt buộc |
 | **R-05** | **Phụ thuộc một nhà cung cấp AI duy nhất**, chỉ hỗ trợ tiếng Việt và tiếng Anh | Trung bình | Thiết kế lớp adapter để thay nhà cung cấp; dự phòng luôn là chuyển kiểm duyệt viên, không bao giờ tự động hiển thị |
-| **R-06** | **Tích hợp trình phát video hai chiều** chưa có hợp đồng giao tiếp; ảnh hưởng cả tính năng mốc thời gian | Trung bình | Chốt hợp đồng giao tiếp với đội trình phát ngay Giai đoạn 0, dù tính năng thuộc Giai đoạn 3 |
+| **R-06** | **Tích hợp trình phát video** chưa có hợp đồng giao tiếp; ảnh hưởng tính năng mốc thời gian. Phạm vi đã thu hẹp còn một chiều `seek` sau quyết định US06 (bỏ đọc current time), nên rủi ro giảm | Thấp | Chốt hợp đồng `seek` với đội trình phát trong Giai đoạn 0, dù tính năng thuộc Giai đoạn 3 |
 | **R-07** | **Quy trình appeal Account Lock phụ thuộc phối hợp CSKH → CMS.** Người bị khóa không vào được ứng dụng | Trung bình | Dùng Tổng đài MyTV **1800 1166 (miễn phí, 24/7)** theo backlog; chốt SOP/ownership với CSKH trước Giai đoạn 2, theo dõi SLA 48 giờ và mã vụ việc end-to-end |
 | **R-08** | **Sai lệch số liệu giữa giao diện và máy chủ** do cập nhật lạc quan và gom theo lô | Thấp | Máy chủ là nguồn chân lý (AD-03); đối soát hằng ngày; theo dõi tỷ lệ lệch |
 
@@ -443,7 +445,7 @@ Các ngưỡng số cụ thể cần baseline từ pilot, nhưng tối thiểu p
 |---|---|---|---|
 | 1 | **Ngân sách vận hành thường xuyên**: moderator capacity, AI cost envelope, on-call/CSKH ownership | Ban lãnh đạo + Vận hành | Trước khi mở pilot có user thật; phải đủ để giữ SLA 24h/48h |
 | 2 | **Pilot scope và tiêu chí mở rộng**: nhóm phim/tập nào tham gia, thời gian pilot, ngưỡng go/no-go | PO + Vận hành + Kỹ thuật | Trước cuối Giai đoạn 1 |
-| 3 | **Hợp đồng tích hợp Player**: đọc current timestamp, seek, lỗi/fallback, versioning contract | Trưởng nhóm Player + Solution/Tech Lead | Trong Giai đoạn 0, trước khi triển khai US06 |
+| 3 | **Hợp đồng tích hợp Player**: chỉ `seek`, lỗi/fallback, versioning contract. **Không cần API đọc current timestamp** (US06 đã bỏ) | Trưởng nhóm Player + Solution/Tech Lead | Trong Giai đoạn 0, trước khi triển khai US06 |
 | 4 | **Deployment topology**: modular monolith hay tách service/worker, hạ tầng queue/search/cache và ownership | Solution Architect + Tech Lead/Platform | Cuối Giai đoạn 0 sau sizing/estimate |
 | 5 | **Bố cục UI**: vị trí comment area, cách rút gọn nội dung dài, cách hiển thị context phim/tập đang xem | PO + Design | Trước khi finalize wireframe Giai đoạn 1 |
 
