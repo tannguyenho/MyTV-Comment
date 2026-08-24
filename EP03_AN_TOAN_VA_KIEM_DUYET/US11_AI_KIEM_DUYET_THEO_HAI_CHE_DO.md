@@ -1,4 +1,4 @@
-# US11 — AI kiểm duyệt theo hai chế độ
+﻿# US11 — AI kiểm duyệt theo hai chế độ
 
 > Thuộc EP03 — An toàn và kiểm duyệt
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -83,12 +83,6 @@ Nickname KHÔNG dùng trạng thái Chờ duyệt; chỉ có **2 kết quả**, 
 - Fallback khi AI lỗi luôn fail-safe, không fail-open: với **Comment/Reply/Edit** → đưa vào queue Chờ duyệt Admin; với **Nickname** → chặn không đổi nickname và cho user thử lại, KHÔNG tạo queue/hàng chờ.
 - Edit (version sửa) áp dụng rate limit riêng: tối đa **5 lần sửa/phút/comment hoặc reply**, tính độc lập theo từng target; request vượt ngưỡng bị chặn trước khi gọi AI/tạo queue item.
 
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho ma trận AI moderation trong scope hiện tại.
-
----
 
 ## Test Cases
 

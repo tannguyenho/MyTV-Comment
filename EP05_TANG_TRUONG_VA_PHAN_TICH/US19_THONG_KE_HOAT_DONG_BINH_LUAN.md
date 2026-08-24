@@ -1,4 +1,4 @@
-# US19 — Thống kê hoạt động bình luận
+﻿# US19 — Thống kê hoạt động bình luận
 
 > Thuộc EP05 — Tăng trưởng và phân tích
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -65,12 +65,6 @@
 - Public KPI/Engagement và badge eligibility là hai semantic khác nhau: reply user khác có thể tạm bị loại public KPI do root non-public nhưng vẫn giữ badge eligibility trong các case được US17 quy định.
 - Self-delete root là lifecycle soft-delete thật toàn thread nên khác Account Lock/Admin Hide visibility cascade.
 - Daily reconciliation là lớp bảo đảm tính đúng dài hạn cho pipeline gần real-time 5 phút.
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho bộ KPI/engagement/freshness hiện tại; data dictionary chi tiết là đầu việc refinement dữ liệu dựa trên các rule đã khóa.
-
----
 
 ## Test Cases
 

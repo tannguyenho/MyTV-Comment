@@ -1,4 +1,4 @@
-# US13 — Tra cứu bình luận trên CMS
+﻿# US13 — Tra cứu bình luận trên CMS
 
 > Thuộc EP04 — CMS quản trị bình luận
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -34,12 +34,6 @@
 - Nickname không tạo hàng chờ CMS vì không còn trạng thái Chờ duyệt cho nickname (xem US04/US11) — CMS chỉ tra cứu comment/reply.
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) mục Bảo mật — IDOR, kiểm soát scope theo phạm vi được cấp.*
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho tra cứu/export CMS trong scope hiện tại.
-
----
 
 ## Test Cases
 

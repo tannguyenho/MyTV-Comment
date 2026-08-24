@@ -1,4 +1,4 @@
-# US20 — AI hỗ trợ vận hành cộng đồng
+﻿# US20 — AI hỗ trợ vận hành cộng đồng
 
 > Thuộc EP05 — Tăng trưởng và phân tích
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -52,12 +52,6 @@ Các KPI dùng để theo dõi chất lượng, không tự động disable tín
 - Candidate exclusion vì mức nghiêm trọng chỉ dựa trên **AI Nặng** hoặc **CMS Flag nghiêm trọng**; unverified Report count không tự tạo exclusion.
 - AI không tự pin, không tự publish.
 - Mọi accept/edit/discard/pin/post liên quan proposal phải tracking để US19 đo hiệu quả.
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho workflow AI Ops trong scope hiện tại.
-
----
 
 ## Test Cases
 

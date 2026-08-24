@@ -39,10 +39,6 @@
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) mục A.2 — nút Like dùng `aria-pressed`, vùng `aria-live` cho số Like, announce khi reconcile revert.*
 
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho Like/Unlike trong scope hiện tại.
-
 ---
 
 ## Test Cases

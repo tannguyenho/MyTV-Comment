@@ -1,4 +1,4 @@
-# US15 — Quản lý bình luận ghim và cấu hình theo phim
+﻿# US15 — Quản lý bình luận ghim và cấu hình theo phim
 
 > Thuộc EP04 — CMS quản trị bình luận
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
@@ -45,12 +45,6 @@
 - Scheduled config phải audit before/after, actor, effective time và loại mốc.
 
 *Xem thêm: [REQUIREMENTS_A11Y_SECURITY.md](../REQUIREMENTS_A11Y_SECURITY.md) mục Bảo mật — kiểm soát quyền cấu hình theo phạm vi Admin.*
-
-### Điểm cần PO chốt
-
-- Không còn blocker PO cho pin/config trong scope hiện tại.
-
----
 
 ## Test Cases
 
