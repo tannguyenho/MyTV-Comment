@@ -22,12 +22,11 @@
 7. Reply đi qua cùng moderation theo US11.
 8. Reply công khai làm tăng tổng số bình luận; reply Chờ duyệt/Từ chối/Ẩn/Xóa không làm tăng số công khai.
 9. Mỗi root comment ban đầu hiển thị tối đa **3 reply**.
-10. Khi bấm **“Xem thêm {n} phản hồi”** (hiển thị kèm số lượng còn lại, không phải chuỗi trần "Xem thêm phản hồi"), mỗi lần tải **tối đa 10 reply**; nếu phần còn lại <10 thì tải toàn bộ phần còn lại.
-11. Xóa một reply riêng lẻ làm reply biến mất hoàn toàn khỏi UI, **không để placeholder**.
-12. Root không còn public thì thread không được hiển thị độc lập khỏi root. **Admin Ẩn root** làm toàn thread tạm không public nhưng không đổi moderation state của reply (reply chỉ mang cờ `hidden_by_root_cascade`, không có đồng hồ retention riêng); Undo Ẩn root làm các reply hợp lệ hiện lại theo state riêng, với điều kiện **root còn trong 90 ngày retention**.
-13. Nếu tác giả root bị **Account Lock**, root và toàn bộ thread tạm không public; reply của user khác **không bị đổi moderation state/không bị coi là vi phạm**. Khi root author được mở khóa, thread hiện lại nếu từng item vẫn hợp lệ.
-14. Nếu user **self-delete root**, root + toàn bộ reply bị cascade soft-delete theo US05; reply chỉ mang cờ ẩn theo cascade, không có retention riêng — toàn bộ retention 90 ngày tính theo root. Nếu CMS/Admin Xóa mềm root, thread không public và root + toàn bộ reply bị ẩn do cascade có thể được Undo cùng lúc theo rule US14, với điều kiện **root còn trong 90 ngày retention**.
-15. Guest chọn Reply được chuyển sang login; không tạo dữ liệu trước xác thực.
+10. Xóa một reply riêng lẻ làm reply biến mất hoàn toàn khỏi UI, **không để placeholder**.
+11. Root không còn public thì thread không được hiển thị độc lập khỏi root. **Admin Ẩn root** làm toàn thread tạm không public nhưng không đổi moderation state của reply (reply chỉ mang cờ `hidden_by_root_cascade`, không có đồng hồ retention riêng); Undo Ẩn root làm các reply hợp lệ hiện lại theo state riêng, với điều kiện **root còn trong 90 ngày retention**.
+12. Nếu tác giả root bị **Account Lock**, root và toàn bộ thread tạm không public; reply của user khác **không bị đổi moderation state/không bị coi là vi phạm**. Khi root author được mở khóa, thread hiện lại nếu từng item vẫn hợp lệ.
+13. Nếu user **self-delete root**, root + toàn bộ reply bị cascade soft-delete theo US05; reply chỉ mang cờ ẩn theo cascade, không có retention riêng — toàn bộ retention 90 ngày tính theo root. Nếu CMS/Admin Xóa mềm root, thread không public và root + toàn bộ reply bị ẩn do cascade có thể được Undo cùng lúc theo rule US14, với điều kiện **root còn trong 90 ngày retention**.
+14. Guest chọn Reply được chuyển sang login; không tạo dữ liệu trước xác thực.
 
 ### Quy tắc nghiệp vụ
 
