@@ -7,7 +7,7 @@
 ```mermaid
 flowchart TD
  A[Mở Analytics] --> B[Default 30 ngày gần nhất]
- B --> C[Chọn phim/tập + time range]
+ B --> C[Chọn phim + time range]
  C --> D[Load KPI + last updated]
  D --> E{Fresh ≤5 phút?}
  E -->|Không| F[Stale/error + retry]

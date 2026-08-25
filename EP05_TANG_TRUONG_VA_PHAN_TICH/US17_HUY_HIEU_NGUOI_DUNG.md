@@ -39,7 +39,7 @@
 
 1. Hệ thống đánh giá badge tự động **mỗi ngày 1 lần**.
 2. Một **ngày hoạt động** được tính khi user **đã đăng nhập mở/đọc khu vực Bình luận đang khả dụng ít nhất 1 lần trong ngày**; mở nhiều lần cùng ngày vẫn chỉ tính 1 active day. Guest không tích lũy active day.
-3. Nếu scope đang **Đóng bình luận**, việc chỉ mở trang phim/tập không tạo active day vì user không thể mở/đọc comment area.
+3. Nếu scope đang **Đóng bình luận**, việc chỉ mở trang phim không tạo active day vì user không thể mở/đọc comment area.
 4. Nếu user bị **Account Lock** sau khi đã có active day trong ngày, active day đã ghi **không bị xóa hồi tố**. Từ effective time của lock không phát sinh active day mới vì user không thể vào MyTV.
 5. Rolling window 30/90 ngày vẫn chạy bình thường trong Account Lock, **không freeze**. Nếu Fan badge không còn đạt điều kiện thì vẫn áp dụng grace bình thường.
 6. Nếu user không còn đạt điều kiện Fan tích cực/Fan kỳ cựu, áp dụng **grace period 7 ngày**; hết 7 ngày vẫn không đạt mới tự thu hồi.
@@ -59,7 +59,7 @@
 ### Quy tắc nghiệp vụ
 
 - “Ngày hoạt động” là **read/open activity có account** của khu vực Bình luận đang khả dụng, không yêu cầu Comment/Reply/Like/Rating/Report/Share.
-- Một account tối đa **1 active day/ngày** dù mở khu vực Bình luận nhiều lần hoặc ở nhiều phim/tập.
+- Một account tối đa **1 active day/ngày** dù mở khu vực Bình luận nhiều lần hoặc ở nhiều phim.
 - Guest chỉ đọc không tạo active day; scope Đóng cũng không tạo active day.
 - Điều kiện active day và điều kiện số lượng comment/reply của Fan badge là **hai điều kiện độc lập**; việc chỉ đọc có thể tăng active day nhưng không tăng count comment/reply.
 - Account Lock là visibility/access gate, **không retroactively invalidate** historical badge contribution hợp lệ; rolling window vẫn tự trượt theo thời gian.
@@ -75,9 +75,9 @@
 | ID | Loại | Tiền điều kiện / dữ liệu | Bước kiểm thử | Kết quả mong đợi |
 |---|---|---|---|---|
 | TC-US17-001 | Active day | U1 đăng nhập; comment area Mở | Mở/đọc khu vực Bình luận ít nhất 1 lần trong ngày | Ngày đó được tính đúng 1 active day cho U1. |
-| TC-US17-002 | Active dedup | U1 đăng nhập | Mở khu vực Bình luận nhiều lần, nhiều phim/tập trong cùng ngày | Vẫn chỉ tính 1 active day trong ngày. |
+| TC-US17-002 | Active dedup | U1 đăng nhập | Mở khu vực Bình luận nhiều lần, nhiều phim trong cùng ngày | Vẫn chỉ tính 1 active day trong ngày. |
 | TC-US17-003 | Guest active | Phiên guest | Mở/đọc khu vực Bình luận nhiều lần | Không tạo active day badge vì không có account. |
-| TC-US17-004 | Closed scope active | U1 login; scope Đóng bình luận | Mở trang phim/tập | Không tạo active day vì comment area không khả dụng. |
+| TC-US17-004 | Closed scope active | U1 login; scope Đóng bình luận | Mở trang phim | Không tạo active day vì comment area không khả dụng. |
 | TC-US17-005 | Fan active | 30d: U1 có 7 active days + 10 comment/reply hợp lệ | Chạy daily job | Cấp Fan tích cực. |
 | TC-US17-006 | Fan active boundary | 6 active days hoặc 9 comment/reply | Chạy job | Không cấp. |
 | TC-US17-007 | Loyal | 90d: 30 active days, 30 comment/reply, 30 Like nhận theo badge semantics | Chạy job | Cấp Fan kỳ cựu. |
@@ -99,7 +99,7 @@
 | TC-US17-024 | Admin badge expiry | Cấp badge với/không expiry | Kiểm tra trước/sau expiry | Có expiry thì hết hiệu lực đúng mốc; không expiry thì giữ tới thu hồi. |
 | TC-US17-025 | Toggle type | Tắt loại badge đang có owner | Refresh UI | Badge ẩn ngay; history còn; bật lại không duplicate. |
 | TC-US17-026 | Notification | Grant/revoke badge khi account bình thường và khi Account Lock | Kiểm tra push/in-app | Bình thường gửi theo setting US09; Account Lock suppress community notification và không backfill sau unlock. |
-| TC-US17-027 | Top 10% boundary calculation | Dataset 1000 comment public đăng trong 30 ngày, gộp toàn bộ phim lẻ và tập phim trên hệ thống, Featured Score (biến thể không freshness) đã biết trước cho từng comment; comment hạng 99, 100, 101 (quanh biên Top 10%) đều đạt ≥20 Net Like công khai + ≥5 Reply công khai; nhiễu thêm: 1 comment đang được Ghim, 1 comment non-public do Account Lock tác giả, 1 comment đã Ẩn, đều nằm trong 1000 comment gốc | Chạy job cấp huy hiệu Nổi bật, đối chiếu dân số dùng để tính Top 10% và danh sách comment được cấp; chạy lại job nhiều lần với cùng dữ liệu | Dân số dùng để tính Top 10% chỉ gồm comment đủ điều kiện public (loại trừ comment Ẩn và comment non-public do Account Lock; comment Ghim không bị loại chỉ vì đang ghim); comment hạng 99 và hạng 100 (đúng biên 10%) được cấp badge; comment hạng 101 không được cấp; chạy lại job nhiều lần với cùng dữ liệu cho kết quả xếp hạng đồng hạng ổn định, lặp lại giống nhau giữa các lần chạy. |
+| TC-US17-027 | Top 10% boundary calculation | Dataset 1000 comment public đăng trong 30 ngày, gộp toàn bộ phim trên hệ thống, Featured Score (biến thể không freshness) đã biết trước cho từng comment; comment hạng 99, 100, 101 (quanh biên Top 10%) đều đạt ≥20 Net Like công khai + ≥5 Reply công khai; nhiễu thêm: 1 comment đang được Ghim, 1 comment non-public do Account Lock tác giả, 1 comment đã Ẩn, đều nằm trong 1000 comment gốc | Chạy job cấp huy hiệu Nổi bật, đối chiếu dân số dùng để tính Top 10% và danh sách comment được cấp; chạy lại job nhiều lần với cùng dữ liệu | Dân số dùng để tính Top 10% chỉ gồm comment đủ điều kiện public (loại trừ comment Ẩn và comment non-public do Account Lock; comment Ghim không bị loại chỉ vì đang ghim); comment hạng 99 và hạng 100 (đúng biên 10%) được cấp badge; comment hạng 101 không được cấp; chạy lại job nhiều lần với cùng dữ liệu cho kết quả xếp hạng đồng hạng ổn định, lặp lại giống nhau giữa các lần chạy. |
 | TC-US17-028 | Grace period 7 ngày boundary | U1 đang có Fan tích cực/Fan kỳ cựu, tụt dưới ngưỡng từ ngày D0 | Chạy job daily tại D+6, D+7, D+8; tình huống phụ: U1 đạt lại ngưỡng ở D+5 rồi tụt lại ở D+6 | D+6 badge còn giữ (trong grace); D+7 (đúng biên 7 ngày) và D+8 xử lý theo định nghĩa "hết 7 ngày vẫn không đạt mới tự thu hồi" đã chốt; tình huống phụ: khi U1 đạt lại ngưỡng ở D+5, bộ đếm grace được reset (hủy đếm dở), nên khi tụt lại ở D+6 grace 7 ngày mới được tính lại từ D+6, không cộng dồn với lần tụt trước. |
 
 ### Microcopy

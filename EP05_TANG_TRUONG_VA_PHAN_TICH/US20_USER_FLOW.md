@@ -6,7 +6,7 @@
 
 ```mermaid
 flowchart TD
- A[Admin mở Content Operations phim/tập] --> B[AI đề xuất]
+ A[Admin mở Content Operations của phim] --> B[AI đề xuất]
  B --> C[System chỉ lấy input trong scope hiện tại]
  C --> D{Loại đề xuất}
  D -->|Comment đáng chú ý| E[Rank candidates public hợp lệ]
@@ -21,6 +21,6 @@ flowchart TD
 
 ## UX đã chốt
 
-- `AI đề xuất` nằm ngay trong **Content Operations của phim/tập hiện tại**, không có top-level AI Ops riêng.
+- `AI đề xuất` nằm ngay trong **Content Operations của bộ phim hiện tại**, không có top-level AI Ops riêng.
 - Không auto-run, auto-pin, auto-publish.
 - Admin luôn review/confirm trước thay đổi public.

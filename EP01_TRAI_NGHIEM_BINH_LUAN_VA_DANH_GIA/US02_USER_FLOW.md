@@ -1,6 +1,6 @@
 # User Flow — US02 Số lượng và sắp xếp bình luận theo nội dung hiện tại
 
-> User Story legacy filename: [US02_XEM_BINH_LUAN_THEO_SERIES_TAP_SO_LUONG_VA_SAP_XEP.md](US02_XEM_BINH_LUAN_THEO_SERIES_TAP_SO_LUONG_VA_SAP_XEP.md)
+> User Story: [US02_XEM_BINH_LUAN_SO_LUONG_VA_SAP_XEP.md](US02_XEM_BINH_LUAN_SO_LUONG_VA_SAP_XEP.md)
 
 **Platforms:** Phone, Web, SmartTV
 
@@ -9,7 +9,7 @@
 ```mermaid
 flowchart TD
  A[Mở tab Bình luận] --> B[Xác định content scope hiện tại]
- B --> C[Phim lẻ = phim; phim bộ = tập hiện tại]
+ B --> C[Phạm vi bình luận = bộ phim]
  C --> D[Load public count + rating + pin + root list]
  D --> E[Sort mặc định Nổi bật]
  E --> F[Hiển thị tối đa 3 Pin luôn ở trên cùng]
@@ -20,12 +20,12 @@ flowchart TD
  G --> J{Đổi sort?}
  J --> K[Dropdown: Nổi bật / Mới nhất / Nhiều lượt thích]
  K --> G
- L[Phim bộ đổi tập] --> M[Reset sort Nổi bật + reload toàn dữ liệu tập mới]
+ L[Phim bộ đổi tập] --> M[Giữ nguyên sort, count, rating, Pin và list]
 ```
 
 ## UX đã chốt
 
-- **Không có scope `Toàn bộ phim/Series` phía người xem.** Phim bộ chỉ có comment của tập hiện tại; phim lẻ ở cấp phim.
+- **Phạm vi bình luận là bộ phim.** Phim lẻ và phim bộ dùng chung mô hình; đổi tập không đổi phạm vi bình luận.
 - Pin tối đa 3, luôn ở đầu trong mọi sort, có `📌 Đã ghim`, không lặp trong list thường.
 - Sort control dạng dropdown `Nổi bật ▼`.
 - Root comment lazy load **10/batch**.

@@ -8,8 +8,8 @@
 ## Nguyên tắc UX dùng chung
 
 1. **Mở để đọc — đăng nhập để tương tác.** Login quay lại đúng context nhưng không auto-execute action cũ.
-2. Comment là **tab riêng** trong trang nội dung. Phim bộ mặc định `Danh sách tập`; phim lẻ mặc định `Đề xuất`; user chủ động mở `Bình luận ({count})`. Deep link comment/thread active thẳng tab Bình luận.
-3. **Không còn user-facing scope Series.** Phim lẻ comment/rating cấp phim; phim bộ comment/rating chỉ theo tập hiện tại. CMS vẫn có default config cấp phim bộ + episode override.
+2. Comment là **tab riêng** trong trang nội dung. Phim bộ mặc định `Danh sách tập`; phim lẻ mặc định `Đề xuất`; user chủ động mở `Bình luận ({count})`. Đổi tập **không** reload khu vực bình luận vì bình luận thuộc về bộ phim. Deep link comment/thread active thẳng tab Bình luận.
+3. **Comment và rating ở cấp phim.** Mỗi bộ phim có duy nhất một khu vực bình luận và một điểm đánh giá, dùng chung cho mọi tập nếu là phim bộ. CMS cấu hình ở cấp phim.
 4. Effective Visibility Resolver là source of truth cho render/deep link/fallback.
 5. Scope Đóng giữ tab `Bình luận` nhưng bỏ count, hiển thị `Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau` và ẩn list/composer/actions (rating **không** bị ẩn — xem US03 AC11).
 6. Phone composer = thanh nhập inline cố định đáy màn hình (nở lên khi bàn phím bật); Web = inline; SmartTV không tạo Comment/Reply/Mention/Report/Share nhưng vẫn cho đọc, Like/Unlike, Rating, Sort, reveal Spoiler và Timestamp seek.
@@ -21,11 +21,11 @@
 
 ### EP01 — Trải nghiệm bình luận và đánh giá
 - [US01 — Đọc khu vực bình luận](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US01_USER_FLOW.md)
-- [US02 — Số lượng và sắp xếp theo nội dung hiện tại](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US02_USER_FLOW.md)
-- [US03 — Đánh giá 5 sao](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US03_USER_FLOW.md)
+- [US02 — Số lượng và sắp xếp bình luận](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US02_USER_FLOW.md)
+- [US03 — Đánh giá phim 5 sao](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US03_USER_FLOW.md)
 - [US04 — Đăng bình luận](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US04_USER_FLOW.md)
 - [US05 — Sửa và xóa bình luận](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US05_USER_FLOW.md)
-- [US06 — Timestamp](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US06_USER_FLOW.md)
+- [US06 — Timestamp (chỉ phim lẻ)](EP01_TRAI_NGHIEM_BINH_LUAN_VA_DANH_GIA/US06_USER_FLOW.md)
 
 ### EP02 — Tương tác cộng đồng
 - [US07 — Like/Unlike](EP02_TUONG_TAC_CONG_DONG/US07_USER_FLOW.md)

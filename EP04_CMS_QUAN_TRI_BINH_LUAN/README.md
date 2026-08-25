@@ -37,7 +37,7 @@
 |---|---|---|
 | US13 | Tra cứu bình luận trên CMS | [US13](US13_TRA_CUU_BINH_LUAN_TREN_CMS.md) |
 | US14 | Xử lý nội dung trên CMS | [US14](US14_XU_LY_NOI_DUNG_TREN_CMS.md) |
-| US15 | Quản lý bình luận ghim và cấu hình theo phim | [US15](US15_QUAN_LY_BINH_LUAN_NOI_BAT_VA_CAU_HINH_THEO_PHIM.md) |
+| US15 | Quản lý bình luận ghim và cấu hình theo phim | [US15](US15_QUAN_LY_BINH_LUAN_GHIM_VA_CAU_HINH_THEO_PHIM.md) |
 | US16 | Quản lý người dùng vi phạm và audit log | [US16](US16_QUAN_LY_NGUOI_DUNG_VI_PHAM_VA_AUDIT_LOG.md) |
 
 [← Quay lại backlog tổng](../README.md)

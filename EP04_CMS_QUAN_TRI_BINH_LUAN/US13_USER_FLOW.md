@@ -9,7 +9,7 @@ flowchart TD
  A[Mở Moderation] --> B[Server auth role + scope]
  B -->|OK| C[Một screen: Table/List trái + Detail panel phải]
  C --> D[Search + filter + saved views]
- D --> E[Chờ duyệt / Bị Report / Đã xử lý / phim-tập / thời gian / AI / Spoiler]
+ D --> E[Chờ duyệt / Bị Report / Đã xử lý / phim / thời gian / AI / Spoiler]
  E --> F[Chọn row → xem Detail không rời list]
  F --> G[Giữ nguyên queue/filter/search context]
  C --> H[Export theo filter hiện tại]

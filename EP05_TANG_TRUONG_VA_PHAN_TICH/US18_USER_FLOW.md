@@ -1,6 +1,6 @@
 # User Flow — US18 Chia sẻ bình luận
 
-> User Story: [US18_CHIA_SE_BINH_LUAN_VA_CANH_PHIM.md](US18_CHIA_SE_BINH_LUAN_VA_CANH_PHIM.md)
+> User Story: [US18_CHIA_SE_BINH_LUAN.md](US18_CHIA_SE_BINH_LUAN.md)
 
 **Platforms:** Phone, Web. SmartTV không Share.
 

@@ -1,0 +1,363 @@
+{
+  "meta": {
+    "projectName": "Hệ thống Bình luận MyTV",
+    "title": "ĐẶC TẢ YÊU CẦU PHẦN MỀM",
+    "subtitle": "SRS - Software Requirements Specification",
+    "docCode": "BM04_SRS",
+    "version": "1.0",
+    "effectiveDate": "25/08/2026",
+    "projectCode": "MYTV-CMT"
+  },
+  "approvals": [
+    { "role": "Soạn thảo", "name": "Nguyễn Văn A", "title": "Business Analyst", "date": "20/08/2026" },
+    { "role": "Xem xét", "name": "Trần Thị B", "title": "Trưởng nhóm BA", "date": "22/08/2026" },
+    { "role": "Thẩm định", "name": "Lê Văn C", "title": "Kiến trúc sư giải pháp", "date": "23/08/2026" },
+    { "role": "Phê chuẩn", "name": "", "title": "", "date": "" }
+  ],
+  "historyColumns": ["STT", "Phiên bản", "Người thực hiện", "Người xem xét", "Người phê duyệt", "Ngày hiệu lực", "Nội dung thay đổi"],
+  "history": [
+    {
+      "no": 1, "version": "1.0", "author": "Nguyễn Văn A", "reviewer": "Trần Thị B",
+      "approver": "Lê Văn C", "date": "25/08/2026", "changes": "Khởi tạo tài liệu"
+    }
+  ],
+  "showInstructions": false,
+  "tocDepth": 5,
+
+  "body": [
+    { "type": "h1", "text": "TỔNG QUAN" },
+
+    { "type": "h2", "text": "Mục đích" },
+    { "type": "p", "text": "Tài liệu đặc tả chi tiết yêu cầu phần mềm cho tính năng Bình luận của nền tảng MyTV, làm cơ sở để thiết kế, lập trình, kiểm thử và nghiệm thu. Tài liệu cụ thể hoá các yêu cầu người sử dụng đã ghi nhận trong tài liệu URD BM03_URD." },
+
+    { "type": "h2", "text": "Phạm vi" },
+    { "type": "p", "text": "Áp dụng cho phân hệ Bình luận và phân hệ Kiểm duyệt nội dung, triển khai trên Set-top box, ứng dụng di động và web của MyTV." },
+
+    { "type": "h2", "text": "Tài liệu liên quan" },
+    {
+      "type": "table",
+      "widths": [8, 57, 35],
+      "header": ["STT", "Tên tài liệu", "Tên file"],
+      "rows": [
+        ["1", "Tài liệu đặc tả yêu cầu người sử dụng (URD)", "BM03_URD_MyTV_Comment.docx"],
+        ["2", "Kiến trúc hệ thống Bình luận", "ARCHITECTURE.md"]
+      ]
+    },
+
+    { "type": "h2", "text": "Giải thích từ ngữ và các chữ viết tắt" },
+    {
+      "type": "table",
+      "widths": [25, 75],
+      "header": ["Thuật ngữ", "Ý nghĩa"],
+      "rows": [
+        ["URD", "User Requirement Description — tài liệu đặc tả yêu cầu người sử dụng"],
+        ["STB", "Set-top box — đầu thu truyền hình MyTV"],
+        ["Hàng đợi kiểm duyệt", "Danh sách bình luận đang chờ người kiểm duyệt xử lý"]
+      ]
+    },
+
+    { "type": "h1", "text": "NỘI DUNG" },
+
+    { "type": "h2", "text": "TỔNG QUAN HỆ THỐNG" },
+
+    { "type": "h3", "text": "Phát biểu bài toán" },
+    { "type": "p", "text": "Khán giả MyTV hiện chưa có kênh tương tác trực tiếp với nội dung đang xem. Hệ thống cần cho phép gửi và hiển thị bình luận theo từng nội dung, đồng thời bảo đảm nội dung hiển thị công khai đã được kiểm duyệt theo quy định về nội dung truyền hình." },
+
+    { "type": "h3", "text": "Mục tiêu và phạm vi hệ thống" },
+    {
+      "type": "bullet",
+      "items": [
+        "Cho phép người xem gửi bình luận và xem bình luận đã duyệt của nội dung đang xem.",
+        "Cho phép bộ phận vận hành kiểm duyệt bình luận trước khi hiển thị công khai.",
+        "Hệ thống được triển khai trên hạ tầng nội bộ của Tổng công ty Truyền thông.",
+        "Hệ thống gồm ba phân hệ chính: Bình luận, Kiểm duyệt, Quản trị cấu hình."
+      ]
+    },
+
+    { "type": "h3", "text": "Mô hình hệ thống" },
+    { "type": "p", "text": "Mô hình phần mềm", "bold": true },
+    {
+      "type": "table",
+      "widths": [8, 42, 25, 25],
+      "header": ["STT", "Mô hình sản phẩm", "Số lớp ứng dụng", "Lựa chọn"],
+      "rows": [
+        ["1", "Client/ Server", "3", "x"],
+        ["2", "Desktop Application", "", ""],
+        ["3", "Web Application", "3", "x"],
+        ["4", "Mobile Application", "3", "x"]
+      ]
+    },
+    { "type": "p", "text": "Mô hình công nghệ", "bold": true },
+    {
+      "type": "table",
+      "widths": [8, 27, 50, 15],
+      "header": ["STT", "Loại công nghệ", "Yêu cầu công nghệ", "Bắt buộc"],
+      "rows": [
+        ["1", "Giao diện người dùng", "Ứng dụng STB hiện hành, Web responsive, Mobile Android/iOS", "Có"],
+        ["2", "Công nghệ xử lý", "Dịch vụ backend cung cấp API REST/JSON qua HTTPS", "Có"],
+        ["3", "Công nghệ lưu trữ", "Cơ sở dữ liệu quan hệ, hỗ trợ giao dịch và sao lưu tự động", "Có"],
+        ["4", "Công nghệ bảo mật", "Xác thực qua hệ thống tài khoản MyTV; phân quyền theo chức năng", "Có"],
+        ["5", "Công nghệ cập nhật", "Triển khai không gián đoạn dịch vụ (rolling update)", "Không"]
+      ]
+    },
+
+    { "type": "h2", "text": "ĐẶC TẢ YÊU CẦU CHỨC NĂNG HỆ THỐNG" },
+
+    { "type": "h3", "text": "PHÂN HỆ BÌNH LUẬN" },
+    { "type": "p", "text": "Yêu cầu tính năng chung của phân hệ:" },
+    {
+      "type": "bullet",
+      "items": [
+        "Quản lý vòng đời bình luận theo các trạng thái: Chờ duyệt → Đã duyệt / Bị ẩn / Đã xoá.",
+        "Mọi bình luận hiển thị công khai đều phải ở trạng thái Đã duyệt.",
+        "Ghi nhật ký đầy đủ cho mọi thao tác thay đổi trạng thái bình luận."
+      ]
+    },
+
+    { "type": "h4", "text": "Module: Gửi và hiển thị bình luận" },
+
+    { "type": "h5", "text": "Mô tả tóm tắt" },
+    { "type": "p", "text": "Module cho phép người xem đã đăng nhập gửi bình luận cho nội dung đang xem và xem danh sách bình luận đã được duyệt. Truy vết yêu cầu người dùng: UR01." },
+
+    { "type": "h5", "text": "Yêu cầu giao diện" },
+    { "type": "note", "text": "[Chèn ảnh mockup màn hình bình luận trên STB và Mobile.]" },
+    {
+      "type": "table",
+      "caption": "Danh sách trường dữ liệu màn hình Gửi bình luận",
+      "widths": [20, 15, 12, 33, 20],
+      "header": ["Tên trường", "Kiểu", "Bắt buộc", "Quy tắc kiểm tra", "Thông báo lỗi"],
+      "rows": [
+        ["Nội dung bình luận", "Text", "Có", "1–500 ký tự, không chứa từ khoá bị chặn", "Nội dung không hợp lệ hoặc vượt quá 500 ký tự"],
+        ["Mã nội dung", "Chuỗi", "Có", "Lấy tự động từ ngữ cảnh đang xem", "Không xác định được nội dung đang xem"],
+        ["Người gửi", "Chuỗi", "Có", "Lấy từ phiên đăng nhập", "Vui lòng đăng nhập để bình luận"]
+      ]
+    },
+
+    { "type": "h5", "text": "Chức năng 1: Gửi bình luận" },
+    { "type": "p", "text": "Mã yêu cầu: SRS_CMT_01 (truy vết: UR01). Người xem nhập nội dung và gửi lên hệ thống; hệ thống kiểm tra hợp lệ, đối chiếu bộ lọc từ khoá và ghi nhận bình luận ở trạng thái Chờ duyệt." },
+
+    { "type": "h5", "text": "Các tình huống sử dụng" },
+    { "type": "p", "text": "Tình huống 1: Gửi bình luận hợp lệ", "bold": true, "indent": 0.75 },
+    {
+      "type": "table",
+      "widths": [6, 16, 26, 26, 26],
+      "header": ["STT", "Đối tượng", "Hoạt động", "Thông tin đầu vào", "Thông tin đầu ra"],
+      "rows": [
+        ["1", "Người xem", "Mở ô nhập bình luận", "Mã nội dung đang xem", "Ô nhập hiển thị, còn 500 ký tự"],
+        ["2", "Người xem", "Nhập nội dung và bấm Gửi", "Nội dung bình luận hợp lệ", "—"],
+        ["3", "Hệ thống", "Kiểm tra độ dài và bộ lọc từ khoá", "Nội dung bình luận", "Kết quả kiểm tra: hợp lệ"],
+        ["4", "Hệ thống", "Ghi nhận bình luận", "Nội dung, mã nội dung, người gửi, thời điểm", "Bình luận trạng thái Chờ duyệt; thông báo \"Bình luận đang chờ duyệt\""]
+      ]
+    },
+    { "type": "p", "text": "Tình huống 2: Gửi bình luận không hợp lệ", "bold": true, "indent": 0.75 },
+    {
+      "type": "table",
+      "widths": [6, 16, 26, 26, 26],
+      "header": ["STT", "Đối tượng", "Hoạt động", "Thông tin đầu vào", "Thông tin đầu ra"],
+      "rows": [
+        ["1", "Người xem", "Bấm Gửi khi nội dung rỗng", "Nội dung rỗng", "Thông báo \"Vui lòng nhập nội dung bình luận\""],
+        ["2", "Người xem", "Bấm Gửi với nội dung quá 500 ký tự", "Nội dung 501 ký tự trở lên", "Thông báo \"Nội dung vượt quá 500 ký tự\""],
+        ["3", "Người xem", "Bấm Gửi với nội dung chứa từ khoá bị chặn", "Nội dung vi phạm", "Bình luận bị từ chối, ghi nhật ký vi phạm"],
+        ["4", "Người xem", "Bấm Gửi khi chưa đăng nhập", "Phiên không hợp lệ", "Điều hướng tới màn hình đăng nhập"]
+      ]
+    },
+
+    { "type": "h3", "text": "PHÂN HỆ KIỂM DUYỆT" },
+    { "type": "p", "text": "Yêu cầu tính năng chung của phân hệ:" },
+    {
+      "type": "bullet",
+      "items": [
+        "Cung cấp hàng đợi bình luận chờ duyệt, sắp xếp theo thời điểm gửi.",
+        "Hỗ trợ thao tác Duyệt / Ẩn / Xoá; bắt buộc nhập lý do khi Ẩn hoặc Xoá."
+      ]
+    },
+
+    { "type": "h4", "text": "Module: Kiểm duyệt bình luận" },
+    { "type": "h5", "text": "Mô tả tóm tắt" },
+    { "type": "p", "text": "Module cho phép người kiểm duyệt xử lý bình luận trong hàng đợi. Truy vết yêu cầu người dùng: UR02." },
+    { "type": "h5", "text": "Yêu cầu giao diện" },
+    { "type": "note", "text": "[Chèn ảnh mockup màn hình hàng đợi kiểm duyệt.]" },
+    { "type": "h5", "text": "Chức năng 1: Duyệt bình luận" },
+    { "type": "p", "text": "Mã yêu cầu: SRS_MOD_01 (truy vết: UR02). Người kiểm duyệt chọn bình luận trong hàng đợi và ra quyết định Duyệt / Ẩn / Xoá." },
+    { "type": "h5", "text": "Các tình huống sử dụng" },
+    { "type": "p", "text": "Tình huống 1: Duyệt bình luận thành công", "bold": true, "indent": 0.75 },
+    {
+      "type": "table",
+      "widths": [6, 16, 26, 26, 26],
+      "header": ["STT", "Đối tượng", "Hoạt động", "Thông tin đầu vào", "Thông tin đầu ra"],
+      "rows": [
+        ["1", "Người kiểm duyệt", "Mở hàng đợi kiểm duyệt", "Bộ lọc theo nội dung, thời gian", "Danh sách bình luận Chờ duyệt"],
+        ["2", "Người kiểm duyệt", "Chọn Duyệt", "Mã bình luận", "Trạng thái chuyển Đã duyệt, ghi nhật ký"],
+        ["3", "Hệ thống", "Cập nhật danh sách công khai", "Mã bình luận", "Bình luận hiển thị cho người xem"]
+      ]
+    },
+    { "type": "p", "text": "Tình huống 2: Xử lý thất bại", "bold": true, "indent": 0.75 },
+    {
+      "type": "table",
+      "widths": [6, 16, 26, 26, 26],
+      "header": ["STT", "Đối tượng", "Hoạt động", "Thông tin đầu vào", "Thông tin đầu ra"],
+      "rows": [
+        ["1", "Người kiểm duyệt", "Chọn Ẩn nhưng bỏ trống lý do", "Lý do rỗng", "Thông báo \"Vui lòng nhập lý do\""],
+        ["2", "Người kiểm duyệt", "Xử lý bình luận đã bị người khác xử lý", "Mã bình luận đã đổi trạng thái", "Thông báo \"Bình luận đã được xử lý\", làm mới danh sách"],
+        ["3", "Người dùng không đủ quyền", "Truy cập hàng đợi", "Phiên đăng nhập không có vai trò kiểm duyệt", "Từ chối truy cập, ghi nhật ký"]
+      ]
+    },
+
+    { "type": "h2", "text": "YÊU CẦU PHI CHỨC NĂNG" },
+
+    { "type": "h3", "text": "Yêu cầu bảo mật, phân quyền người sử dụng" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF01", "Hệ thống cho phép nhiều cấp quản trị; một người dùng có thể có nhiều vai trò.", "Phân quyền theo vai trò (RBAC), kiểm tra quyền ở lớp dịch vụ trước khi thực thi."],
+        ["SRS_NF02", "Việc phân quyền thực hiện theo chức năng.", "Mỗi API gắn với một mã chức năng; vai trò được gán danh sách mã chức năng."],
+        ["SRS_NF03", "Mọi thao tác kiểm duyệt được ghi nhật ký, lưu tối thiểu 12 tháng.", "Bảng nhật ký lưu: người thực hiện, hành động, mã bình luận, lý do, thời điểm."]
+      ]
+    },
+
+    { "type": "h3", "text": "Yêu cầu sao lưu và phục hồi dữ liệu" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF04", "Sao lưu tự động hằng ngày, giữ tối thiểu 30 bản.", "Sao lưu toàn phần hằng tuần, sao lưu gia tăng hằng ngày lúc 02:00."],
+        ["SRS_NF05", "RTO tối đa 4 giờ, RPO tối đa 1 giờ.", "Kiểm thử phục hồi định kỳ 6 tháng/lần và lập biên bản."]
+      ]
+    },
+
+    { "type": "h3", "text": "Yêu cầu về tính khả dụng (Usability)" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF06", "Người kiểm duyệt mới thao tác thành thạo sau tối đa 2 giờ đào tạo.", "Đo bằng bài kiểm tra thao tác sau đào tạo, đạt khi hoàn thành 10 thao tác chuẩn dưới 5 phút."],
+        ["SRS_NF07", "Hỗ trợ điều khiển bằng remote trên STB và cảm ứng trên Mobile.", "Mọi thao tác chính đến được bằng phím điều hướng bốn chiều và phím OK."]
+      ]
+    },
+
+    { "type": "h3", "text": "Yêu cầu về tính ổn định (Reliability)" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF08", "Tính sẵn sàng tối thiểu 99,5% theo tháng.", "Đo bằng hệ thống giám sát, loại trừ thời gian bảo trì đã thông báo trước."],
+        ["SRS_NF09", "Phục hồi 90% trong 1 giờ và 100% trong 24 giờ sau sự cố.", "Có quy trình xử lý sự cố và đội trực vận hành 24/7."]
+      ]
+    },
+
+    { "type": "h3", "text": "Yêu cầu về hiệu năng (Performance)" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF10", "Thời gian phản hồi khi gửi bình luận dưới 1 giây ở phân vị 95.", "Đo tại lớp API, không tính độ trễ mạng của thiết bị đầu cuối."],
+        ["SRS_NF11", "Đáp ứng tối thiểu 5.000 người dùng đồng thời.", "Kiểm thử tải trước nghiệm thu với kịch bản 5.000 phiên đồng thời trong 30 phút."]
+      ]
+    },
+
+    { "type": "h3", "text": "Yêu cầu về tính hỗ trợ (Supportability)" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF12", "Hỗ trợ 24/7 trong 12 tháng đầu, phản hồi tối đa 4 giờ làm việc.", "Kênh tiếp nhận qua hệ thống ticket nội bộ; có cam kết mức dịch vụ kèm theo."]
+      ]
+    },
+
+    { "type": "h3", "text": "Yêu cầu các ràng buộc thiết kế (Design constraints)" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF13", "Triển khai trên hạ tầng nội bộ của Tổng công ty Truyền thông.", "Không sử dụng dịch vụ đám mây công cộng cho dữ liệu người dùng."],
+        ["SRS_NF14", "Thiết kế module hoá để thêm/bớt phân hệ mà không ảnh hưởng phần còn lại.", "Các phân hệ giao tiếp qua API nội bộ có phiên bản, không chia sẻ lược đồ dữ liệu."]
+      ]
+    },
+
+    { "type": "h3", "text": "Yêu cầu về giao tiếp (Interfaces)" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF15", "Giao tiếp chung: API theo giao thức HTTPS, chuẩn REST/JSON.", "Cổng 443, xác thực bằng token có thời hạn; tài liệu API theo chuẩn OpenAPI."],
+        ["SRS_NF16", "Giao tiếp người dùng: font Unicode; ngày dd/mm/yyyy; số 000.000,000; toàn bộ tiếng Việt.", "Áp dụng thống nhất cho STB, Web và Mobile."],
+        ["SRS_NF17", "Giao tiếp phần cứng: hỗ trợ STB hiện hành, Android 8.0 trở lên, iOS 13 trở lên.", "Danh sách thiết bị kiểm thử được thống nhất trước khi vào giai đoạn kiểm thử."],
+        ["SRS_NF18", "Giao tiếp phần mềm — phần mềm dùng để xây dựng hệ thống.", "Đơn vị phát triển đề xuất trong tài liệu giải pháp; phải là công nghệ có hỗ trợ dài hạn."],
+        ["SRS_NF19", "Giao tiếp phần mềm — giữa các chức năng bên trong hệ thống.", "Phân hệ Kiểm duyệt đọc dữ liệu từ phân hệ Bình luận; phân hệ Báo cáo lấy số liệu từ cả hai."],
+        ["SRS_NF20", "Giao tiếp phần mềm — bên ngoài và truyền thông.", "Xác thực người dùng qua hệ thống tài khoản MyTV hiện có, giao tiếp trong mạng nội bộ."]
+      ]
+    },
+
+    { "type": "h3", "text": "Các yêu cầu về tài liệu người dùng và hỗ trợ trực tuyến" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF21", "Cung cấp tài liệu hướng dẫn sử dụng cho người kiểm duyệt và tổ chức đào tạo.", "Tài liệu bàn giao dạng .docx và bản trực tuyến tích hợp trong công cụ kiểm duyệt."]
+      ]
+    },
+
+    { "type": "h3", "text": "Các thành phần mua ngoài" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [["SRS_NF22", "N/A", "N/A"]]
+    },
+
+    { "type": "h3", "text": "Các yêu cầu pháp lý, bản quyền và ghi chú khác" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF23", "Mã nguồn và tài liệu thuộc quyền quản lý của Tổng công ty Truyền thông.", "Bàn giao kèm biên bản khi nghiệm thu; thư viện bên thứ ba phải có giấy phép cho phép sử dụng thương mại."]
+      ]
+    },
+
+    { "type": "h3", "text": "Các tiêu chuẩn áp dụng" },
+    {
+      "type": "table",
+      "widths": [14, 43, 43],
+      "header": ["Mã", "Yêu cầu", "Đặc tả"],
+      "rows": [
+        ["SRS_NF24", "Quy trình phát triển tuân thủ hệ thống quản lý chất lượng ISO 9001 đang áp dụng.", "Áp dụng bộ biểu mẫu BM01–BM10 của đơn vị."]
+      ]
+    },
+
+    { "type": "h2", "text": "ĐIỀU KIỆN NGHIỆM THU HỆ THỐNG" },
+    { "type": "p", "text": "Hệ thống được nghiệm thu khi thoả đồng thời các điều kiện sau:" },
+    {
+      "type": "number",
+      "items": [
+        "Hệ thống được thiết kế và vận hành đúng như mô tả trong tài liệu này, đáp ứng toàn bộ yêu cầu chức năng ghi nhận tại Mục II.2.",
+        "Toàn bộ yêu cầu phi chức năng tại Mục II.3 được kiểm chứng và có biên bản kiểm thử kèm theo.",
+        "Hệ thống được hiệu chỉnh sau khi triển khai thử nghiệm.",
+        "Tổ chức hướng dẫn sử dụng và người dùng thao tác thành thạo sau khoá đào tạo.",
+        "Toàn bộ tài liệu và mã nguồn được bàn giao đầy đủ."
+      ]
+    },
+
+    { "type": "h1", "text": "PHỤ LỤC" },
+    { "type": "p", "text": "Phụ lục A — Ma trận truy vết yêu cầu URD sang SRS", "bold": true },
+    {
+      "type": "table",
+      "widths": [16, 28, 18, 38],
+      "header": ["Mã URD", "Tên yêu cầu người dùng", "Mã SRS", "Mục đặc tả"],
+      "rows": [
+        ["UR01", "Gửi bình luận", "SRS_CMT_01", "II.2.1.1 — Module Gửi và hiển thị bình luận"],
+        ["UR02", "Kiểm duyệt bình luận", "SRS_MOD_01", "II.2.2.1 — Module Kiểm duyệt bình luận"]
+      ]
+    }
+  ]
+}

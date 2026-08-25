@@ -39,7 +39,7 @@ MyTV bổ sung khu vực thảo luận cho phim truyện/VOD: người xem đọ
 
 ### 2.2. Trong phạm vi
 
-- Phim truyện/VOD có timeline cố định; **phim lẻ bình luận và đánh giá ở cấp phim, phim bộ bình luận và đánh giá theo từng tập**. **Không có scope Series phía người xem.** Cấu hình cấp series vẫn tồn tại ở CMS (AI threshold/mode kế thừa episode override → series override → default hệ thống, US15) — đó là cấu hình quản trị, không phải scope bình luận của người xem.
+- Phim truyện/VOD có timeline cố định; **bình luận và đánh giá đều ở cấp phim**. Mỗi bộ phim — phim lẻ hay phim bộ — có duy nhất một khu vực bình luận và một điểm đánh giá dùng chung. CMS cấu hình ở cấp phim (AI threshold/mode kế thừa override cấp phim → default hệ thống, US15).
 - Đọc công khai; đăng nhập mới được Bình luận, Trả lời, Thích, Nhắc tên, Báo cáo, Đánh giá, Chia sẻ.
 - Trả lời **một cấp** (không lồng sâu).
 - Kiểm duyệt AI hai chế độ + kiểm duyệt viên, có trạng thái và nhật ký kiểm toán rõ ràng.
@@ -184,7 +184,7 @@ Các khối mang tên `... Service` trong tài liệu này là **logical compone
 | Khối | Trách nhiệm chính | User Story liên quan |
 |---|---|---|
 | **Comment Service** | Vòng đời bình luận/trả lời, lịch sử phiên bản khi sửa, xóa mềm 90 ngày, cascade khi xóa gốc, **hủy đăng nội dung đang Chờ duyệt** (không retention, không audit), lưu **định dạng theo đoạn** của nội dung | US01, US02, US04, US05, US08 |
-| **Rating Service** | Một đánh giá hiện hành mỗi tài khoản mỗi phạm vi, tính điểm trung bình. **Không đi qua gate “đóng khu vực bình luận”** của Effective Visibility Resolver — đánh giá thuộc khối thông tin phim/tập nên vẫn hoạt động khi khu vực bình luận đang đóng; riêng khóa tài khoản vẫn loại đánh giá khỏi cả điểm trung bình và tổng lượt | US03 |
+| **Rating Service** | Một đánh giá hiện hành mỗi tài khoản mỗi phạm vi, tính điểm trung bình. **Không đi qua gate “đóng khu vực bình luận”** của Effective Visibility Resolver — đánh giá thuộc khối thông tin phim nên vẫn hoạt động khi khu vực bình luận đang đóng; riêng khóa tài khoản vẫn loại đánh giá khỏi cả điểm trung bình và tổng lượt | US03 |
 | **Interaction Service** | Thích/Bỏ thích gom theo lô 5 giây, gộp về trạng thái cuối, sự kiện Chia sẻ có khử trùng lặp | US07, US18 |
 | **Identity Service** | Tên hiển thị duy nhất không phân biệt hoa thường, chính sách kiểm duyệt riêng, mặt nạ số điện thoại | US04 |
 | **Effective Visibility Resolver** | **Nguồn chân lý duy nhất** trả lời "nội dung này có được hiển thị công khai không, và nếu không thì vì sao" | US12 (định nghĩa gốc), dùng bởi tất cả |
@@ -243,7 +243,7 @@ flowchart TD
 
 **Bối cảnh.** Chế độ 2 đưa toàn bộ Comment/Reply/Edit không bị AI chặn vào hàng chờ Admin trước khi public, nên làm tăng tải moderation.
 
-**Quyết định.** Theo backlog final, **Chế độ 1 là mặc định cho content scope**. Series có thể cấu hình Mode1/Mode2/Đóng; episode có thể override series. Việc chuyển mode có `effective time` và audit theo US11/US15. Tài liệu kiến trúc **không tự thêm yêu cầu Mode2 luôn phải có expiry**; nếu vận hành muốn dùng Mode2 theo thời gian, thực hiện bằng scheduled config/effective transition đã có.
+**Quyết định.** Theo backlog final, **Chế độ 1 là mặc định cho content scope**. Mỗi phim có thể cấu hình Mode1/Mode2/Đóng, ghi đè mặc định hệ thống. Việc chuyển mode có `effective time` và audit theo US11/US15. Tài liệu kiến trúc **không tự thêm yêu cầu Mode2 luôn phải có expiry**; nếu vận hành muốn dùng Mode2 theo thời gian, thực hiện bằng scheduled config/effective transition đã có.
 
 **Đánh đổi.** Chế độ 1 ưu tiên tốc độ hiển thị nhưng chấp nhận risk của hậu kiểm; Chế độ 2 ưu tiên tiền kiểm nhưng tăng queue. Khẩu vị sử dụng Mode2 là **guardrail vận hành** cần theo dõi bằng capacity/SLA, không còn là blocker PO.
 
@@ -402,7 +402,7 @@ gantt
 
 Ra mắt trên một nhóm phim thí điểm ở cuối Giai đoạn 1 cho phép đo **ba con số chưa ai biết trước**, và cả ba đều ảnh hưởng trực tiếp tới ngân sách:
 
-1. Số bình luận trên mỗi tập phim mỗi ngày → quyết định chi phí gọi AI.
+1. Số bình luận trên mỗi bộ phim mỗi ngày → quyết định chi phí gọi AI.
 2. Tỷ lệ nội dung rơi vào hàng chờ kiểm duyệt → quyết định số lượng kiểm duyệt viên cần tuyển.
 3. Tỷ lệ báo cáo vi phạm được xác nhận → quyết định ngưỡng AI có cần điều chỉnh không.
 
@@ -444,15 +444,15 @@ Các ngưỡng số cụ thể cần baseline từ pilot, nhưng tối thiểu p
 | # | Điểm cần chốt | Ai quyết | Mốc cần chốt |
 |---|---|---|---|
 | 1 | **Ngân sách vận hành thường xuyên**: moderator capacity, AI cost envelope, on-call/CSKH ownership | Ban lãnh đạo + Vận hành | Trước khi mở pilot có user thật; phải đủ để giữ SLA 24h/48h |
-| 2 | **Pilot scope và tiêu chí mở rộng**: nhóm phim/tập nào tham gia, thời gian pilot, ngưỡng go/no-go | PO + Vận hành + Kỹ thuật | Trước cuối Giai đoạn 1 |
+| 2 | **Pilot scope và tiêu chí mở rộng**: nhóm phim nào tham gia, thời gian pilot, ngưỡng go/no-go | PO + Vận hành + Kỹ thuật | Trước cuối Giai đoạn 1 |
 | 3 | **Hợp đồng tích hợp Player**: chỉ `seek`, lỗi/fallback, versioning contract. **Không cần API đọc current timestamp** (US06 đã bỏ) | Trưởng nhóm Player + Solution/Tech Lead | Trong Giai đoạn 0, trước khi triển khai US06 |
 | 4 | **Deployment topology**: modular monolith hay tách service/worker, hạ tầng queue/search/cache và ownership | Solution Architect + Tech Lead/Platform | Cuối Giai đoạn 0 sau sizing/estimate |
-| 5 | **Bố cục UI**: vị trí comment area, cách rút gọn nội dung dài, cách hiển thị context phim/tập đang xem | PO + Design | Trước khi finalize wireframe Giai đoạn 1 |
+| 5 | **Bố cục UI**: vị trí comment area, cách rút gọn nội dung dài, cách hiển thị context phim đang xem | PO + Design | Trước khi finalize wireframe Giai đoạn 1 |
 
 ### 9.1. Guardrail Mode1/Mode2 đã có
 
 - **Mode1 là default** theo US11; không cần lãnh đạo quyết lại business rule này.
-- Mode2 là override theo series/episode cho tình huống cần tiền kiểm chặt hơn.
+- Mode2 là override theo phim cho tình huống cần tiền kiểm chặt hơn.
 - Vận hành nên theo dõi queue age/SLA và tránh mở Mode2 diện rộng nếu chưa chứng minh capacity.
 - Mọi thay đổi mode phải có effective time + audit theo backlog.
 

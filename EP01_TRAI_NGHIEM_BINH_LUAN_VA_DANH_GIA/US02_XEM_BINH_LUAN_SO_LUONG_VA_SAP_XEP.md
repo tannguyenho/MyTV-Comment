@@ -1,16 +1,15 @@
-# US02 — Xem bình luận theo nội dung hiện tại, số lượng và sắp xếp
+# US02 — Xem bình luận, số lượng và sắp xếp
 
 > Thuộc EP01 — Trải nghiệm bình luận và đánh giá  
-> Filename giữ tên legacy để không làm gãy liên kết repo.  
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md) · [User Flow →](US02_USER_FLOW.md)
 
 ### User Story
 
-**Là người xem**, tôi muốn xem đúng bình luận của phim/tập hiện tại và sắp xếp theo nhu cầu, để không lẫn thảo luận giữa các nội dung.
+**Là người xem**, tôi muốn xem đúng bình luận của bộ phim hiện tại và sắp xếp theo nhu cầu, để không lẫn thảo luận giữa các phim.
 
 ### Giá trị
 
-- Tránh lẫn thảo luận giữa các tập của cùng một phim bộ.
+- Tránh lẫn thảo luận giữa các bộ phim khác nhau.
 - Giúp người dùng nhanh chóng tìm được bình luận đáng chú ý hoặc mới nhất.
 - Tăng khả năng khám phá các cuộc thảo luận có tương tác cao.
 
@@ -20,14 +19,14 @@
 
 ### Điều kiện tiên quyết
 
-- Phim lẻ/tập phim đã được định danh chính xác trên hệ thống nội dung.
+- Bộ phim đã được định danh chính xác trên hệ thống nội dung.
 - Khu vực bình luận của content scope hiện tại đang được bật (không ở trạng thái Đóng bình luận).
 
 ### Acceptance Criteria
 
-1. **Không có phạm vi bình luận `Toàn bộ phim/Series` phía người xem.**
-2. Phim lẻ dùng scope phim; phim bộ dùng scope của tập hiện tại.
-3. Khi đổi tập, hệ thống reload rating, public comment count, Pin và list của tập mới; sort reset về `Nổi bật`.
+1. **Phạm vi bình luận là bộ phim.** Phim lẻ và phim bộ đều dùng scope cấp phim; mỗi bộ phim có duy nhất một khu vực bình luận.
+2. Phim bộ đổi tập **không** làm đổi phạm vi bình luận: rating, public comment count, Pin và list giữ nguyên.
+3. Khi mở một bộ phim khác, hệ thống load rating, public comment count, Pin và list của phim đó; sort reset về `Nổi bật`.
 4. Tab hiển thị `Bình luận ({public_count})`; count gồm root + reply có effective visibility public.
 5. Có 3 sort: `Nổi bật`, `Mới nhất`, `Nhiều lượt thích`; mặc định `Nổi bật`, chọn qua dropdown.
 6. Tối đa 3 comment Ghim luôn hiển thị trên cùng **trong mọi sort**, ngoài quota root batch và không trùng trong list thường; hiển thị icon + chữ `Đã ghim`.
@@ -65,11 +64,11 @@
 
 ### Mục tiêu
 
-Kiểm tra phân tách dữ liệu theo content scope hiện tại (phim lẻ cấp phim / phim bộ theo tập), tổng số công khai, hard max ghim, Featured Score và lazy load 10 item không lặp/bỏ sót.
+Kiểm tra phân tách dữ liệu theo bộ phim, tổng số công khai, hard max ghim, Featured Score và lazy load 10 item không lặp/bỏ sót.
 
 ### Rủi ro chính
 
-- Trộn bình luận giữa các tập khi chuyển ngữ cảnh, hoặc còn sót scope Series ở UI/API người xem.
+- Trộn bình luận giữa các bộ phim khi chuyển ngữ cảnh.
 - Tính nội dung không công khai (Chờ duyệt/Từ chối/Ẩn/Xóa, Account Lock, scope Đóng) vào count/ranking.
 - Tính Like của account đang bị Account Lock vào Net Like/ranking công khai.
 - Vượt hard max 3 comment ghim hoặc pin bị lặp trong list thường.
@@ -79,9 +78,10 @@ Kiểm tra phân tách dữ liệu theo content scope hiện tại (phim lẻ c�
 
 | ID | Loại | Tiền điều kiện / dữ liệu | Bước kiểm thử | Kết quả mong đợi |
 |---|---|---|---|---|
-| TC-US02-001 | Scope | Phim bộ S1 có E1/E2, mỗi tập có comment riêng | Mở lần lượt E1 và E2 | Mỗi tập chỉ trả comment gắn với tập đó; **không tồn tại scope `Toàn bộ phim/Series`** ở UI và API người xem. |
-| TC-US02-002 | Scope phim lẻ | Phim lẻ M1 có comment | Mở tab Bình luận của M1 | Comment nằm ở scope cấp phim; không có bộ chuyển scope Series↔Tập. |
-| TC-US02-003 | Navigation | Đang đọc E1 với sort `Mới nhất` và đã cuộn vài batch | Chuyển sang E2 rồi refresh | Reload rating, public count, Pin và list của E2; sort reset về `Nổi bật`; không giữ cache comment E1. |
+| TC-US02-001 | Scope | Phim bộ S1 có comment, đang xem tập E1 | Chuyển sang tập E2 rồi mở tab Bình luận | Danh sách, count, rating và Pin **giữ nguyên** vì bình luận thuộc về bộ phim S1; không có bộ chọn phạm vi bình luận trên UI và API người xem. |
+| TC-US02-002 | Scope phim lẻ | Phim lẻ M1 có comment | Mở tab Bình luận của M1 | Comment nằm ở scope cấp phim, cùng mô hình với phim bộ. |
+| TC-US02-003a | Sort giữ khi đổi tập | Phim bộ S1, đang ở sort `Mới nhất`, đã cuộn vài batch, đang xem tập E1 | Chuyển sang tập E2 rồi mở lại tab Bình luận | Sort vẫn là `Mới nhất`, danh sách và vị trí cuộn không bị reset, không phát sinh request load lại scope mới. |
+| TC-US02-003 | Navigation | Đang đọc phim M1 với sort `Mới nhất` và đã cuộn vài batch | Chuyển sang phim M2 rồi refresh | Load rating, public count, Pin và list của M2; sort reset về `Nổi bật`; không giữ cache comment của M1. |
 | TC-US02-004 | Counter | Scope có comment/reply công khai và cả Chờ duyệt/Từ chối/Ẩn/Xóa | Đối chiếu số trên tab `Bình luận ({public_count})` | Chỉ root + reply có effective visibility public được tính. |
 | TC-US02-005 | Counter exclusion | Root comment của tác giả đang Account Lock có reply hợp lệ; một content khác đang scope Đóng bình luận | Đọc tổng số công khai ở cả hai trường hợp và đối chiếu dashboard Admin | Comment/reply thuộc root bị Account Lock (kể cả reply cascade theo root) và toàn bộ comment/reply trong scope Đóng **không** được tính vào tổng số công khai hiển thị cho end-user; KPI/Engagement Score trên dashboard Admin không bị ảnh hưởng (đối chiếu US19). |
 | TC-US02-006 | Sorting | Có dữ liệu đủ cho ba chế độ | Mở lần đầu và mở dropdown sort | Mặc định là `Nổi bật`; dropdown có đúng ba lựa chọn `Nổi bật` / `Mới nhất` / `Nhiều lượt thích`. |

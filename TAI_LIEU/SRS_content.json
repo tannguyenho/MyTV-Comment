@@ -1,0 +1,4801 @@
+{
+  "meta": {
+    "projectName": "Tính năng Bình luận MyTV",
+    "title": "ĐẶC TẢ YÊU CẦU PHẦN MỀM",
+    "subtitle": "SRS - Software Requirements Specification",
+    "docCode": "BM04_SRS",
+    "version": "1.1",
+    "effectiveDate": "25/08/2026",
+    "projectCode": "MYTV-COMMENT"
+  },
+  "approvals": [
+    {
+      "role": "Soạn thảo",
+      "name": "",
+      "title": "Business Analyst",
+      "date": ""
+    },
+    {
+      "role": "Xem xét",
+      "name": "",
+      "title": "Product Owner",
+      "date": ""
+    },
+    {
+      "role": "Thẩm định",
+      "name": "",
+      "title": "Kiến trúc sư giải pháp",
+      "date": ""
+    },
+    {
+      "role": "Phê chuẩn",
+      "name": "",
+      "title": "",
+      "date": ""
+    }
+  ],
+  "historyColumns": [
+    "STT",
+    "Phiên bản",
+    "Người thực hiện",
+    "Người xem xét",
+    "Người phê duyệt",
+    "Ngày hiệu lực",
+    "Nội dung thay đổi"
+  ],
+  "history": [
+    {
+      "no": 1,
+      "version": "1.0",
+      "author": "Business Analyst",
+      "reviewer": "Product Owner",
+      "approver": "",
+      "date": "25/08/2026",
+      "changes": "Khởi tạo tài liệu trên cơ sở URD BM03_URD, kiến trúc giải pháp và thiết kế Figma Phone đã chốt"
+    },
+    {
+      "no": 2,
+      "version": "1.1",
+      "author": "Business Analyst",
+      "approver": "",
+      "date": "25/08/2026",
+      "changes": "Chuẩn hóa phạm vi bình luận và đánh giá về cấp phim cho cả phim lẻ và phim bộ; cấu hình CMS override cấp phim; mốc thời gian chỉ áp dụng cho phim lẻ",
+      "reviewer": "Product Owner"
+    }
+  ],
+  "showInstructions": false,
+  "tocDepth": 5,
+  "body": [
+    {
+      "type": "h1",
+      "text": "TỔNG QUAN"
+    },
+    {
+      "type": "h2",
+      "text": "Mục đích"
+    },
+    {
+      "type": "p",
+      "text": "Tài liệu đặc tả chi tiết yêu cầu phần mềm cho tính năng Bình luận của nền tảng MyTV, làm cơ sở để thiết kế kỹ thuật, lập trình, kiểm thử và nghiệm thu. Tài liệu cụ thể hóa các yêu cầu người sử dụng đã ghi nhận trong tài liệu URD mã BM03_URD; mỗi yêu cầu trong tài liệu này đều truy vết ngược được về một mã UR của URD theo ma trận tại Chương Phụ lục."
+    },
+    {
+      "type": "h2",
+      "text": "Phạm vi"
+    },
+    {
+      "type": "p",
+      "text": "Tài liệu áp dụng cho năm phân hệ của hệ thống Bình luận MyTV: Trải nghiệm bình luận và đánh giá, Tương tác cộng đồng, An toàn và kiểm duyệt, CMS quản trị bình luận, Tăng trưởng và phân tích. Hệ thống triển khai trên ứng dụng di động, web, Smart TV (giới hạn thao tác) và CMS Web/Desktop."
+    },
+    {
+      "type": "note",
+      "text": "[Trạng thái thiết kế giao diện: bộ thiết kế Phone đã hoàn thiện và được trích dẫn tại các mục “Yêu cầu giao diện” trong tài liệu này. Thiết kế cho Website, Smart TV và CMS đang chờ hoàn thiện; khi có, sẽ được bổ sung vào đúng các mục tương ứng theo cùng chuẩn trình bày như Phone. Việc thiếu thiết kế của ba nền tảng này không làm thay đổi các yêu cầu nghiệp vụ đã đặc tả.]"
+    },
+    {
+      "type": "h2",
+      "text": "Tài liệu liên quan"
+    },
+    {
+      "type": "table",
+      "widths": [
+        7,
+        55,
+        38
+      ],
+      "header": [
+        "STT",
+        "Tên tài liệu",
+        "Tên file / nguồn"
+      ],
+      "rows": [
+        [
+          "1",
+          "Tài liệu đặc tả yêu cầu người sử dụng (URD)",
+          "03_BM03_URD_MyTV_Comment.docx"
+        ],
+        [
+          "2",
+          "Backlog sản phẩm: 5 Epic, 20 User Story và các quyết định nghiệp vụ đã khóa",
+          "README.md"
+        ],
+        [
+          "3",
+          "Kiến trúc giải pháp tính năng Bình luận MyTV",
+          "SOLUTION_ARCHITECTURE.md"
+        ],
+        [
+          "4",
+          "Yêu cầu chéo: Accessibility WCAG 2.1 AA và Bảo mật",
+          "REQUIREMENTS_A11Y_SECURITY.md"
+        ],
+        [
+          "5",
+          "Bản đồ kiến trúc thông tin và danh mục màn hình",
+          "UX_INFORMATION_ARCHITECTURE_SCREEN_MAP.md"
+        ],
+        [
+          "6",
+          "Index user flow theo từng User Story",
+          "UX_USER_FLOWS.md"
+        ],
+        [
+          "7",
+          "Thiết kế giao diện Phone — canvas “T8 Bình luận”",
+          "Figma: [Phone] Play Nội dung"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Giải thích từ ngữ và các chữ viết tắt"
+    },
+    {
+      "type": "table",
+      "widths": [
+        26,
+        74
+      ],
+      "header": [
+        "Thuật ngữ",
+        "Ý nghĩa"
+      ],
+      "rows": [
+        [
+          "URD",
+          "User Requirement Description — tài liệu đặc tả yêu cầu người sử dụng"
+        ],
+        [
+          "Scope (phạm vi bình luận)",
+          "Đơn vị nội dung mà một khu vực bình luận gắn vào: luôn là một bộ phim, kể cả phim bộ"
+        ],
+        [
+          "Root comment",
+          "Bình luận gốc, không phải trả lời của bình luận khác"
+        ],
+        [
+          "Reply",
+          "Trả lời một bình luận gốc; hệ thống chỉ hỗ trợ một cấp"
+        ],
+        [
+          "Chế độ 1 / Chế độ 2",
+          "Hai chế độ kiểm duyệt AI cấu hình theo phim, khác nhau ở cách xử lý mức rủi ro Trung bình"
+        ],
+        [
+          "Effective Visibility Resolver",
+          "Module dùng chung duy nhất quyết định một nội dung có được hiển thị công khai hay không và lý do"
+        ],
+        [
+          "Featured Score",
+          "Điểm nổi bật: 0,5×ln(1+Like) + 0,3×ln(1+Reply) + 0,2×e^(-AgeHours/72)"
+        ],
+        [
+          "Net Like",
+          "Số lượt Thích công khai hiện tại của một bình luận"
+        ],
+        [
+          "Ghim (Pin)",
+          "Bình luận được quản trị viên ghim đầu danh sách; tối đa 3 trên mỗi scope"
+        ],
+        [
+          "Khóa bình luận",
+          "Chế tài chặn tạo mới Bình luận, Trả lời, Nhắc tên và Sửa"
+        ],
+        [
+          "Khóa tài khoản (Account Lock)",
+          "Chế tài chặn đăng nhập và sử dụng MyTV"
+        ],
+        [
+          "Dải định dạng",
+          "Cặp chỉ số bắt đầu và kết thúc cùng kiểu định dạng áp lên một đoạn của nội dung bình luận"
+        ],
+        [
+          "BFF",
+          "Backend For Frontend — tầng trung gian giữa ứng dụng khách và các dịch vụ lõi"
+        ],
+        [
+          "SLA",
+          "Cam kết thời gian xử lý: kiểm duyệt 24 giờ, khiếu nại 48 giờ"
+        ],
+        [
+          "PII",
+          "Personally Identifiable Information — thông tin định danh cá nhân"
+        ]
+      ]
+    },
+    {
+      "type": "h1",
+      "text": "NỘI DUNG"
+    },
+    {
+      "type": "h2",
+      "text": "TỔNG QUAN HỆ THỐNG"
+    },
+    {
+      "type": "h3",
+      "text": "Phát biểu bài toán"
+    },
+    {
+      "type": "p",
+      "text": "Khán giả MyTV hiện chưa có kênh thảo luận gắn với nội dung đang xem. Nền tảng cần bổ sung khu vực bình luận cho phim truyện/VOD, trong đó mọi người xem đọc được bình luận công khai mà không cần đăng nhập, còn các thao tác tương tác đòi hỏi tài khoản."
+    },
+    {
+      "type": "p",
+      "text": "Bài toán không dừng ở việc thêm một ô nhập bình luận. Khối lượng đáng kể nằm ở lớp kiểm duyệt, CMS quản trị, chế tài, nhật ký kiểm toán, bảo mật và phân tích. Rủi ro kỹ thuật lớn nhất là rò rỉ nội dung đã bị ẩn, do hệ thống có năm cơ chế ẩn chồng lên nhau: người dùng tự xóa, trạng thái kiểm duyệt riêng, xử lý bình luận gốc kéo theo cả thread, khóa tài khoản và đóng khu vực bình luận. Vì vậy toàn bộ logic quyết định khả năng hiển thị phải tập trung tại một module dùng chung duy nhất."
+    },
+    {
+      "type": "h3",
+      "text": "Mục tiêu và phạm vi hệ thống"
+    },
+    {
+      "type": "bullet",
+      "items": [
+        "Tạo không gian thảo luận quanh nội dung, tăng thời lượng xem và tần suất quay lại (MT01).",
+        "Chuyển đổi người xem thụ động thành người dùng có tài khoản theo nguyên tắc mở để đọc, đăng nhập để tương tác (MT02).",
+        "Giữ môi trường an toàn bằng kiểm duyệt AI kết hợp kiểm duyệt viên, có chế tài và khiếu nại minh bạch (MT03).",
+        "Cung cấp dữ liệu vận hành để đội nội dung hiểu nội dung nào tạo ra thảo luận (MT04).",
+        "Tạo cơ chế tăng trưởng qua huy hiệu, chia sẻ deep link và AI hỗ trợ vận hành cộng đồng (MT05).",
+        "Bảo đảm khả năng tiếp cận WCAG 2.1 AA và các yêu cầu bảo mật xuyên suốt (MT06)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hệ thống áp dụng cho phim truyện/VOD có timeline cố định, triển khai theo bốn giai đoạn với giai đoạn ra mắt giới hạn trên nhóm phim thí điểm trước khi mở rộng toàn bộ thư viện. Hệ thống gồm năm phân hệ chính đã liệt kê tại mục Phạm vi. Chi tiết mục tiêu và phạm vi tham chiếu Chương II của tài liệu URD BM03_URD."
+    },
+    {
+      "type": "h3",
+      "text": "Mô hình hệ thống"
+    },
+    {
+      "type": "p",
+      "text": "Mô hình phần mềm",
+      "bold": true
+    },
+    {
+      "type": "table",
+      "widths": [
+        8,
+        40,
+        26,
+        26
+      ],
+      "header": [
+        "STT",
+        "Mô hình sản phẩm",
+        "Số lớp ứng dụng",
+        "Lựa chọn"
+      ],
+      "rows": [
+        [
+          "1",
+          "Client/ Server",
+          "3",
+          "x"
+        ],
+        [
+          "2",
+          "Desktop Application",
+          "",
+          ""
+        ],
+        [
+          "3",
+          "Web Application",
+          "3",
+          "x (MyTV Web và CMS quản trị)"
+        ],
+        [
+          "4",
+          "Mobile Application",
+          "3",
+          "x (iOS và Android)"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Mô hình công nghệ",
+      "bold": true
+    },
+    {
+      "type": "table",
+      "widths": [
+        7,
+        24,
+        55,
+        14
+      ],
+      "header": [
+        "STT",
+        "Loại công nghệ",
+        "Yêu cầu công nghệ",
+        "Bắt buộc"
+      ],
+      "rows": [
+        [
+          "1",
+          "Giao diện người dùng",
+          "Ứng dụng di động iOS/Android, MyTV Web, ứng dụng Smart TV/STB (giới hạn thao tác) và CMS chạy trên Web/Desktop",
+          "Có"
+        ],
+        [
+          "2",
+          "Công nghệ xử lý",
+          "API Gateway/BFF chịu trách nhiệm xác thực, phân quyền và giới hạn tần suất; các miền nghiệp vụ tách theo ranh giới trách nhiệm, có thể bắt đầu bằng modular monolith kèm worker xử lý sự kiện",
+          "Có"
+        ],
+        [
+          "3",
+          "Công nghệ lưu trữ",
+          "Cơ sở dữ liệu chính hỗ trợ giao dịch, cache đếm số cho các con số hiển thị nhanh, chỉ mục tìm kiếm phục vụ tra cứu trên CMS",
+          "Có"
+        ],
+        [
+          "4",
+          "Công nghệ bảo mật",
+          "Xác thực qua MyTV Auth/SSO; phân quyền theo chức năng kiểm tra tại tầng API; làm sạch và mã hóa nội dung tại mọi bề mặt hiển thị",
+          "Có"
+        ],
+        [
+          "5",
+          "Công nghệ cập nhật",
+          "Triển khai không gián đoạn dịch vụ; hàng đợi sự kiện có cơ chế outbox và xử lý lặp lại không nhân đôi tác dụng",
+          "Có"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Danh sách thành phần logic và trách nhiệm",
+      "bold": true
+    },
+    {
+      "type": "table",
+      "widths": [
+        22,
+        56,
+        22
+      ],
+      "header": [
+        "Thành phần",
+        "Trách nhiệm chính",
+        "Yêu cầu URD liên quan"
+      ],
+      "rows": [
+        [
+          "Comment Service",
+          "Vòng đời bình luận và trả lời, lịch sử phiên bản khi sửa, xóa mềm 90 ngày, xóa kéo theo khi xóa bình luận gốc, hủy đăng nội dung đang Chờ duyệt, lưu nội dung dưới dạng văn bản kèm dải định dạng",
+          "UR01, UR02, UR04, UR05, UR08"
+        ],
+        [
+          "Rating Service",
+          "Một đánh giá hiện hành trên mỗi tài khoản mỗi scope, tính điểm trung bình. Không đi qua cơ chế đóng khu vực bình luận vì đánh giá thuộc khối thông tin phim",
+          "UR03"
+        ],
+        [
+          "Interaction Service",
+          "Thích và Bỏ thích gom theo lô 5 giây và gộp về trạng thái cuối, sự kiện Chia sẻ có khử trùng lặp",
+          "UR07, UR18"
+        ],
+        [
+          "Identity Service",
+          "Nickname duy nhất không phân biệt hoa thường, chính sách kiểm duyệt riêng, che số điện thoại",
+          "UR04"
+        ],
+        [
+          "Effective Visibility Resolver",
+          "Nguồn chân lý duy nhất trả lời nội dung có được hiển thị công khai không và nếu không thì vì sao",
+          "UR12"
+        ],
+        [
+          "Moderation Orchestrator",
+          "Hàng chờ ưu tiên theo mức rủi ro, SLA 24 giờ, thao tác đơn và hàng loạt, hoàn tác, gỡ mục khỏi hàng chờ khi tác giả hủy đăng",
+          "UR11, UR12, UR13, UR14"
+        ],
+        [
+          "AI Adapter",
+          "Gọi nhà cung cấp AI, xử lý quá hạn và lỗi; bình luận, trả lời và bản sửa chuyển an toàn về hàng chờ; nickname không bao giờ có trạng thái Chờ duyệt",
+          "UR11"
+        ],
+        [
+          "Sanction Service",
+          "Cảnh báo, khóa bình luận, khóa tài khoản, khiếu nại và SLA 48 giờ",
+          "UR16"
+        ],
+        [
+          "Notification Service",
+          "Tách bạch thông báo bắt buộc (kiểm duyệt, chế tài, khiếu nại) với thông báo cộng đồng có công tắc tắt",
+          "UR09"
+        ],
+        [
+          "Badge Service",
+          "Tác vụ đánh giá huy hiệu hằng ngày, cửa sổ trượt 30 và 90 ngày, ân hạn 7 ngày",
+          "UR17"
+        ],
+        [
+          "Analytics Service",
+          "Engagement Score, độ trễ dữ liệu tối đa 5 phút, đối soát hằng ngày",
+          "UR19"
+        ],
+        [
+          "Audit Log",
+          "Ghi bất biến mọi thao tác quản trị, lưu 2 năm độc lập với vòng đời nội dung",
+          "UR14, UR16"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Chi tiết sơ đồ bối cảnh và sơ đồ kiến trúc tổng thể tham chiếu tài liệu Kiến trúc giải pháp (SOLUTION_ARCHITECTURE.md), mục 3 và mục 4."
+    },
+    {
+      "type": "h2",
+      "text": "ĐẶC TẢ YÊU CẦU CHỨC NĂNG HỆ THỐNG"
+    },
+    {
+      "type": "h3",
+      "text": "PHÂN HỆ TRẢI NGHIỆM BÌNH LUẬN VÀ ĐÁNH GIÁ"
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu tính năng chung của phân hệ:"
+    },
+    {
+      "type": "bullet",
+      "items": [
+        "Khu vực bình luận là một tab riêng trong trang nội dung; phim bộ mặc định mở tab Danh sách tập, phim lẻ mặc định mở tab Đề xuất.",
+        "Mọi bề mặt đọc đều phải gọi Effective Visibility Resolver trước khi hiển thị, không được tự suy luận khả năng hiển thị.",
+        "Nội dung bình luận được lưu dưới dạng văn bản kèm các dải định dạng; việc làm sạch phải kiểm tra cả ký tự lẫn cấu trúc định dạng.",
+        "Ô soạn trên điện thoại là thanh nhập cố định ở đáy màn hình, nở lên khi bàn phím bật."
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Đọc và sắp xếp khu vực bình luận"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module cho phép mọi người xem, kể cả chưa đăng nhập, đọc bình luận công khai của bộ phim đang xem, đổi cách sắp xếp và tải thêm nội dung khi cuộn. Truy vết yêu cầu người dùng: UR01, UR02."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Thiết kế Phone đã chốt. Tab hiển thị nhãn “Bình luận ({count})”; nhãn chế độ sắp xếp đặt ngay trên danh sách; ô soạn hoặc thanh nhắc đăng nhập cố định ở đáy màn hình."
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US01-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 1: Tab Bình luận — người xem chưa đăng nhập, có danh sách công khai và thanh nhắc đăng nhập"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US01-05.png",
+      "widthCm": 6.4,
+      "caption": "Hình 2: Tab Bình luận — người xem đã đăng nhập, có ô soạn và lối vào “{n} phản hồi”"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US02-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 3: Bảng chọn cách sắp xếp — Nổi bật, Mới nhất, Nhiều lượt thích"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US01-04.png",
+      "widthCm": 6.4,
+      "caption": "Hình 4: Trạng thái không có nội dung hiển thị — tab bỏ số đếm, ẩn danh sách và ô soạn"
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 1: Thành phần giao diện màn hình khu vực bình luận",
+      "widths": [
+        20,
+        14,
+        12,
+        30,
+        24
+      ],
+      "header": [
+        "Tên thành phần",
+        "Kiểu",
+        "Bắt buộc",
+        "Quy tắc hiển thị",
+        "Ghi chú kiểm thử"
+      ],
+      "rows": [
+        [
+          "Nhãn tab Bình luận",
+          "Text",
+          "Có",
+          "Hiển thị “Bình luận ({count})”; khi scope Đóng thì bỏ phần số đếm",
+          "Kiểm tra cả hai trạng thái mở và đóng"
+        ],
+        [
+          "Chế độ sắp xếp",
+          "Nút mở bảng chọn",
+          "Có",
+          "Mặc định “Nổi bật nhất”; đổi nhãn theo lựa chọn của người dùng",
+          "Ba giá trị: Nổi bật, Mới nhất, Nhiều lượt thích"
+        ],
+        [
+          "Danh sách bình luận gốc",
+          "Danh sách",
+          "Có",
+          "Tải 10 mục đầu, thêm 10 mục mỗi lần cuộn; bình luận ghim luôn đứng đầu",
+          "Tối đa 3 mục ghim trên mỗi scope"
+        ],
+        [
+          "Chip Đã ghim",
+          "Chip biểu tượng kèm chữ",
+          "Không",
+          "Chỉ hiển thị trên bình luận đang được ghim",
+          "Phải kết hợp biểu tượng và chữ, không chỉ dùng màu"
+        ],
+        [
+          "Lối vào phản hồi",
+          "Nút",
+          "Không",
+          "Chỉ hiện khi bình luận gốc có trả lời, dạng “{n} phản hồi”",
+          "Trả lời không xuất hiện trong danh sách gốc"
+        ],
+        [
+          "Ô soạn bình luận",
+          "Ô nhập cố định đáy màn hình",
+          "Có",
+          "Hiện với người đã đăng nhập; guest thấy thanh “Đăng nhập để bình luận”",
+          "Nở lên khi bàn phím bật"
+        ],
+        [
+          "Khung xương tải dữ liệu",
+          "Trạng thái tạm",
+          "Có",
+          "Hiển thị trong lúc chờ dữ liệu danh sách",
+          "Không được nhảy bố cục khi dữ liệu về"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu khả năng tiếp cận: sau khi đăng nhập và quay lại đúng bình luận đích, phải chủ động đặt tiêu điểm vào phần tử bình luận đó, không chỉ cuộn tới vị trí. Sau khi tải thêm phản hồi, giữ tiêu điểm tại nút “Xem thêm phản hồi” và thông báo số lượng vừa tải qua vùng thông báo động."
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Đọc khu vực bình luận"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_CMT_01 (truy vết: UR01). Hệ thống xác định phạm vi bình luận theo bộ phim, gọi module quyết định khả năng hiển thị để lọc nội dung, rồi trả về 10 bình luận gốc đầu tiên theo sắp xếp Nổi bật cùng số lượng bình luận trên nhãn tab."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Đọc bình luận khi chưa đăng nhập",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem",
+          "Mở trang nội dung của một bộ phim",
+          "Mã phim",
+          "Trang nội dung mở tab Danh sách tập theo mặc định"
+        ],
+        [
+          "2",
+          "Người xem",
+          "Chọn tab Bình luận",
+          "—",
+          "Khung xương tải dữ liệu hiển thị"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Truy vấn danh sách bình luận công khai",
+          "Mã phim, chế độ sắp xếp mặc định Nổi bật",
+          "10 bình luận gốc đầu tiên, số lượng bình luận trên nhãn tab"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Xác định trạng thái đăng nhập",
+          "Phiên hiện tại là khách",
+          "Thanh “Đăng nhập để bình luận” ở đáy màn hình, không hiển thị ô soạn"
+        ],
+        [
+          "5",
+          "Người xem",
+          "Cuộn xuống cuối danh sách",
+          "Vị trí cuộn",
+          "Tải thêm 10 bình luận gốc tiếp theo"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Đọc bình luận khi đã đăng nhập và mở màn hình Phản hồi",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Chọn tab Bình luận",
+          "Mã phim",
+          "Danh sách bình luận kèm ô soạn cố định ở đáy màn hình"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Chọn lối vào “{n} phản hồi”",
+          "Mã bình luận gốc",
+          "Màn hình Phản hồi mở, hiển thị bình luận gốc và 3 trả lời đầu tiên"
+        ],
+        [
+          "3",
+          "Người xem đã đăng nhập",
+          "Chọn “Xem thêm phản hồi”",
+          "Mã bình luận gốc, số trả lời đã tải",
+          "Tải thêm tối đa 10 trả lời; phần còn lại dưới 10 thì tải hết"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Thông báo cho công nghệ hỗ trợ đọc màn hình",
+          "Số trả lời vừa tải",
+          "Thông báo dạng “Đã tải thêm {n} phản hồi”, tiêu điểm giữ tại nút vừa bấm"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 3: Trường hợp ngoại lệ khi đọc",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem",
+          "Mở tab Bình luận khi scope đang Đóng",
+          "Mã phim có cấu hình Đóng bình luận",
+          "Tab giữ nguyên nhưng bỏ số đếm; ẩn danh sách, ô soạn và các thao tác; hiển thị “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”"
+        ],
+        [
+          "2",
+          "Người xem",
+          "Mở tab Bình luận khi chưa có nội dung",
+          "Mã phim chưa có bình luận nào",
+          "Hiển thị trạng thái rỗng mời người dùng bình luận đầu tiên"
+        ],
+        [
+          "3",
+          "Người xem",
+          "Mở liên kết sâu tới bình luận đã bị ẩn do kiểm duyệt",
+          "Mã bình luận không còn công khai",
+          "Mở đúng phim kèm thông báo “Bình luận không còn khả dụng”"
+        ],
+        [
+          "4",
+          "Người xem",
+          "Mở liên kết sâu tới bình luận của tài khoản đang bị khóa",
+          "Mã bình luận thuộc tài khoản bị khóa",
+          "Mở đúng phim kèm thông báo “Bình luận hiện không khả dụng”"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "Truy vấn danh sách thất bại",
+          "Lỗi mạng hoặc lỗi dịch vụ",
+          "Giữ nội dung đã tải, hiển thị lựa chọn thử lại, không xóa trắng danh sách"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 2: Sắp xếp danh sách bình luận"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_CMT_02 (truy vết: UR02). Người dùng chọn một trong ba chế độ sắp xếp; hệ thống tải lại danh sách theo chế độ đã chọn, giữ nguyên các bình luận ghim ở đầu danh sách."
+    },
+    {
+      "type": "p",
+      "text": "Công thức Featured Score dùng cho chế độ Nổi bật: 0,5×ln(1+Like) + 0,3×ln(1+Reply) + 0,2×e^(-AgeHours/72). Giá trị Like trong công thức là Net Like công khai hiện tại. Bình luận ghim không tham gia tính điểm này."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Đổi chế độ sắp xếp thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem",
+          "Chạm vào nhãn chế độ sắp xếp",
+          "Chế độ hiện hành là Nổi bật",
+          "Bảng chọn mở với ba lựa chọn và đánh dấu lựa chọn hiện hành"
+        ],
+        [
+          "2",
+          "Người xem",
+          "Chọn “Mới nhất”",
+          "Giá trị chế độ mới",
+          "Bảng chọn đóng"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Tải lại danh sách theo chế độ mới",
+          "Mã scope, chế độ Mới nhất",
+          "10 bình luận gốc mới nhất; nhãn chế độ đổi thành “Mới nhất”; bình luận ghim vẫn ở đầu danh sách"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi sắp xếp và tải thêm",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem",
+          "Cuộn tiếp khi đã hết dữ liệu",
+          "Không còn bình luận để tải",
+          "Dừng tải thêm, không hiển thị lỗi"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Tải thêm thất bại",
+          "Lỗi mạng",
+          "Giữ danh sách hiện có và cho phép thử lại; không mất vị trí cuộn"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Xử lý bình luận ghim của tài khoản bị khóa",
+          "Tác giả đang bị khóa tài khoản",
+          "Tạm ẩn bình luận ghim nhưng giữ thông tin ghim; tự hiện lại khi mở khóa nếu còn hợp lệ và ghim chưa hết hạn"
+        ]
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Đăng, sửa và xóa bình luận"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module cho phép người dùng đã đăng nhập gửi bình luận có định dạng, sửa và xóa nội dung của chính mình. Đây là luồng đi qua lớp kiểm duyệt nên kết quả phụ thuộc chế độ kiểm duyệt cấu hình cho bộ phim. Truy vết yêu cầu người dùng: UR04, UR05."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Thiết kế Phone đã chốt. Người dùng bôi đen đoạn chữ trong ô soạn để mở menu ngữ cảnh của hệ điều hành, chọn “Định dạng” để áp Làm mờ, Gạch chân, Đậm hoặc Nghiêng. Lỗi kiểm tra hợp lệ hiển thị ngay trên ô soạn với viền cảnh báo."
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US04-01.png",
+      "widthCm": 6.4,
+      "caption": "Hình 5: Ô soạn bình luận mở cùng bàn phím"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US04-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 6: Bôi đen đoạn chữ để mở menu ngữ cảnh, có mục Định dạng"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US04-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 7: Menu Định dạng — Làm mờ, Gạch chân, Đậm, Nghiêng"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US04-06.png",
+      "widthCm": 6.4,
+      "caption": "Hình 8: Lỗi kiểm duyệt tại thời điểm gửi — “Bình luận không được chấp thuận”"
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 2: Trường dữ liệu của chức năng đăng bình luận",
+      "widths": [
+        18,
+        12,
+        10,
+        34,
+        26
+      ],
+      "header": [
+        "Tên trường",
+        "Kiểu",
+        "Bắt buộc",
+        "Quy tắc kiểm tra",
+        "Thông báo lỗi"
+      ],
+      "rows": [
+        [
+          "Nội dung bình luận",
+          "Văn bản có định dạng",
+          "Có",
+          "1–1000 ký tự; cho phép nội dung chỉ có emoji; không chấp nhận chỉ khoảng trắng",
+          "Vui lòng nhập nội dung bình luận / Nội dung vượt quá 1000 ký tự"
+        ],
+        [
+          "Dải định dạng",
+          "Danh sách cặp chỉ số kèm kiểu",
+          "Không",
+          "Chỉ số phải nằm trong độ dài nội dung; không cho dải chồng lấn sai lệch; kiểu thuộc tập Làm mờ, Đậm, Nghiêng, Gạch chân",
+          "Định dạng nội dung không hợp lệ"
+        ],
+        [
+          "Liên kết trong nội dung",
+          "Chuỗi",
+          "Không",
+          "Chỉ chấp nhận mytv.com.vn và tên miền con thực của tên miền này",
+          "Liên kết không được phép"
+        ],
+        [
+          "Mã phim",
+          "Chuỗi",
+          "Có",
+          "Lấy tự động từ ngữ cảnh trang nội dung",
+          "Không xác định được nội dung đang xem"
+        ],
+        [
+          "Mốc thời gian",
+          "Chuỗi trong nội dung",
+          "Không",
+          "Chỉ bật với phim lẻ; phim bộ không nhận trường này. Nhận chuỗi hợp lệ đầu tiên; tối đa một mốc trên mỗi bình luận; không vượt quá độ dài nội dung phim",
+          "Mốc thời gian không hợp lệ"
+        ],
+        [
+          "Người gửi",
+          "Chuỗi",
+          "Có",
+          "Lấy từ phiên đăng nhập",
+          "Vui lòng đăng nhập để bình luận"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu khả năng tiếp cận cho đoạn chữ Làm mờ: đoạn bị làm mờ phải được ẩn khỏi công nghệ hỗ trợ đọc màn hình cho tới khi người dùng chủ động chạm để hiện. Vùng mờ phải là phần tử nhận được tiêu điểm và bấm được, có tên gọi truy cập là “Hiện nội dung có tiết lộ”; mỗi đoạn mờ trong cùng một bình luận là một vùng độc lập."
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Đăng bình luận"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_CMT_03 (truy vết: UR04). Hệ thống kiểm tra hợp lệ tại client và tại máy chủ, kiểm tra giới hạn tần suất, gọi AI phân loại rủi ro trên toàn bộ văn bản gốc kể cả đoạn đã làm mờ, rồi áp quyết định theo chế độ kiểm duyệt của scope."
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 3: Bảng quyết định trạng thái sau khi AI phân loại",
+      "widths": [
+        22,
+        39,
+        39
+      ],
+      "header": [
+        "Mức rủi ro AI",
+        "Kết quả ở Chế độ 1",
+        "Kết quả ở Chế độ 2"
+      ],
+      "rows": [
+        [
+          "Nhẹ",
+          "Công khai ngay",
+          "Chờ duyệt"
+        ],
+        [
+          "Trung bình",
+          "Chờ duyệt",
+          "Chờ duyệt"
+        ],
+        [
+          "Nặng",
+          "Bị chặn tại thời điểm gửi",
+          "Bị chặn tại thời điểm gửi"
+        ],
+        [
+          "Không có kết quả hợp lệ (quá 5 giây, lỗi, ngôn ngữ ngoài Việt/Anh, độ tin cậy thấp)",
+          "Chờ duyệt",
+          "Chờ duyệt"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Đăng bình luận hợp lệ ở Chế độ 1",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Chạm vào ô soạn bình luận",
+          "Mã phim đang xem",
+          "Bàn phím mở, ô soạn nở lên"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Nhập nội dung và bấm gửi",
+          "Nội dung 1–1000 ký tự hợp lệ",
+          "—"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Kiểm tra hợp lệ và giới hạn tần suất",
+          "Nội dung, dải định dạng, số nội dung đã gửi trong 1 phút",
+          "Kết quả hợp lệ; chưa vượt 5 nội dung mỗi phút"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Gọi AI phân loại",
+          "Toàn bộ văn bản gốc kể cả đoạn làm mờ",
+          "Mức rủi ro Nhẹ trong dưới 5 giây"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "Áp quyết định theo Chế độ 1",
+          "Mức rủi ro Nhẹ",
+          "Bình luận công khai ngay, xuất hiện đầu danh sách với nhãn thời gian “Vừa xong”"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Đăng bình luận vào hàng chờ duyệt",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Gửi bình luận trên phim đang cấu hình Chế độ 2",
+          "Nội dung hợp lệ",
+          "—"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Gọi AI phân loại",
+          "Văn bản gốc",
+          "Mức rủi ro Nhẹ"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Áp quyết định theo Chế độ 2",
+          "Mức rủi ro Nhẹ ở Chế độ 2",
+          "Bình luận chuyển trạng thái Chờ duyệt, chỉ tác giả nhìn thấy kèm chỉ báo trạng thái"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Đưa mục vào hàng chờ kiểm duyệt",
+          "Mã bình luận, mức rủi ro",
+          "Mục xuất hiện trong hàng chờ CMS, tính SLA 24 giờ từ thời điểm gửi"
+        ],
+        [
+          "5",
+          "Người xem đã đăng nhập",
+          "Hủy đăng nội dung đang chờ duyệt",
+          "Mã bình luận đang Chờ duyệt",
+          "Mục bị gỡ khỏi hàng chờ, không tạo bản lưu và không ghi nhật ký kiểm toán"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 3: Đăng bình luận không hợp lệ hoặc bị chặn",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Bấm gửi khi nội dung chỉ có khoảng trắng",
+          "Chuỗi chỉ gồm khoảng trắng",
+          "Từ chối tại client, thông báo “Vui lòng nhập nội dung bình luận”"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Bấm gửi với nội dung quá 1000 ký tự",
+          "Chuỗi 1001 ký tự trở lên",
+          "Từ chối, thông báo vượt quá giới hạn ký tự"
+        ],
+        [
+          "3",
+          "Người xem đã đăng nhập",
+          "Gửi nội dung thứ sáu trong vòng 1 phút",
+          "Đã gửi 5 nội dung trong 60 giây",
+          "Chặn trước khi gọi AI, thông báo vượt giới hạn tần suất"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Nhận kết quả AI mức Nặng",
+          "Mức rủi ro Nặng",
+          "Chặn ngay tại thời điểm gửi, hiển thị “Bình luận không được chấp thuận”, không tạo mục chờ duyệt"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "AI không trả kết quả trong 5 giây",
+          "Quá hạn hoặc lỗi dịch vụ AI",
+          "Chuyển bình luận sang Chờ duyệt thay vì làm mất nội dung"
+        ],
+        [
+          "6",
+          "Người dùng đang bị Khóa bình luận",
+          "Bấm gửi bình luận",
+          "Tài khoản có chế tài Khóa bình luận còn hiệu lực",
+          "Từ chối tại tầng API kèm thông báo chế tài; không chỉ chặn ở giao diện"
+        ],
+        [
+          "7",
+          "Người xem chưa đăng nhập",
+          "Chạm vào thanh nhắc đăng nhập",
+          "Phiên khách",
+          "Điều hướng sang màn hình đăng nhập; sau khi đăng nhập quay lại đúng phim/thread nhưng không tự gửi lại nội dung cũ"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 2: Sửa và xóa bình luận của mình"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_CMT_04 (truy vết: UR05). Bản sửa đi qua cùng lớp kiểm duyệt như khi đăng mới. Trong lúc bản mới chờ duyệt, bản cũ vẫn công khai. Người dùng tự xóa bình luận gốc kéo theo toàn bộ trả lời bị xóa mềm."
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US05-04.png",
+      "widthCm": 6.4,
+      "caption": "Hình 9: Xác nhận xóa bình luận không có trả lời"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US05-05.png",
+      "widthCm": 6.4,
+      "caption": "Hình 10: Xác nhận xóa bình luận có trả lời — nêu rõ trả lời của người khác sẽ bị xóa theo"
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Sửa bình luận thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Tác giả bình luận",
+          "Mở menu của bình luận và chọn Sửa",
+          "Mã bình luận",
+          "Ô soạn mở kèm nội dung hiện tại"
+        ],
+        [
+          "2",
+          "Tác giả bình luận",
+          "Chỉnh nội dung và gửi",
+          "Nội dung mới hợp lệ",
+          "—"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Kiểm tra giới hạn sửa",
+          "Số lần sửa trên bình luận này trong 60 giây",
+          "Chưa vượt 5 lần mỗi phút; tiếp tục xử lý"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Gọi AI và áp quyết định theo chế độ",
+          "Nội dung mới, chế độ của scope",
+          "Chế độ 1 và rủi ro Nhẹ thì bản mới công khai ngay kèm nhãn “Đã chỉnh sửa”"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Xóa bình luận",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Tác giả bình luận",
+          "Chọn Xóa trên bình luận không có trả lời",
+          "Mã bình luận",
+          "Hộp thoại xác nhận: “Bình luận này sẽ không xuất hiện nữa”"
+        ],
+        [
+          "2",
+          "Tác giả bình luận",
+          "Chọn Xóa trên bình luận có trả lời",
+          "Mã bình luận gốc có trả lời",
+          "Hộp thoại xác nhận: “Phản hồi của người khác sẽ bị xóa theo”"
+        ],
+        [
+          "3",
+          "Tác giả bình luận",
+          "Bấm Xác nhận",
+          "Xác nhận của người dùng",
+          "Bình luận gốc và toàn bộ trả lời chuyển xóa mềm, giữ 90 ngày"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Cập nhật chỉ số và huy hiệu",
+          "Mã thread bị xóa",
+          "Loại thread khỏi chỉ số công khai; loại đóng góp huy hiệu của các trả lời bị xóa theo"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 3: Trường hợp ngoại lệ khi sửa và xóa",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Tác giả bình luận",
+          "Gửi bản sửa trên scope đang ở Chế độ 2",
+          "Nội dung mới, rủi ro Nhẹ",
+          "Bản mới vào Chờ duyệt; bản cũ vẫn công khai trong lúc chờ"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Nhận kết quả AI mức Nặng cho bản sửa",
+          "Mức rủi ro Nặng",
+          "Chặn tại thời điểm gửi; bản cũ giữ nguyên không thay đổi"
+        ],
+        [
+          "3",
+          "Tác giả bình luận",
+          "Sửa lần thứ sáu trong 1 phút trên cùng bình luận",
+          "Đã sửa 5 lần trong 60 giây",
+          "Chặn trước khi tạo phiên bản mới và trước khi gọi AI"
+        ],
+        [
+          "4",
+          "Người dùng đang bị Khóa bình luận",
+          "Chọn Sửa",
+          "Chế tài còn hiệu lực",
+          "Chặn thao tác Sửa nhưng vẫn cho phép tự xóa nội dung của mình"
+        ],
+        [
+          "5",
+          "Quản trị viên",
+          "Cố hoàn tác nội dung do người dùng tự xóa",
+          "Mã bình luận người dùng tự xóa",
+          "Từ chối; hoàn tác chỉ áp dụng cho nội dung do CMS xóa mềm"
+        ],
+        [
+          "6",
+          "Người dùng",
+          "Xem lịch sử phiên bản của bình luận",
+          "Mã bình luận",
+          "Không cung cấp cho người dùng; chỉ CMS và nhật ký kiểm toán truy cập được"
+        ]
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Đánh giá phim"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module cho phép người dùng đã đăng nhập chấm điểm 1–5 sao cho bộ phim đang xem. Mỗi tài khoản chỉ có một đánh giá hiện hành trên mỗi bộ phim. Đánh giá thuộc khối thông tin phim nên không đi qua cơ chế đóng khu vực bình luận. Truy vết yêu cầu người dùng: UR03."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Thiết kế Phone đã chốt. Bảng đánh giá trượt lên từ đáy màn hình, hiển thị điểm trung bình cộng đồng và tổng số lượt đánh giá, kèm bộ chọn 5 sao. Nút gửi chỉ kích hoạt khi người dùng đã chọn mức sao."
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US03-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 11: Bảng đánh giá ở trạng thái chưa chọn sao — nút gửi chưa kích hoạt"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US03-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 12: Đã chọn 4 sao — nút “Gửi đánh giá” kích hoạt"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US03-04.png",
+      "widthCm": 6.4,
+      "caption": "Hình 13: Gửi thành công — thông báo “Cảm ơn bạn đã để lại đánh giá”"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US03-05.png",
+      "widthCm": 6.4,
+      "caption": "Hình 14: Lỗi cập nhật — “Không thể cập nhật đánh giá. Vui lòng thử lại sau”"
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu khả năng tiếp cận: bộ chọn sao dùng mẫu nhóm nút chọn một, mỗi sao là một mục chọn, điều hướng bằng phím mũi tên trái và phải, mỗi sao có nhãn truy cập riêng dạng “{n} sao”."
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Gửi và đổi đánh giá"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_RAT_01 (truy vết: UR03). Điểm trung bình hiển thị một chữ số thập phân và luôn làm tròn lên đến 0,1. Đổi mức sao không làm tăng tổng số lượt đánh giá. Trong phạm vi này không có thao tác xóa đánh giá."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Gửi đánh giá lần đầu",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Chạm vào điểm đánh giá trên khối thông tin phim",
+          "Mã phim",
+          "Bảng đánh giá mở, hiển thị điểm trung bình và tổng số lượt"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Chọn 4 sao",
+          "Mức sao bằng 4",
+          "Bốn sao được tô sáng, nút “Gửi đánh giá” chuyển sang trạng thái kích hoạt"
+        ],
+        [
+          "3",
+          "Người xem đã đăng nhập",
+          "Bấm “Gửi đánh giá”",
+          "Mức sao, mã scope",
+          "—"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Ghi nhận đánh giá và tính lại điểm trung bình",
+          "Bản ghi đánh giá mới",
+          "Thông báo “Cảm ơn bạn đã để lại đánh giá”; tổng số lượt tăng 1; điểm trung bình cập nhật"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi đánh giá",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Đổi mức sao đã chấm trước đó",
+          "Mức sao mới trên scope đã có đánh giá",
+          "Cập nhật đánh giá hiện hành; tổng số lượt KHÔNG tăng"
+        ],
+        [
+          "2",
+          "Người xem chưa đăng nhập",
+          "Chạm vào bộ chọn sao",
+          "Phiên khách",
+          "Điều hướng sang đăng nhập rồi quay lại đúng ngữ cảnh; không tự chấm điểm thay người dùng"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Ghi nhận đánh giá thất bại",
+          "Lỗi dịch vụ",
+          "Hiển thị “Không thể cập nhật đánh giá. Vui lòng thử lại sau”; giữ nguyên đánh giá cũ"
+        ],
+        [
+          "4",
+          "Người xem đã đăng nhập",
+          "Đánh giá khi khu vực bình luận đang Đóng",
+          "Scope có cấu hình Đóng bình luận",
+          "Vẫn cho gửi đánh giá và vẫn hiển thị điểm trung bình; đánh giá không đi qua cơ chế đóng"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "Xử lý đánh giá của tài khoản bị khóa",
+          "Tác giả đánh giá đang bị khóa tài khoản",
+          "Loại đánh giá khỏi cả điểm trung bình và tổng số lượt công khai; mở khóa thì tính lại cả hai nếu bản ghi còn"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "PHÂN HỆ TƯƠNG TÁC CỘNG ĐỒNG"
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu tính năng chung của phân hệ:"
+    },
+    {
+      "type": "bullet",
+      "items": [
+        "Mọi thao tác tương tác đều yêu cầu đăng nhập; khi khách chọn thao tác rồi đăng nhập, hệ thống chỉ đưa về đúng ngữ cảnh chứ không tự thực hiện lại thao tác cũ.",
+        "Trả lời chỉ sâu một cấp và không hiển thị độc lập nếu bình luận gốc đang không công khai.",
+        "Thông báo về kiểm duyệt, chế tài, khiếu nại và kết quả báo cáo là bắt buộc, không bị công tắc thông báo cộng đồng tắt."
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Thích và Trả lời"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module xử lý thao tác Thích/Bỏ thích với giao diện cập nhật lạc quan và thao tác Trả lời một cấp trong màn hình Phản hồi. Truy vết yêu cầu người dùng: UR07, UR08."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Thiết kế Phone đã chốt. Biểu tượng Thích đổi trạng thái tức thời khi chạm; số lượt Thích hiển thị cạnh biểu tượng. Màn hình Phản hồi mở dạng tấm trượt, có nút quay lại và ô soạn tự chèn chip nhắc tên tác giả được trả lời."
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US07-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 15: Trạng thái đã Thích — biểu tượng tô đầy và số lượt cập nhật"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US08-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 16: Màn hình Phản hồi — bình luận gốc và các trả lời một cấp"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US08-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 17: Ô soạn trả lời tự chèn chip nhắc tên tác giả được trả lời"
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu khả năng tiếp cận cho nút Thích: dùng thuộc tính trạng thái nhấn để phản ánh đã Thích hay chưa; số lượt Thích đặt trong vùng thông báo động để công nghệ hỗ trợ đọc màn hình đọc được giá trị cập nhật. Khi client đồng bộ với máy chủ và phải hoàn nguyên, phải thông báo qua vùng đó, không âm thầm đổi số trên giao diện."
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Thích và Bỏ thích"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_INT_01 (truy vết: UR07). Giao diện cập nhật trước, client gom thao tác theo lô tối đa 5 giây rồi đồng bộ về máy chủ, đẩy sớm khi rời màn hình hoặc chuyển ứng dụng xuống nền. Nhiều lần Thích và Bỏ thích liên tiếp trên cùng đối tượng trong một lô được gộp về trạng thái cuối cùng. Máy chủ là nguồn chân lý."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Thích và Bỏ thích thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Chạm biểu tượng Thích",
+          "Mã bình luận, trạng thái hiện tại là chưa Thích",
+          "Biểu tượng tô đầy ngay lập tức, số lượt tăng 1 trên giao diện"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Gom thao tác vào lô",
+          "Thao tác Thích",
+          "Lô chờ tối đa 5 giây trước khi gửi"
+        ],
+        [
+          "3",
+          "Người xem đã đăng nhập",
+          "Chạm lại để Bỏ thích rồi Thích lần nữa trong 5 giây",
+          "Ba thao tác liên tiếp trên cùng đối tượng",
+          "Lô gộp về trạng thái cuối cùng là đã Thích, chỉ gửi một yêu cầu"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Đồng bộ về máy chủ",
+          "Trạng thái cuối của lô",
+          "Máy chủ ghi nhận và trả về số lượt chính thức; giao diện đồng bộ theo máy chủ"
+        ],
+        [
+          "5",
+          "Người xem đã đăng nhập",
+          "Rời màn hình trước khi hết 5 giây",
+          "Sự kiện rời màn hình",
+          "Lô được đẩy sớm, không mất thao tác"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi Thích",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem chưa đăng nhập",
+          "Chạm biểu tượng Thích",
+          "Phiên khách",
+          "Điều hướng sang đăng nhập; sau khi đăng nhập quay lại đúng bình luận nhưng KHÔNG tự Thích"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Đồng bộ lô thất bại",
+          "Lỗi mạng hoặc xung đột",
+          "Hoàn nguyên trạng thái trên giao diện về giá trị của máy chủ và thông báo qua vùng thông báo động"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Xử lý lượt Thích của tài khoản bị khóa",
+          "Người Thích đang bị khóa tài khoản",
+          "Giữ bản ghi nhưng tạm loại khỏi Net Like công khai, Featured Score và xếp hạng; mở khóa thì tính lại nếu còn hợp lệ"
+        ],
+        [
+          "4",
+          "Người xem đã đăng nhập",
+          "Thích nội dung của chính mình",
+          "Mã bình luận do chính người dùng tạo",
+          "Cho phép; đây là hành vi hợp lệ đã chốt"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 2: Trả lời bình luận một cấp"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_INT_02 (truy vết: UR08). Trả lời đi qua cùng lớp kiểm duyệt như bình luận. Màn hình Phản hồi tải 3 trả lời đầu tiên, nút xem thêm tải tối đa 10 trả lời mỗi lần, phần còn lại dưới 10 thì tải hết."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Trả lời thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Chạm biểu tượng trả lời trên bình luận gốc",
+          "Mã bình luận gốc",
+          "Màn hình Phản hồi mở, ô soạn tự chèn chip nhắc tên tác giả"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Nhập nội dung và gửi",
+          "Nội dung 1–1000 ký tự hợp lệ",
+          "—"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Áp cùng luồng kiểm duyệt như bình luận",
+          "Nội dung trả lời, chế độ của scope",
+          "Trả lời công khai hoặc vào Chờ duyệt theo bảng quyết định tại Bảng 3"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Cập nhật số lượng trả lời",
+          "Mã bình luận gốc",
+          "Lối vào “{n} phản hồi” trên danh sách gốc tăng tương ứng"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi trả lời",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem",
+          "Mở thread có bình luận gốc đang không công khai",
+          "Mã bình luận gốc bị ẩn",
+          "Không hiển thị trả lời độc lập; hiển thị thông báo theo thứ tự ưu tiên cơ chế ẩn"
+        ],
+        [
+          "2",
+          "Quản trị viên",
+          "Ẩn bình luận gốc",
+          "Mã bình luận gốc",
+          "Toàn thread tạm không công khai nhưng KHÔNG đổi trạng thái kiểm duyệt của trả lời do người khác tạo"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Xử lý khi tác giả bình luận gốc bị khóa tài khoản",
+          "Tài khoản tác giả gốc bị khóa",
+          "Toàn thread tạm không công khai; trả lời của người khác giữ nguyên trạng thái; mở khóa thì khôi phục các mục còn hợp lệ"
+        ],
+        [
+          "4",
+          "Người xem đã đăng nhập",
+          "Cố trả lời một trả lời",
+          "Mã trả lời",
+          "Không hỗ trợ; hệ thống chỉ cho trả lời bình luận gốc"
+        ]
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Nhắc tên và Thông báo"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module cho phép nhắc tên người dùng khác trong bình luận hoặc trả lời và quản lý thông báo tương tác. Truy vết yêu cầu người dùng: UR09."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Thiết kế Phone đã chốt. Gõ ký tự @ kèm chuỗi tìm kiếm sẽ mở danh sách gợi ý ngay phía trên ô soạn; chọn một mục sẽ chèn chip nhắc tên vào nội dung. Trung tâm thông báo hiển thị danh sách thông báo kèm mốc thời gian và chỉ báo chưa đọc."
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US09-01.png",
+      "widthCm": 6.4,
+      "caption": "Hình 18: Danh sách gợi ý nhắc tên khi gõ @ kèm chuỗi tìm kiếm"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US09-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 19: Chip nhắc tên đã được chèn vào nội dung"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US09-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 20: Trung tâm thông báo — thông báo được nhắc tên trong một bộ phim"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US09-04.png",
+      "widthCm": 6.4,
+      "caption": "Hình 21: Trung tâm thông báo — thông báo vi phạm quy tắc cộng đồng kèm lối vào xem chi tiết"
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Nhắc tên và nhận thông báo"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_NOT_01 (truy vết: UR09). Gợi ý ưu tiên người dùng trong cùng thread, sau đó người đã tham gia bộ phim. Một công tắc chung bật tắt thông báo tương tác cộng đồng; thông báo trong ứng dụng lưu 90 ngày."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Nhắc tên thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Gõ ký tự @ kèm chuỗi tìm kiếm",
+          "Chuỗi tìm kiếm, mã thread, mã phim",
+          "Danh sách gợi ý mở, ưu tiên người dùng trong thread rồi tới người đã tham gia bộ phim"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Chọn một người trong danh sách",
+          "Mã người dùng được chọn",
+          "Chip nhắc tên chèn vào nội dung"
+        ],
+        [
+          "3",
+          "Người xem đã đăng nhập",
+          "Gửi nội dung",
+          "Nội dung có chip nhắc tên",
+          "Nội dung đi qua luồng kiểm duyệt như bình luận thường"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Tạo thông báo cho người được nhắc tên",
+          "Mã người được nhắc, mã nội dung",
+          "Thông báo trong ứng dụng xuất hiện tại Trung tâm thông báo, lưu 90 ngày"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi nhắc tên và gửi thông báo",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Hệ thống",
+          "Trả về danh sách gợi ý",
+          "Chuỗi tìm kiếm",
+          "Chỉ trả nickname hợp lệ hoặc định danh đã che dạng 0******124; KHÔNG bao giờ trả số điện thoại hoặc email đầy đủ"
+        ],
+        [
+          "2",
+          "Người dùng",
+          "Gõ chuỗi bất kỳ để dò danh sách tài khoản",
+          "Chuỗi không liên quan tới thread",
+          "Không cho phép dò tài khoản ngoài phạm vi thread hoặc phim hiện tại"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Tạo thông báo cho người đang bị khóa tài khoản",
+          "Người nhận đang bị khóa",
+          "Không tạo thông báo cộng đồng mới; sau khi mở khóa KHÔNG bù lại các thông báo đã bỏ qua"
+        ],
+        [
+          "4",
+          "Người dùng",
+          "Tắt công tắc thông báo cộng đồng",
+          "Giá trị công tắc bằng tắt",
+          "Ngừng nhận thông báo tương tác cộng đồng; vẫn nhận thông báo kiểm duyệt, chế tài, khiếu nại và kết quả báo cáo"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "Gửi thông báo đẩy",
+          "Nội dung có đoạn làm mờ hoặc có số điện thoại",
+          "Payload không chứa nguyên văn đoạn làm mờ và không chứa số điện thoại đầy đủ; tên người gửi dùng nickname hoặc định danh đã che"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "PHÂN HỆ AN TOÀN VÀ KIỂM DUYỆT"
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu tính năng chung của phân hệ:"
+    },
+    {
+      "type": "bullet",
+      "items": [
+        "Kết quả phân loại của AI là phân loại ngữ nghĩa, không phải hàng rào chống tấn công chèn mã; việc làm sạch và mã hóa nội dung khi hiển thị là bắt buộc và độc lập với kết quả AI.",
+        "Báo cáo của cộng đồng không tự động ẩn hoặc xóa nội dung dù số lượng lớn.",
+        "Effective Visibility Resolver là nguồn chân lý duy nhất cho việc dựng giao diện, xử lý liên kết sâu và thông báo thay thế."
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Báo cáo vi phạm"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module cho phép người dùng đã đăng nhập báo cáo bình luận hoặc trả lời vi phạm quy tắc cộng đồng. Truy vết yêu cầu người dùng: UR10."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Thiết kế Phone đã chốt. Bảng báo cáo trượt lên từ đáy màn hình với năm lý do dạng chọn một; chọn “Khác” sẽ mở ô nhập mô tả bắt buộc. Nút Báo cáo chỉ kích hoạt khi đã chọn lý do và, với lý do Khác, đã nhập mô tả hợp lệ."
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US10-01.png",
+      "widthCm": 6.4,
+      "caption": "Hình 22: Bảng chọn lý do báo cáo — nút Báo cáo chưa kích hoạt"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US10-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 23: Đã chọn lý do — nút Báo cáo kích hoạt"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US10-04.png",
+      "widthCm": 6.4,
+      "caption": "Hình 24: Chọn lý do “Khác” — bắt buộc nhập mô tả bổ sung"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US10-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 25: Gửi thành công — “Báo cáo thành công, bình luận sẽ được xem xét”"
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Gửi báo cáo vi phạm"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_MOD_01 (truy vết: UR10). Bộ lý do chuẩn gồm: Có spoiler; Spam/Quảng cáo bình luận; Xúc phạm/ngôn từ công kích; Nội dung không phù hợp; Khác. Chọn “Khác” bắt buộc nhập mô tả 1–500 ký tự hợp lệ, không chấp nhận chuỗi chỉ có khoảng trắng."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Báo cáo thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Mở menu của bình luận và chọn Báo cáo",
+          "Mã bình luận",
+          "Bảng chọn lý do mở, nút Báo cáo chưa kích hoạt"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Chọn lý do “Có spoiler”",
+          "Giá trị lý do",
+          "Nút Báo cáo chuyển sang trạng thái kích hoạt"
+        ],
+        [
+          "3",
+          "Người xem đã đăng nhập",
+          "Bấm Báo cáo",
+          "Mã bình luận, lý do",
+          "Thông báo “Báo cáo thành công, bình luận sẽ được xem xét”"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Đưa mục vào hàng chờ kiểm duyệt",
+          "Mã bình luận, lý do, người báo cáo",
+          "Mục xuất hiện trong hàng chờ CMS; nội dung KHÔNG bị tự động ẩn hay xóa"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "Thông báo kết quả cho người báo cáo",
+          "Kết quả xử lý của kiểm duyệt viên",
+          "Thông báo trong ứng dụng báo đã xử lý, không nêu chi tiết chế tài áp lên người khác"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi báo cáo",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Chọn lý do “Khác” nhưng để trống mô tả",
+          "Mô tả rỗng",
+          "Nút Báo cáo không kích hoạt; không cho gửi"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Nhập mô tả chỉ gồm khoảng trắng",
+          "Chuỗi chỉ có khoảng trắng",
+          "Từ chối; yêu cầu nhập mô tả hợp lệ 1–500 ký tự"
+        ],
+        [
+          "3",
+          "Người xem đã đăng nhập",
+          "Báo cáo nội dung của chính mình",
+          "Mã bình luận do chính người dùng tạo",
+          "Không cho phép; thao tác Báo cáo không hiển thị hoặc bị từ chối tại API"
+        ],
+        [
+          "4",
+          "Người xem đã đăng nhập",
+          "Báo cáo lại cùng một bình luận trong vòng 24 giờ",
+          "Đã báo cáo mục này 2 giờ trước",
+          "Từ chối; chỉ được báo cáo lại cùng đối tượng sau 24 giờ"
+        ],
+        [
+          "5",
+          "Người xem đã đăng nhập",
+          "Gửi báo cáo thứ mười một trong 1 giờ",
+          "Đã gửi 10 báo cáo trong 60 phút",
+          "Chặn theo giới hạn tần suất"
+        ],
+        [
+          "6",
+          "Người xem chưa đăng nhập",
+          "Chọn Báo cáo",
+          "Phiên khách",
+          "Điều hướng sang đăng nhập; sau khi đăng nhập quay lại đúng bình luận nhưng không tự gửi báo cáo"
+        ]
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Kiểm duyệt AI và Quản lý khả năng hiển thị"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module gồm hai phần gắn chặt nhau: AI Adapter phân loại rủi ro nội dung và Effective Visibility Resolver quyết định khả năng hiển thị thực tế. Truy vết yêu cầu người dùng: UR11, UR12."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Module này chủ yếu chạy ở tầng dịch vụ, không có màn hình riêng cho người xem. Bề mặt giao diện gồm chỉ báo trạng thái “Chờ duyệt” hiển thị cho chính tác giả, thông báo bị chặn tại thời điểm gửi và các thông báo thay thế khi nội dung không được hiển thị. Màn hình cấu hình chế độ và ngưỡng nằm trên CMS."
+    },
+    {
+      "type": "note",
+      "text": "[Thiết kế màn hình cấu hình chế độ và ngưỡng kiểm duyệt trên CMS đang chờ hoàn thiện, sẽ được bổ sung vào mục này.]"
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Phân loại rủi ro bằng AI theo hai chế độ"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_MOD_02 (truy vết: UR11). Ngưỡng và chế độ kế thừa theo thứ tự override cấp phim → mặc định hệ thống; mọi thay đổi đều được ghi nhật ký. Quản trị viên có thao tác phản hồi “AI phân loại sai” để lưu kết quả đã hiệu chỉnh."
+    },
+    {
+      "type": "p",
+      "text": "Nickname áp dụng chính sách kiểm duyệt riêng, độc lập với Chế độ 1 và Chế độ 2, và chỉ có hai kết quả: mức Nhẹ hoặc An toàn thì dùng ngay; mức Trung bình hoặc Nặng đều bị chặn ngay, không tạo hàng chờ duyệt. Nickname không bao giờ có trạng thái Chờ duyệt."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Chuyển đổi chế độ kiểm duyệt",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Quản trị viên",
+          "Đổi cấu hình từ Chế độ 2 sang Chế độ 1",
+          "Mã phim, chế độ mới, thời điểm hiệu lực",
+          "Mục đang chờ có kết quả AI mức Nhẹ tự chuyển sang Hiển thị; mức Trung bình tiếp tục chờ"
+        ],
+        [
+          "2",
+          "Quản trị viên",
+          "Đổi cấu hình từ Chế độ 1 sang Chế độ 2",
+          "Mã phim, chế độ mới, thời điểm hiệu lực",
+          "Nội dung đã Hiển thị giữ nguyên; chế độ mới chỉ áp cho dữ liệu phát sinh từ thời điểm hiệu lực"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Ghi nhật ký thay đổi cấu hình",
+          "Người thực hiện, giá trị cũ và mới",
+          "Bản ghi nhật ký kiểm toán mới, lưu 2 năm"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ của AI",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Hệ thống",
+          "Gọi AI cho bình luận và quá 5 giây chưa có kết quả",
+          "Quá hạn",
+          "Chuyển nội dung sang Chờ duyệt; không làm mất nội dung của người dùng"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Gọi AI cho nội dung viết bằng ngôn ngữ ngoài tiếng Việt và tiếng Anh",
+          "Nội dung ngôn ngữ khác",
+          "Chuyển sang Chờ duyệt"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Gọi AI cho nickname nhưng dịch vụ lỗi",
+          "Lỗi 5xx hoặc quá hạn",
+          "KHÔNG đổi nickname; giữ nickname hợp lệ cũ hoặc mặt nạ số điện thoại; báo lỗi cho thử lại; KHÔNG tạo mục chờ duyệt và KHÔNG tiêu quota đổi tên"
+        ],
+        [
+          "4",
+          "Người dùng",
+          "Đổi nickname lần thứ hai trong 24 giờ",
+          "Đã đổi thành công 1 lần trong 24 giờ",
+          "Từ chối theo hạn mức 1 lần thành công mỗi 24 giờ; submission bị chặn bởi kiểm tra hợp lệ hoặc AI không tiêu quota"
+        ],
+        [
+          "5",
+          "Quản trị viên",
+          "Đánh dấu “AI phân loại sai”",
+          "Mã nội dung, kết quả đúng theo đánh giá của người",
+          "Lưu kết quả đã hiệu chỉnh phục vụ cải thiện mô hình"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 2: Quyết định khả năng hiển thị thực tế"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_MOD_03 (truy vết: UR12). Khi một nội dung rơi vào từ hai cơ chế ẩn trở lên cùng lúc, hệ thống dùng thông báo của cơ chế có mức ưu tiên cao nhất theo bảng dưới đây."
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 4: Thứ tự ưu tiên các cơ chế ẩn",
+      "widths": [
+        9,
+        34,
+        33,
+        24
+      ],
+      "header": [
+        "Ưu tiên",
+        "Cơ chế ẩn",
+        "Thông báo hiển thị",
+        "Có tự khôi phục không"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người dùng tự xóa bình luận gốc (kéo theo cả thread)",
+          "Không hiển thị lại",
+          "Không — vĩnh viễn theo vòng đời tự xóa"
+        ],
+        [
+          "2",
+          "Trạng thái kiểm duyệt riêng: Ẩn / Xóa mềm / Từ chối do CMS",
+          "“Bình luận không còn khả dụng”",
+          "Chỉ khi kiểm duyệt viên hoàn tác"
+        ],
+        [
+          "3",
+          "Quản trị viên xử lý bình luận gốc làm cả thread bị ẩn",
+          "“Bình luận không còn khả dụng”",
+          "Chỉ khi kiểm duyệt viên hoàn tác"
+        ],
+        [
+          "4",
+          "Khóa tài khoản của tác giả hoặc của tác giả bình luận gốc",
+          "“Bình luận hiện không khả dụng”",
+          "Có — khi mở khóa, với các mục còn hợp lệ"
+        ],
+        [
+          "5",
+          "Khu vực bình luận của scope đang Đóng",
+          "“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”",
+          "Có — khi mở lại khu vực bình luận"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Nhiều cơ chế ẩn cùng đúng",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem",
+          "Mở liên kết sâu tới bình luận vừa bị CMS ẩn, tác giả cũng đang bị khóa tài khoản",
+          "Cơ chế ưu tiên 2 và cơ chế ưu tiên 4 cùng đúng",
+          "Dùng thông báo của cơ chế ưu tiên 2: “Bình luận không còn khả dụng”"
+        ],
+        [
+          "2",
+          "Người xem",
+          "Mở liên kết sâu tới bình luận hợp lệ nhưng scope đang Đóng",
+          "Chỉ cơ chế ưu tiên 5 đúng",
+          "Mở đúng phim kèm “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”"
+        ],
+        [
+          "3",
+          "Quản trị viên",
+          "Mở lại khu vực bình luận của scope",
+          "Cấu hình Đóng được gỡ",
+          "Liên kết cũ hoạt động trở lại nếu đối tượng còn hợp lệ"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Mở khóa tài khoản tác giả",
+          "Chế tài hết hiệu lực",
+          "Tự công khai lại nội dung và thread chỉ bị ẩn do khóa tài khoản, với các mục còn hợp lệ"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "Xử lý khóa tài khoản vĩnh viễn",
+          "Chế tài vĩnh viễn",
+          "Giữ trạng thái không công khai vô thời hạn nhưng KHÔNG tự xóa mềm nội dung"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ về khả năng hiển thị",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem",
+          "Đánh giá sao khi khu vực bình luận đang Đóng",
+          "Scope có cấu hình Đóng",
+          "Đánh giá vẫn hoạt động; đánh giá không đi qua cơ chế ẩn số 5"
+        ],
+        [
+          "2",
+          "Kiểm duyệt viên",
+          "Duyệt một mục trong lúc scope đang Đóng",
+          "Mã nội dung đang chờ duyệt",
+          "Mục được duyệt nhưng chưa công khai cho tới khi mở lại khu vực bình luận"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Dựng giao diện danh sách bình luận",
+          "Danh sách mã nội dung",
+          "Mọi bề mặt đọc phải dùng cùng một phiên bản logic và chính sách, không được sao chép logic sang tầng khác"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "PHÂN HỆ CMS QUẢN TRỊ BÌNH LUẬN"
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu tính năng chung của phân hệ:"
+    },
+    {
+      "type": "bullet",
+      "items": [
+        "CMS chỉ thiết kế cho Web/Desktop.",
+        "Mọi hành động ghi phải được kiểm tra quyền và phạm vi tại tầng API; từ chối với mã lỗi nhất quán và không để lộ sự tồn tại của bản ghi ngoài phạm vi.",
+        "Duyệt không cần lý do; Từ chối, Ẩn và Xóa bắt buộc lý do theo taxonomy chuẩn, riêng “Vi phạm khác” bắt buộc ghi chú 1–500 ký tự.",
+        "Nhật ký kiểm toán ghi bất biến và lưu 2 năm, độc lập với thời hạn xóa mềm 90 ngày."
+      ]
+    },
+    {
+      "type": "note",
+      "text": "[Thiết kế giao diện CMS đang chờ hoàn thiện. Các mục “Yêu cầu giao diện” của phân hệ này sẽ được bổ sung ảnh màn hình và mô tả trường dữ liệu theo cùng chuẩn trình bày như phân hệ Phone ở trên. Các yêu cầu chức năng và tình huống sử dụng dưới đây đã được đặc tả đầy đủ và không phụ thuộc việc thiết kế đã có hay chưa.]"
+    },
+    {
+      "type": "h4",
+      "text": "Module Tra cứu và Xử lý nội dung"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module cung cấp hàng chờ kiểm duyệt, công cụ tra cứu và các thao tác xử lý nội dung cho kiểm duyệt viên. Truy vết yêu cầu người dùng: UR13, UR14."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Màn hình gồm ba khối: bộ lọc tra cứu, danh sách kết quả kèm chip trạng thái và mức rủi ro, khối thao tác đơn và thao tác hàng loạt. Chip trạng thái bắt buộc kết hợp biểu tượng và chữ, không truyền đạt thông tin chỉ bằng màu. Nội dung có đoạn Làm mờ phải được hiển thị đầy đủ cho kiểm duyệt viên để họ thấy nội dung thật."
+    },
+    {
+      "type": "note",
+      "text": "[Chờ bổ sung ảnh thiết kế màn hình hàng chờ kiểm duyệt và màn hình chi tiết nội dung trên CMS.]"
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Tra cứu và kết xuất"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_CMS_01 (truy vết: UR13). Hàng chờ mặc định xếp mục rủi ro cao trước; cùng mức rủi ro thì mục chờ lâu hơn xếp trước. Mục quá SLA 24 giờ được đánh dấu và đưa lên đầu hàng chờ, không tự động duyệt hay từ chối."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Tra cứu và kết xuất thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Kiểm duyệt viên",
+          "Mở hàng chờ kiểm duyệt",
+          "Phạm vi được cấp",
+          "Danh sách xếp mục rủi ro cao trước, cùng mức rủi ro thì mục chờ lâu hơn trước"
+        ],
+        [
+          "2",
+          "Kiểm duyệt viên",
+          "Áp bộ lọc",
+          "Phim, người dùng, trạng thái, mức rủi ro, khoảng thời gian",
+          "Danh sách kết quả kèm chip trạng thái và mức rủi ro"
+        ],
+        [
+          "3",
+          "Kiểm duyệt viên",
+          "Kết xuất kết quả",
+          "Định dạng CSV hoặc XLSX",
+          "Tệp kết xuất theo bộ lọc, mặc định KHÔNG kèm thông tin định danh đầy đủ"
+        ],
+        [
+          "4",
+          "Kiểm duyệt viên",
+          "Tích chọn kèm thông tin định danh rồi kết xuất",
+          "Tùy chọn kèm PII được bật chủ động",
+          "Tệp có thông tin định danh; hành động được ghi nhật ký kiểm toán"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi tra cứu",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Kiểm duyệt viên ngoài phạm vi",
+          "Gọi thẳng API bằng mã định danh biết trước",
+          "Mã nội dung ngoài phạm vi được cấp",
+          "Từ chối tại tầng API với mã lỗi nhất quán; thông điệp không để lộ bản ghi có tồn tại hay không"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Ghi ô kết xuất có nội dung bắt đầu bằng dấu bằng, cộng, trừ hoặc a còng",
+          "Nội dung do người dùng nhập",
+          "Thêm ký tự thoát trước khi ghi tệp để tránh thực thi công thức khi mở"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Tính SLA cho mục chờ quá 24 giờ",
+          "Thời điểm gửi, thời điểm hiện tại",
+          "Đánh dấu Quá SLA và ưu tiên trong hàng chờ; KHÔNG tự động duyệt hay từ chối"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 2: Xử lý nội dung và hoàn tác"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_CMS_02 (truy vết: UR14). Xử lý hàng loạt chỉ hỗ trợ Duyệt, Từ chối, Ẩn và Xóa mềm, tối đa 100 mục mỗi lần, cho phép thành công một phần. Báo cáo, gắn cờ và đánh dấu tiết lộ không hỗ trợ xử lý hàng loạt trong giai đoạn này."
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 5: Ánh xạ trạng thái khi hoàn tác",
+      "widths": [
+        26,
+        30,
+        44
+      ],
+      "header": [
+        "Thao tác gốc",
+        "Trạng thái sau khi hoàn tác",
+        "Điều kiện thời gian"
+      ],
+      "rows": [
+        [
+          "Từ chối",
+          "Chờ duyệt",
+          "Không giới hạn thời gian"
+        ],
+        [
+          "Ẩn",
+          "Hiển thị",
+          "Không giới hạn thời gian"
+        ],
+        [
+          "Xóa mềm",
+          "Trạng thái ngay trước khi xóa",
+          "Chỉ trong 90 ngày lưu trữ; với bình luận gốc thì tính theo thời hạn của chính bình luận gốc"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Xử lý nội dung thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Kiểm duyệt viên",
+          "Chọn Duyệt một mục",
+          "Mã nội dung",
+          "Trạng thái chuyển Hiển thị; không yêu cầu lý do; ghi nhật ký kiểm toán"
+        ],
+        [
+          "2",
+          "Kiểm duyệt viên",
+          "Chọn Ẩn một mục",
+          "Mã nội dung, lý do theo taxonomy",
+          "Trạng thái chuyển Ẩn; tác giả nhận thông báo kèm lý do"
+        ],
+        [
+          "3",
+          "Kiểm duyệt viên",
+          "Chọn 80 mục và Duyệt hàng loạt",
+          "Danh sách 80 mã nội dung",
+          "Tất cả chuyển Hiển thị; không yêu cầu lý do; báo cáo kết quả từng mục"
+        ],
+        [
+          "4",
+          "Kiểm duyệt viên",
+          "Hoàn tác thao tác Ẩn",
+          "Mã nội dung đang Ẩn",
+          "Trạng thái trở về Hiển thị; tạo bản ghi nhật ký kiểm toán mới; không yêu cầu lý do"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi xử lý nội dung",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Kiểm duyệt viên",
+          "Chọn Từ chối với lý do “Vi phạm khác” nhưng bỏ trống ghi chú",
+          "Ghi chú rỗng",
+          "Từ chối thao tác; yêu cầu ghi chú hợp lệ 1–500 ký tự"
+        ],
+        [
+          "2",
+          "Kiểm duyệt viên",
+          "Chọn 150 mục để xử lý hàng loạt",
+          "Danh sách 150 mã nội dung",
+          "Từ chối; giới hạn cứng 100 mục mỗi lần"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Xử lý hàng loạt có mục thất bại",
+          "80 mục, 3 mục lỗi",
+          "Cho phép thành công một phần; báo cáo rõ mục nào thành công và mục nào thất bại"
+        ],
+        [
+          "4",
+          "Kiểm duyệt viên",
+          "Hoàn tác Xóa mềm sau 95 ngày",
+          "Mã nội dung đã xóa 95 ngày trước",
+          "Từ chối; đã quá thời hạn lưu trữ 90 ngày"
+        ],
+        [
+          "5",
+          "Kiểm duyệt viên",
+          "Hoàn tác thao tác Ẩn trên nội dung từng bị ghim",
+          "Mã nội dung đã mất ghim do bị Ẩn",
+          "Khôi phục trạng thái nội dung nhưng KHÔNG tự khôi phục ghim hoặc huy hiệu đã mất"
+        ],
+        [
+          "6",
+          "Kiểm duyệt viên",
+          "Hoàn tác nội dung do người dùng tự xóa",
+          "Mã nội dung người dùng tự xóa",
+          "Từ chối; hoàn tác chỉ áp dụng cho nội dung do CMS xóa mềm"
+        ],
+        [
+          "7",
+          "Kiểm duyệt viên",
+          "Xử lý bình luận gốc bằng thao tác Xóa mềm",
+          "Mã bình luận gốc có trả lời",
+          "Toàn thread bị ẩn theo; khi hoàn tác thì khôi phục từng trả lời theo trạng thái riêng trước khi bị kéo theo"
+        ]
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Ghim, Cấu hình và Chế tài"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module cho phép quản trị viên ghim bình luận tiêu biểu, cấu hình chế độ kiểm duyệt theo phim, áp chế tài với người dùng vi phạm và xử lý khiếu nại. Truy vết yêu cầu người dùng: UR15, UR16."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Màn hình ghim cho phép kéo thả để đổi vị trí từ 1 đến 3 và đặt thời hạn tùy chọn. Màn hình cấu hình hiển thị rõ giá trị đang áp dụng đến từ override cấp phim hay mặc định hệ thống. Màn hình chế tài có bộ chọn thời hạn với các mức dựng sẵn 10 phút, 1 giờ, 1 ngày, 3 ngày, 7 ngày, 1 tháng hoặc tùy chọn."
+    },
+    {
+      "type": "note",
+      "text": "[Chờ bổ sung ảnh thiết kế màn hình ghim, màn hình cấu hình theo phim và màn hình áp chế tài trên CMS.]"
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Ghim bình luận và cấu hình theo phim"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_CMS_03 (truy vết: UR15). Tối đa 3 bình luận ghim trên mỗi scope. Cấu hình chế độ và ngưỡng AI kế thừa theo thứ tự override cấp phim rồi mặc định hệ thống."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Ghim và cấu hình thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Quản trị viên",
+          "Ghim một bình luận",
+          "Mã bình luận, vị trí mong muốn, thời hạn tùy chọn",
+          "Bình luận xuất hiện đầu danh sách kèm chip “Đã ghim”"
+        ],
+        [
+          "2",
+          "Quản trị viên",
+          "Kéo thả đổi thứ tự ghim",
+          "Vị trí mới trong khoảng 1 đến 3",
+          "Thứ tự hiển thị cập nhật theo"
+        ],
+        [
+          "3",
+          "Quản trị viên",
+          "Đặt chế độ kiểm duyệt ở cấp phim",
+          "Mã phim, chế độ, ngưỡng",
+          "Cấu hình cấp phim ghi đè mặc định hệ thống; ghi nhật ký kiểm toán"
+        ],
+        [
+          "4",
+          "Quản trị viên",
+          "Đóng khu vực bình luận của một phim",
+          "Mã phim, thời điểm hiệu lực",
+          "Tab giữ nguyên nhưng bỏ số đếm; ẩn danh sách, ô soạn và các thao tác; hàng chờ kiểm duyệt vẫn giữ nguyên"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi ghim và cấu hình",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Quản trị viên",
+          "Ghim bình luận thứ tư trên cùng một scope",
+          "Đã có 3 bình luận ghim",
+          "Từ chối; giới hạn cứng 3 bình luận ghim mỗi scope"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Xử lý ghim khi tác giả bị khóa tài khoản",
+          "Tác giả bị khóa",
+          "Tạm ẩn bình luận ghim và giữ thông tin ghim; tự hiện lại khi mở khóa nếu nguồn còn hợp lệ và ghim chưa hết hạn"
+        ],
+        [
+          "3",
+          "Kiểm duyệt viên",
+          "Ẩn hoặc xóa một bình luận đang được ghim",
+          "Mã bình luận đang ghim",
+          "Bình luận mất ghim; hoàn tác kiểm duyệt sau đó KHÔNG tự khôi phục ghim"
+        ],
+        [
+          "4",
+          "Kiểm duyệt viên",
+          "Duyệt nội dung trong lúc scope đang Đóng",
+          "Mã nội dung chờ duyệt",
+          "Duyệt thành công nhưng nội dung chưa công khai cho tới khi mở lại khu vực bình luận"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 2: Áp chế tài và xử lý khiếu nại"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_CMS_04 (truy vết: UR16). Mức Nhẹ áp Cảnh báo, Trung bình áp Khóa bình luận tạm thời, Nặng cho phép chọn Khóa bình luận hoặc Khóa tài khoản tùy bối cảnh. Không có Khóa bình luận vĩnh viễn."
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 6: Phạm vi tác động của từng loại chế tài",
+      "widths": [
+        22,
+        39,
+        39
+      ],
+      "header": [
+        "Loại chế tài",
+        "Bị chặn",
+        "Vẫn được thực hiện"
+      ],
+      "rows": [
+        [
+          "Cảnh báo",
+          "Không chặn thao tác nào",
+          "Toàn bộ thao tác"
+        ],
+        [
+          "Khóa bình luận (tạm thời)",
+          "Tạo mới Bình luận, Trả lời, Nhắc tên và Sửa",
+          "Tự xóa nội dung của mình, Thích, Báo cáo, Đánh giá, Chia sẻ"
+        ],
+        [
+          "Khóa tài khoản (tạm thời hoặc vĩnh viễn)",
+          "Đăng nhập và toàn bộ thao tác trên MyTV; phiên hiện tại bị vô hiệu hóa ngay tại thời điểm hiệu lực",
+          "Không thao tác nào trong ứng dụng; khiếu nại qua Tổng đài 1800 1166"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Áp chế tài và khiếu nại thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Quản trị viên",
+          "Áp Khóa bình luận tạm thời",
+          "Mã tài khoản, lý do theo taxonomy, thời hạn 7 ngày",
+          "Chế tài có hiệu lực; người dùng nhận thông báo kèm lý do"
+        ],
+        [
+          "2",
+          "Người dùng bị chế tài",
+          "Gửi khiếu nại trong ứng dụng",
+          "Nội dung khiếu nại",
+          "Khiếu nại vào hàng chờ CMS, tính SLA 48 giờ"
+        ],
+        [
+          "3",
+          "Quản trị viên",
+          "Áp Khóa tài khoản",
+          "Mã tài khoản, lý do, thời hạn hoặc vĩnh viễn",
+          "Phiên đăng nhập hiện tại bị vô hiệu hóa ngay; lần đăng nhập sau dừng ở màn hình khóa hiển thị trạng thái, lý do và số Tổng đài 1800 1166"
+        ],
+        [
+          "4",
+          "Tổng đài",
+          "Tiếp nhận khiếu nại qua điện thoại và nhập vào CMS",
+          "Thông tin người dùng và nội dung khiếu nại",
+          "Khiếu nại vào hàng chờ CMS, tính SLA 48 giờ"
+        ],
+        [
+          "5",
+          "Quản trị viên",
+          "Gỡ chế tài sau khi chấp nhận khiếu nại",
+          "Mã chế tài",
+          "Chế tài hết hiệu lực; nội dung chỉ bị ẩn do khóa tài khoản được công khai lại nếu còn hợp lệ"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ về chế tài",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Quản trị viên",
+          "Áp chế tài với lý do “Vi phạm khác” nhưng bỏ trống ghi chú",
+          "Ghi chú rỗng",
+          "Từ chối; yêu cầu ghi chú 1–500 ký tự"
+        ],
+        [
+          "2",
+          "Quản trị viên",
+          "Đặt Khóa bình luận vĩnh viễn",
+          "Thời hạn vĩnh viễn",
+          "Không hỗ trợ; Khóa bình luận luôn là chế tài tạm thời và bắt buộc có thời hạn"
+        ],
+        [
+          "3",
+          "Người dùng bị khóa tài khoản",
+          "Gọi API Thích bằng token còn hạn sau thời điểm hiệu lực",
+          "Token cấp trước khi khóa",
+          "Từ chối tại mọi API liên quan; không chỉ chặn ở tầng giao diện"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Xử lý yêu cầu gửi hợp lệ trước thời điểm hiệu lực khóa",
+          "Bình luận gửi trước thời điểm hiệu lực",
+          "Vẫn được kiểm duyệt bình thường; nếu được duyệt trong lúc khóa thì chưa công khai cho tới khi mở khóa"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "Xử lý khiếu nại quá 48 giờ",
+          "Khiếu nại chưa xử lý sau 48 giờ",
+          "Giữ nguyên chế tài, đánh dấu Quá SLA và ưu tiên trong hàng chờ; không tự động gỡ chế tài"
+        ],
+        [
+          "6",
+          "Hệ thống",
+          "Xử lý khóa tài khoản vĩnh viễn",
+          "Chế tài vĩnh viễn",
+          "Nội dung giữ trạng thái không công khai vô thời hạn và KHÔNG tự động xóa mềm"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "PHÂN HỆ TĂNG TRƯỞNG VÀ PHÂN TÍCH"
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu tính năng chung của phân hệ:"
+    },
+    {
+      "type": "bullet",
+      "items": [
+        "Huy hiệu được đánh giá lại hằng ngày bằng tác vụ nền, không tính lại theo thời gian thực.",
+        "Chỉ số công khai và điều kiện nhận huy hiệu là hai hệ quy chiếu khác nhau và đã được thống nhất là khác nhau có chủ đích.",
+        "Việc đóng khu vực bình luận không loại nội dung khỏi chỉ số công khai vì đó là biện pháp vận hành, không phải chế tài nội dung."
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Huy hiệu và Chia sẻ"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module ghi nhận đóng góp của người dùng bằng huy hiệu hiển thị cạnh nickname và cho phép chia sẻ liên kết sâu tới nội dung. Truy vết yêu cầu người dùng: UR17, UR18."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Thiết kế Phone đã chốt cho phần huy hiệu. Huy hiệu hiển thị dạng chip cạnh nickname; giao diện chỉ hiển thị tối đa một huy hiệu theo thứ tự ưu tiên Custom, Nổi bật, Fan kỳ cựu, Fan tích cực. Chạm vào chip mở bảng giải thích ý nghĩa các huy hiệu."
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US17-01.png",
+      "widthCm": 6.4,
+      "caption": "Hình 26: Huy hiệu hiển thị dạng chip cạnh nickname trong danh sách bình luận"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US17-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 27: Bảng giải thích huy hiệu thành viên"
+    },
+    {
+      "type": "p",
+      "text": "Yêu cầu khả năng tiếp cận: huy hiệu hiển thị bằng biểu tượng phải có phần thay thế bằng chữ là tên huy hiệu, ví dụ “Huy hiệu Fan kỳ cựu”; không được truyền đạt thông tin chỉ bằng hình ảnh."
+    },
+    {
+      "type": "note",
+      "text": "[Thứ tự liệt kê trong bảng giải thích huy hiệu chỉ nhằm giới thiệu, KHÔNG phải thứ tự ưu tiên hiển thị. Thứ tự ưu tiên hiển thị là Custom, Nổi bật, Fan kỳ cựu, Fan tích cực.]"
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Cấp và thu hồi huy hiệu"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_GRW_01 (truy vết: UR17)."
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 7: Điều kiện cấp huy hiệu",
+      "widths": [
+        20,
+        20,
+        42,
+        18
+      ],
+      "header": [
+        "Huy hiệu",
+        "Cửa sổ xét",
+        "Điều kiện",
+        "Cách cấp"
+      ],
+      "rows": [
+        [
+          "Fan tích cực",
+          "30 ngày gần nhất",
+          "Tối thiểu 7 ngày hoạt động và 10 bình luận hoặc trả lời hợp lệ",
+          "Tự động"
+        ],
+        [
+          "Fan kỳ cựu",
+          "90 ngày gần nhất",
+          "Tối thiểu 30 ngày hoạt động, 30 bình luận hoặc trả lời hợp lệ và 30 lượt Thích nhận được",
+          "Tự động"
+        ],
+        [
+          "Nổi bật",
+          "30 ngày gần nhất",
+          "Nội dung công khai đạt tối thiểu 20 Net Like công khai, 5 trả lời và nằm trong nhóm 10% Featured Score cao nhất toàn MyTV",
+          "Tự động"
+        ],
+        [
+          "Custom",
+          "Không áp dụng",
+          "Do quản trị viên cấp thủ công, có thể đặt thời hạn",
+          "Thủ công"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Cấp huy hiệu tự động",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Mở khu vực bình luận đang khả dụng",
+          "Mã tài khoản, ngày hiện tại",
+          "Ghi nhận một ngày hoạt động; tối đa một ngày cho mỗi tài khoản mỗi ngày"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Chạy tác vụ đánh giá huy hiệu hằng ngày",
+          "Số ngày hoạt động, số nội dung hợp lệ, số lượt Thích nhận được",
+          "Cấp huy hiệu Fan tích cực hoặc Fan kỳ cựu cho tài khoản đủ điều kiện"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Hiển thị huy hiệu",
+          "Danh sách huy hiệu của tài khoản",
+          "Chỉ hiển thị một huy hiệu theo thứ tự ưu tiên Custom, Nổi bật, Fan kỳ cựu, Fan tích cực"
+        ],
+        [
+          "4",
+          "Quản trị viên",
+          "Cấp huy hiệu Custom",
+          "Mã tài khoản, tên huy hiệu, thời hạn tùy chọn",
+          "Huy hiệu Custom hiển thị và được ưu tiên cao nhất"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ về huy hiệu",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem chưa đăng nhập",
+          "Mở khu vực bình luận",
+          "Phiên khách",
+          "KHÔNG ghi nhận ngày hoạt động"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Mở khu vực bình luận của scope đang Đóng",
+          "Scope có cấu hình Đóng",
+          "KHÔNG ghi nhận ngày hoạt động"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Đánh giá tài khoản không còn đủ điều kiện",
+          "Chỉ số tụt dưới ngưỡng",
+          "Cho 7 ngày ân hạn trước khi thu hồi huy hiệu Fan"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Đánh giá huy hiệu Nổi bật sau khi chỉ số giảm",
+          "Net Like dưới 20 hoặc trả lời dưới 5",
+          "KHÔNG tự thu hồi; chỉ mất khi nội dung nguồn bị kiểm duyệt"
+        ],
+        [
+          "5",
+          "Người dùng",
+          "Tự xóa bình luận gốc",
+          "Mã bình luận gốc có trả lời",
+          "Đóng góp huy hiệu gắn với các trả lời bị xóa theo bị loại khỏi điều kiện xét"
+        ],
+        [
+          "6",
+          "Quản trị viên",
+          "Ẩn hoặc xóa bình luận gốc",
+          "Mã bình luận gốc",
+          "KHÔNG làm mất đóng góp huy hiệu của trả lời do người khác tạo, nếu trả lời đó không có trạng thái kiểm duyệt riêng"
+        ],
+        [
+          "7",
+          "Hệ thống",
+          "Xử lý huy hiệu khi tác giả bị khóa tài khoản",
+          "Tác giả bị khóa",
+          "Chỉ tạm ẩn huy hiệu Nổi bật; mở khóa có thể tự hiện lại. Hoàn tác kiểm duyệt KHÔNG tự khôi phục huy hiệu, phải xét và cấp lại"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 2: Chia sẻ bình luận và nội dung"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_GRW_02 (truy vết: UR18). Giai đoạn này dùng bảng chia sẻ của hệ điều hành, không tích hợp trực tiếp bộ công cụ của mạng xã hội. Sự kiện chia sẻ được ghi nhận khi bảng chia sẻ mở thành công."
+    },
+    {
+      "type": "note",
+      "text": "[Chờ bổ sung ảnh thiết kế luồng chia sẻ trên Phone.]"
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Chia sẻ thành công",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người xem đã đăng nhập",
+          "Chọn Chia sẻ trên một bình luận",
+          "Mã bình luận",
+          "Bảng chia sẻ của hệ điều hành mở kèm liên kết sâu"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Ghi nhận sự kiện chia sẻ",
+          "Bảng chia sẻ mở thành công",
+          "Ghi nhận một sự kiện chia sẻ; hủy sau đó KHÔNG hoàn tác sự kiện"
+        ],
+        [
+          "3",
+          "Người nhận chưa đăng nhập",
+          "Mở liên kết đã chia sẻ",
+          "Liên kết sâu",
+          "Mở đúng phim và bình luận; đọc được nội dung công khai mà không cần đăng nhập"
+        ],
+        [
+          "4",
+          "Người nhận chưa cài ứng dụng",
+          "Mở liên kết đã chia sẻ",
+          "Liên kết sâu",
+          "Mở MyTV Web đúng ngữ cảnh"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ khi chia sẻ",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Hệ thống",
+          "Dựng bản xem trước",
+          "Bình luận có đoạn Làm mờ",
+          "Bản xem trước gồm ảnh nội dung, tên phim, lời kêu gọi và logo MyTV; KHÔNG chứa bình luận, đoạn làm mờ hay thông tin định danh"
+        ],
+        [
+          "2",
+          "Người nhận",
+          "Mở liên kết tới bình luận đã bị ẩn",
+          "Mã bình luận không còn công khai",
+          "Mở phim kèm “Bình luận không còn khả dụng”"
+        ],
+        [
+          "3",
+          "Người nhận",
+          "Mở liên kết khi khu vực bình luận đang Đóng",
+          "Scope có cấu hình Đóng",
+          "Mở phim kèm “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; mở lại scope thì liên kết cũ hoạt động lại"
+        ],
+        [
+          "4",
+          "Người nhận",
+          "Mở liên kết tới bình luận có mốc thời gian",
+          "Bình luận có gắn mốc",
+          "Mở đúng bình luận nhưng KHÔNG tự động nhảy tới mốc"
+        ],
+        [
+          "5",
+          "Người xem chưa đăng nhập",
+          "Chọn Chia sẻ",
+          "Phiên khách",
+          "Điều hướng sang đăng nhập; chia sẻ là thao tác tương tác nên yêu cầu tài khoản"
+        ],
+        [
+          "6",
+          "Hệ thống",
+          "Nhận sự kiện chia sẻ lặp do lỗi kỹ thuật",
+          "Nhiều sự kiện cùng một lần chia sẻ",
+          "Khử trùng lặp, chỉ ghi nhận một sự kiện"
+        ]
+      ]
+    },
+    {
+      "type": "h4",
+      "text": "Module Thống kê và AI hỗ trợ vận hành"
+    },
+    {
+      "type": "h5",
+      "text": "Mô tả tóm tắt"
+    },
+    {
+      "type": "p",
+      "text": "Module cung cấp bảng chỉ số vận hành cho đội nội dung và công cụ đề xuất nội dung khơi gợi thảo luận cho quản trị viên. Truy vết yêu cầu người dùng: UR19, UR20."
+    },
+    {
+      "type": "h5",
+      "text": "Yêu cầu giao diện"
+    },
+    {
+      "type": "p",
+      "text": "Bảng chỉ số nằm trên CMS, gồm bộ lọc theo phim và khoảng thời gian, các thẻ chỉ số và nút kết xuất CSV/XLSX. Công cụ AI đề xuất là một nút hành động rõ ràng, không chạy ngầm."
+    },
+    {
+      "type": "note",
+      "text": "[Chờ bổ sung ảnh thiết kế bảng chỉ số và màn hình AI đề xuất trên CMS.]"
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 1: Thống kê hoạt động bình luận"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_ANA_01 (truy vết: UR19). Engagement Score tính theo công thức: Bình luận×2 + Trả lời×2 + Net Like×1 + Đánh giá×1 + Chia sẻ×2. Trong đó Đánh giá là số đánh giá hợp lệ hiện hành (mỗi tài khoản tính 1 bất kể 1 sao hay 5 sao) và Chia sẻ là số lần bảng chia sẻ mở thành công. Bảng chỉ số có độ trễ dữ liệu tối đa 5 phút và được đối soát hằng ngày."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Xem và kết xuất báo cáo",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Đội nội dung",
+          "Mở bảng chỉ số và chọn bộ lọc",
+          "Phim, khoảng thời gian",
+          "Engagement Score, số người bình luận duy nhất, tỷ lệ báo cáo được xác nhận, tỷ lệ nội dung bị ẩn/xóa/từ chối, tỷ lệ nội dung an toàn tự động hiển thị, thời gian xử lý hàng chờ"
+        ],
+        [
+          "2",
+          "Đội nội dung",
+          "Xem chi tiết lượt Thích",
+          "Bộ lọc hiện tại",
+          "Hiển thị song song tổng số lượt Thích và Net Like công khai; Engagement chỉ dùng Net Like công khai"
+        ],
+        [
+          "3",
+          "Đội nội dung",
+          "Kết xuất báo cáo",
+          "Định dạng CSV hoặc XLSX",
+          "Tệp báo cáo theo bộ lọc"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Chạy đối soát hằng ngày",
+          "Dữ liệu tổng hợp và dữ liệu gốc",
+          "Tự sửa số liệu tổng hợp bị lệch và ghi nhật ký"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ về chỉ số",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Hệ thống",
+          "Tính chỉ số cho scope đang Đóng bình luận",
+          "Scope có cấu hình Đóng",
+          "KHÔNG loại nội dung khỏi chỉ số công khai; dữ liệu phát sinh trước và trong lúc Đóng vẫn tính đầy đủ"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Tính chỉ số khi nội dung bị kiểm duyệt Ẩn, Từ chối hoặc Xóa",
+          "Trạng thái kiểm duyệt",
+          "Loại khỏi chỉ số công khai"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Tính chỉ số khi tác giả bình luận gốc bị khóa tài khoản",
+          "Tác giả gốc bị khóa",
+          "Toàn thread tạm bị loại khỏi chỉ số công khai; mở khóa thì tính lại các mục còn hợp lệ"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Tính Net Like khi người Thích bị khóa tài khoản",
+          "Người Thích bị khóa",
+          "Lượt Thích tạm bị loại khỏi Net Like công khai, xếp hạng và Engagement nhưng bản ghi vẫn được giữ"
+        ],
+        [
+          "5",
+          "Hệ thống",
+          "Đếm số người bình luận duy nhất",
+          "Bộ lọc và khoảng thời gian hiện tại",
+          "Chỉ đếm tài khoản có ít nhất một bình luận hoặc trả lời đủ điều kiện công khai trong bộ lọc"
+        ]
+      ]
+    },
+    {
+      "type": "h5",
+      "text": "Chức năng 2: AI hỗ trợ vận hành cộng đồng"
+    },
+    {
+      "type": "p",
+      "text": "Mã yêu cầu: SRS_ANA_02 (truy vết: UR20). AI chỉ chạy khi quản trị viên chủ động bấm nút “AI đề xuất”; dữ liệu đầu vào chỉ lấy từ đúng bộ phim hiện tại."
+    },
+    {
+      "type": "h5",
+      "text": "Các tình huống sử dụng"
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 1: Sử dụng đề xuất của AI",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Quản trị viên",
+          "Bấm nút “AI đề xuất”",
+          "Mã phim",
+          "Danh sách câu hỏi hoặc nội dung gợi mở thảo luận"
+        ],
+        [
+          "2",
+          "Quản trị viên",
+          "Chỉnh sửa nội dung đề xuất",
+          "Nội dung đã chỉnh",
+          "Bản nội dung do quản trị viên quyết định"
+        ],
+        [
+          "3",
+          "Quản trị viên",
+          "Duyệt và đăng",
+          "Nội dung đã duyệt",
+          "Nội dung được đăng; không cần người duyệt thứ hai"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Ghi nhận chỉ số hiệu quả",
+          "Hành động chấp nhận, chỉnh sửa hoặc loại bỏ",
+          "Tỷ lệ chấp nhận, chỉnh sửa và loại bỏ của tính năng"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tình huống 2: Trường hợp ngoại lệ của AI hỗ trợ vận hành",
+      "bold": true,
+      "indent": 0.75
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        15,
+        26,
+        27,
+        27
+      ],
+      "header": [
+        "STT",
+        "Đối tượng",
+        "Hoạt động",
+        "Thông tin đầu vào",
+        "Thông tin đầu ra"
+      ],
+      "rows": [
+        [
+          "1",
+          "Hệ thống",
+          "Chọn ứng viên cho đề xuất",
+          "Nội dung có mức rủi ro AI là Nặng",
+          "Loại khỏi danh sách ứng viên"
+        ],
+        [
+          "2",
+          "Hệ thống",
+          "Chọn ứng viên cho đề xuất",
+          "Nội dung bị CMS gắn cờ nghiêm trọng",
+          "Loại khỏi danh sách ứng viên"
+        ],
+        [
+          "3",
+          "Hệ thống",
+          "Chọn ứng viên cho đề xuất",
+          "Nội dung có nhiều báo cáo chưa được xác minh",
+          "KHÔNG tự loại chỉ vì số lượng báo cáo"
+        ],
+        [
+          "4",
+          "Hệ thống",
+          "Xử lý kết quả AI",
+          "Nội dung đề xuất",
+          "AI KHÔNG tự động ghim và KHÔNG tự động đăng bất kỳ nội dung nào"
+        ],
+        [
+          "5",
+          "Ban sản phẩm",
+          "Đánh giá tính năng khi tỷ lệ chấp nhận thấp",
+          "Chỉ số chấp nhận thấp",
+          "KHÔNG tự động tắt tính năng; quyết định thuộc về con người"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "YÊU CẦU PHI CHỨC NĂNG"
+    },
+    {
+      "type": "p",
+      "text": "Cột Đặc tả nêu cách hiện thực hoặc cách kiểm chứng tương ứng với mỗi yêu cầu. Mã trong ngoặc ở cột Yêu cầu là mã truy vết về tài liệu URD."
+    },
+    {
+      "type": "h3",
+      "text": "Yêu cầu bảo mật, phân quyền người sử dụng"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF01",
+          "Xác thực dùng hệ thống đăng nhập MyTV sẵn có, không xây riêng. (UR_NF01)",
+          "Tích hợp MyTV Auth/SSO tại tầng API Gateway/BFF; hệ thống Bình luận không lưu mật khẩu."
+        ],
+        [
+          "SRS_NF02",
+          "Phân quyền theo chức năng; một người dùng có thể có nhiều vai trò. (UR_NF02)",
+          "Mỗi API gắn một mã chức năng; vai trò được gán danh sách mã chức năng; kiểm tra tại tầng dịch vụ trước khi thực thi."
+        ],
+        [
+          "SRS_NF03",
+          "Mọi hành động ghi trên CMS phải kiểm tra quyền và phạm vi tại tầng API. (UR_NF03)",
+          "Bộ kiểm thử bảo mật phải bao phủ Duyệt, Ẩn, Xóa, Hoàn tác, xử lý hàng loạt, kết xuất PII, Ghim và áp chế tài."
+        ],
+        [
+          "SRS_NF04",
+          "Truy cập ngoài phạm vi bị từ chối với mã lỗi nhất quán, không để lộ sự tồn tại của bản ghi. (UR_NF04)",
+          "Dùng cùng một mã lỗi và cùng thông điệp cho hai trường hợp không có quyền và không tồn tại, tránh tạo kênh dò dữ liệu."
+        ],
+        [
+          "SRS_NF05",
+          "Làm sạch và mã hóa nội dung người dùng tại mọi bề mặt hiển thị. (UR_NF05)",
+          "Áp dụng cho web, ứng dụng di động, CMS danh sách và chi tiết, tệp kết xuất và bản xem trước chia sẻ. Thực hiện độc lập với kết quả AI."
+        ],
+        [
+          "SRS_NF06",
+          "Kết xuất CSV phải vô hiệu hóa chèn công thức. (UR_NF06)",
+          "Ô bắt đầu bằng dấu bằng, cộng, trừ hoặc a còng được thêm dấu nháy đơn ở đầu trước khi ghi tệp."
+        ],
+        [
+          "SRS_NF07",
+          "Chặn hoặc trung hòa ký tự đối kháng và ký tự nhìn giống nhau. (UR_NF07)",
+          "Chặn U+202E và các ký tự đảo chiều, U+200B, U+200D và ký tự điều khiển U+0000–U+001F. Nickname chuẩn hóa Unicode và so khớp ký tự dễ nhầm trước khi kiểm tra tính duy nhất."
+        ],
+        [
+          "SRS_NF08",
+          "Thông báo đẩy không chứa nội dung nhạy cảm. (UR_NF08)",
+          "Payload không chứa nguyên văn đoạn Làm mờ và không chứa số điện thoại đầy đủ, vì nội dung có thể hiện trên màn hình khóa thiết bị."
+        ],
+        [
+          "SRS_NF09",
+          "Khóa tài khoản phải vô hiệu hóa phiên hiện tại ngay tại thời điểm hiệu lực. (UR_NF09)",
+          "Thu hồi token đang hoạt động; kiểm thử phải bao gồm trường hợp gọi API bằng token cấp trước thời điểm khóa."
+        ],
+        [
+          "SRS_NF10",
+          "Thông tin định danh chỉ hiển thị cho người có quyền trong phạm vi được cấp. (UR_NF10)",
+          "Kết xuất mặc định che thông tin định danh; muốn kèm đầy đủ phải chủ động tích chọn và hành động được ghi nhật ký."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Yêu cầu sao lưu và phục hồi dữ liệu"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF11",
+          "Xóa mềm lưu 90 ngày, nhật ký kiểm toán lưu 2 năm, hai mốc chạy độc lập. (UR_NF11)",
+          "Hai tiến trình dọn dữ liệu tách biệt; xóa nội dung gốc không được xóa bản ghi nhật ký tương ứng."
+        ],
+        [
+          "SRS_NF12",
+          "Sao lưu tự động hằng ngày, giữ tối thiểu 30 bản. (UR_NF12)",
+          "Sao lưu toàn phần hằng tuần và sao lưu gia tăng hằng ngày; giám sát trạng thái công việc sao lưu."
+        ],
+        [
+          "SRS_NF13",
+          "Thời gian phục hồi tối đa 4 giờ, mất mát dữ liệu tối đa 1 giờ. (UR_NF13)",
+          "Diễn tập phục hồi định kỳ 6 tháng một lần và lập biên bản kết quả."
+        ],
+        [
+          "SRS_NF14",
+          "Hủy đăng nội dung đang chờ duyệt không tạo bản lưu và không ghi nhật ký. (UR_NF14)",
+          "Xóa cứng bản ghi và gỡ mục khỏi hàng chờ kiểm duyệt trong cùng một giao dịch."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Yêu cầu về tính khả dụng (Usability)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF15",
+          "Tuân thủ WCAG 2.1 mức AA trên web và ứng dụng di động. (UR_NF15)",
+          "Kiểm thử bằng công cụ tự động kết hợp kiểm thử thủ công với công nghệ hỗ trợ đọc màn hình trước mỗi lần phát hành."
+        ],
+        [
+          "SRS_NF16",
+          "Tương phản tối thiểu 4,5:1 cho văn bản và 3:1 cho thành phần giao diện. (UR_NF16)",
+          "Áp dụng cả cho nền của đoạn Làm mờ và trạng thái tiêu điểm của mốc thời gian."
+        ],
+        [
+          "SRS_NF17",
+          "Vùng chạm tối thiểu 44×44pt. (UR_NF17)",
+          "Áp dụng cho nút Thích, nút Báo cáo, mốc thời gian, sao đánh giá, đoạn Làm mờ và nút xem thêm phản hồi."
+        ],
+        [
+          "SRS_NF18",
+          "Hỗ trợ phóng chữ tới 200%. (UR_NF18)",
+          "Không cắt nội dung, không mất chức năng, không chồng chéo bố cục ở mức phóng tối đa."
+        ],
+        [
+          "SRS_NF19",
+          "Trên web, toàn bộ luồng thao tác dùng được bằng bàn phím. (UR_NF19)",
+          "Bao gồm đăng bình luận, trả lời, thích, báo cáo, đánh giá, nhắc tên, xem thêm phản hồi và nhảy tới mốc thời gian; có thứ tự tiêu điểm hợp lý và chỉ báo rõ."
+        ],
+        [
+          "SRS_NF20",
+          "Không truyền đạt trạng thái chỉ bằng màu sắc. (UR_NF20)",
+          "Chip trạng thái trên ứng dụng và CMS phải kết hợp biểu tượng và chữ."
+        ],
+        [
+          "SRS_NF21",
+          "Tôn trọng thiết lập giảm chuyển động của hệ điều hành. (UR_NF21)",
+          "Khi cờ được bật thì giảm hoặc tắt hiệu ứng của thao tác Thích và các chuyển trạng thái khác, giữ nguyên chức năng."
+        ],
+        [
+          "SRS_NF22",
+          "Kiểm duyệt viên mới thao tác thành thạo sau tối đa 2 giờ đào tạo. (UR_NF22)",
+          "Đo bằng bài kiểm tra thao tác sau đào tạo trên bộ tác vụ chuẩn của hàng chờ kiểm duyệt."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Yêu cầu về tính ổn định (Reliability)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF23",
+          "Tính sẵn sàng tối thiểu 99,5% theo tháng. (UR_NF23)",
+          "Đo bằng hệ thống giám sát, loại trừ thời gian bảo trì đã thông báo trước."
+        ],
+        [
+          "SRS_NF24",
+          "Phục hồi 90% trong 1 giờ và 100% trong 24 giờ sau sự cố. (UR_NF24)",
+          "Có quy trình xử lý sự cố và đội trực vận hành."
+        ],
+        [
+          "SRS_NF25",
+          "Sự cố dịch vụ AI không được làm mất nội dung người dùng. (UR_NF25)",
+          "Cơ chế an toàn khi lỗi: quá 5 giây hoặc lỗi thì chuyển nội dung sang Chờ duyệt thay vì trả lỗi cho người dùng."
+        ],
+        [
+          "SRS_NF26",
+          "Sự kiện bất đồng bộ không mất và không nhân đôi tác dụng. (UR_NF26)",
+          "Dùng mẫu outbox khi phát sự kiện và thiết kế bộ tiêu thụ xử lý lặp lại an toàn."
+        ],
+        [
+          "SRS_NF27",
+          "Số liệu tổng hợp được đối soát hằng ngày. (UR_NF27)",
+          "Công việc đối soát tự sửa sai lệch giữa số liệu tổng hợp và dữ liệu gốc, ghi nhật ký kết quả."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Yêu cầu về hiệu năng (Performance)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF28",
+          "Thời gian phản hồi khi gửi nội dung dưới 1 giây ở phân vị 95. (UR_NF28)",
+          "Đo tại tầng API, không tính độ trễ mạng của thiết bị đầu cuối và không tính thời gian chờ AI khi nội dung vào hàng chờ."
+        ],
+        [
+          "SRS_NF29",
+          "Tải 10 bình luận đầu tiên dưới 2 giây ở phân vị 95. (UR_NF29)",
+          "Dùng cache đếm số cho các con số hiển thị; đo trên môi trường tương đương môi trường thật."
+        ],
+        [
+          "SRS_NF30",
+          "Thao tác Thích phản hồi tức thời trên giao diện. (UR_NF30)",
+          "Cập nhật lạc quan tại client; đồng bộ về máy chủ theo lô tối đa 5 giây và đẩy sớm khi rời màn hình."
+        ],
+        [
+          "SRS_NF31",
+          "Gọi dịch vụ AI giới hạn cứng 5 giây. (UR_NF31)",
+          "Đặt thời gian chờ ở tầng AI Adapter; quá hạn thì hủy yêu cầu và chuyển nội dung sang Chờ duyệt."
+        ],
+        [
+          "SRS_NF32",
+          "Bảng chỉ số có độ trễ dữ liệu tối đa 5 phút. (UR_NF32)",
+          "Cập nhật số liệu tổng hợp theo luồng sự kiện; hiển thị mốc thời gian cập nhật gần nhất trên bảng chỉ số."
+        ],
+        [
+          "SRS_NF33",
+          "Đáp ứng số người dùng đồng thời theo quy mô nhóm phim thí điểm và mở rộng được theo chiều ngang. (UR_NF33)",
+          "Kiểm thử tải trước khi ra mắt giới hạn. <Cần Ban sản phẩm xác nhận con số mục tiêu cụ thể trước pilot>"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Yêu cầu về tính hỗ trợ (Supportability)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF34",
+          "Có đội kiểm duyệt viên trực để giữ SLA 24 giờ và SLA khiếu nại 48 giờ. (UR_NF34)",
+          "Đây là chi phí vận hành liên tục, cần chốt ngân sách nhân sự trước khi mở rộng ra toàn bộ thư viện phim."
+        ],
+        [
+          "SRS_NF35",
+          "Tổng đài 1800 1166 hỗ trợ miễn phí 24/7. (UR_NF35)",
+          "Tổng đài là người dùng thật của hệ thống; cần quy trình và đào tạo, không chỉ cần phần mềm."
+        ],
+        [
+          "SRS_NF36",
+          "Cảnh báo sớm khi tỷ lệ lỗi hoặc quá hạn của dịch vụ AI tăng. (UR_NF36)",
+          "Ngưỡng cảnh báo gắn với sức chứa hàng chờ kiểm duyệt, vì lỗi AI đẩy thêm nội dung vào hàng chờ."
+        ],
+        [
+          "SRS_NF37",
+          "Mọi thay đổi cấu hình chế độ và ngưỡng kiểm duyệt được ghi nhật ký. (UR_NF37)",
+          "Bản ghi gồm người thực hiện, giá trị cũ, giá trị mới và thời điểm hiệu lực."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Yêu cầu các ràng buộc thiết kế (Design constraints)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF38",
+          "Toàn bộ logic quyết định khả năng hiển thị tập trung tại một module dùng chung. (UR_NF38)",
+          "Không nhất thiết là một dịch vụ mạng riêng, nhưng mọi đường đọc phải dùng cùng một bản hiện thực và cùng phiên bản chính sách."
+        ],
+        [
+          "SRS_NF39",
+          "Tách bạch trạng thái kiểm duyệt với khả năng hiển thị thực tế. (UR_NF39)",
+          "Khóa tài khoản và đóng khu vực bình luận chỉ đổi khả năng hiển thị, không ghi đè trường trạng thái kiểm duyệt."
+        ],
+        [
+          "SRS_NF40",
+          "Nội dung lưu dưới dạng văn bản kèm dải định dạng. (UR_NF40)",
+          "Không dùng một cờ đánh dấu ở cấp bình luận. Việc làm sạch phải kiểm tra chỉ số và tính hợp lệ của các dải định dạng, vì dải chồng lấn hoặc lệch chỉ số là một hướng tấn công."
+        ],
+        [
+          "SRS_NF41",
+          "Không có chức năng chèn siêu liên kết trong luồng soạn bình luận. (UR_NF41)",
+          "Menu định dạng chỉ gồm Làm mờ, Đậm, Nghiêng và Gạch chân."
+        ],
+        [
+          "SRS_NF42",
+          "Quan hệ với trình phát video là một chiều. (UR_NF42)",
+          "Hợp đồng giao tiếp thu hẹp còn một lệnh nhảy tới mốc; hệ thống không đọc trạng thái hiện tại của trình phát."
+        ],
+        [
+          "SRS_NF43",
+          "Nhận diện mốc thời gian thực hiện ở cả client và máy chủ bằng cùng thuật toán. (UR_NF43)",
+          "Lấy chuỗi hợp lệ đầu tiên làm mốc duy nhất; hai phía phải cho cùng kết quả trên cùng đầu vào."
+        ],
+        [
+          "SRS_NF44",
+          "CMS chỉ thiết kế cho Web/Desktop. (UR_NF44)",
+          "Không có bản CMS cho di động hay Smart TV trong phạm vi này."
+        ],
+        [
+          "SRS_NF45",
+          "Smart TV không tạo nội dung nhưng vẫn đọc và tương tác cơ bản. (UR_NF45)",
+          "Smart TV cho đọc, Thích, Đánh giá, đổi cách sắp xếp, hiện đoạn Làm mờ và nhảy tới mốc thời gian; hiển thị hướng dẫn kèm mã QR để chuyển sang điện thoại khi muốn bình luận."
+        ],
+        [
+          "SRS_NF45a",
+          "Mốc thời gian chỉ bật với phim lẻ. (UR06)",
+          "Phim bộ không hiển thị mốc bấm được và API không nhận trường timestamp, vì khu vực bình luận ở cấp phim nên một mốc không xác định được thuộc tập nào. Chuỗi thời gian trong nội dung phim bộ giữ nguyên là text thường."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Yêu cầu về giao tiếp (Interfaces)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF46",
+          "Giao tiếp chung: API qua HTTPS, xác thực và giới hạn tần suất tại Gateway/BFF. (UR_NF46)",
+          "Tài liệu API theo chuẩn OpenAPI; giới hạn tần suất áp cho gửi nội dung, sửa và báo cáo."
+        ],
+        [
+          "SRS_NF47",
+          "Giao tiếp người dùng: tiếng Việt, Unicode, ngày dd/mm/yyyy. (UR_NF47)",
+          "Ô soạn trên điện thoại là thanh nhập cố định đáy màn hình nở lên khi bàn phím bật; trên web là ô nhập nội tuyến."
+        ],
+        [
+          "SRS_NF48",
+          "Giao tiếp phần cứng: đầu thu MyTV, thiết bị di động và trình duyệt phổ biến. (UR_NF48)",
+          "<Cần đội kỹ thuật chốt danh sách thiết bị và phiên bản tối thiểu để kiểm thử>"
+        ],
+        [
+          "SRS_NF49",
+          "Giao tiếp phần mềm — công nghệ xây dựng hệ thống. (UR_NF49)",
+          "Do đơn vị phát triển đề xuất trong thiết kế kỹ thuật Giai đoạn 0; có thể bắt đầu bằng modular monolith kèm worker xử lý sự kiện nếu phù hợp, miễn giữ được ranh giới trách nhiệm và hợp đồng rõ ràng."
+        ],
+        [
+          "SRS_NF50",
+          "Giao tiếp phần mềm — giữa các thành phần bên trong. (UR_NF50)",
+          "Comment, Rating, Interaction và Identity đều gọi module hiển thị dùng chung; các miền phát sự kiện qua hàng đợi tới Notification, Badge, Analytics và Audit Log."
+        ],
+        [
+          "SRS_NF51",
+          "Giao tiếp phần mềm — hệ thống bên ngoài. (UR_NF51)",
+          "MyTV Auth/SSO cho xác thực; Dịch vụ Nội dung cho siêu dữ liệu phim và tập; Trình phát video nhận lệnh nhảy mốc; APNs/FCM cho thông báo đẩy; Nhà cung cấp AI cho phân loại nội dung; Kho dữ liệu cho báo cáo doanh nghiệp."
+        ],
+        [
+          "SRS_NF52",
+          "Giao tiếp truyền thông và chi phí phụ thuộc bên ngoài. (UR_NF52)",
+          "Nhà cung cấp AI tính phí theo lượt gọi; cần theo dõi chi phí và đặt hạn mức theo lượng bình luận, đây là rủi ro chi phí đã được ghi nhận."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Các yêu cầu về tài liệu người dùng và hỗ trợ trực tuyến"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF53",
+          "Tài liệu hướng dẫn CMS cho kiểm duyệt viên và quản trị viên. (UR_NF53)",
+          "Bàn giao trước khi ra mắt giới hạn, kèm chương trình đào tạo và bài kiểm tra thao tác."
+        ],
+        [
+          "SRS_NF54",
+          "Quy trình và tài liệu đào tạo cho Tổng đài. (UR_NF54)",
+          "Nội dung gồm cách tiếp nhận khiếu nại khóa tài khoản và cách nhập khiếu nại vào CMS."
+        ],
+        [
+          "SRS_NF55",
+          "Bộ quy tắc cộng đồng cho người xem. (UR_NF55)",
+          "Truy cập được từ màn hình khóa tài khoản và từ thông báo vi phạm."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Các thành phần mua ngoài"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF56",
+          "Dịch vụ phân loại nội dung của nhà cung cấp AI bên ngoài. (UR_NF56)",
+          "Hỗ trợ tiếng Việt và tiếng Anh, tính phí theo lượt gọi. Cần chốt nhà cung cấp, hạn mức và ngân sách vận hành trước giai đoạn thí điểm."
+        ],
+        [
+          "SRS_NF57",
+          "Dịch vụ đẩy thông báo APNs và FCM. (UR_NF57)",
+          "Sử dụng hạ tầng thông báo sẵn có của MyTV, không mua mới."
+        ],
+        [
+          "SRS_NF58",
+          "Thư viện bên thứ ba. (UR_NF58)",
+          "Chỉ dùng thư viện có giấy phép cho phép sử dụng thương mại; lập danh mục thư viện và giấy phép khi bàn giao."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Các yêu cầu pháp lý, bản quyền và ghi chú khác"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF59",
+          "Mã nguồn và tài liệu thuộc quyền quản lý của Tổng công ty Truyền thông. (UR_NF59)",
+          "Bàn giao kèm biên bản khi nghiệm thu."
+        ],
+        [
+          "SRS_NF60",
+          "Tuân thủ quy định pháp luật về quản lý nội dung trên không gian mạng. (UR_NF60)",
+          "Nhật ký kiểm toán lưu 2 năm phục vụ truy vết khi có yêu cầu của cơ quan quản lý."
+        ],
+        [
+          "SRS_NF61",
+          "Tuân thủ quy định bảo vệ dữ liệu cá nhân hiện hành. (UR_NF61)",
+          "Giới hạn phạm vi truy cập thông tin định danh; ghi nhật ký mọi lần kết xuất có kèm thông tin định danh."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Các tiêu chuẩn áp dụng"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        44,
+        44
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu",
+        "Đặc tả"
+      ],
+      "rows": [
+        [
+          "SRS_NF62",
+          "Khả năng tiếp cận WCAG 2.1 mức AA. (UR_NF62)",
+          "Áp dụng cho toàn bộ bề mặt người dùng cuối trên web và ứng dụng di động."
+        ],
+        [
+          "SRS_NF63",
+          "Quy trình phát triển theo hệ thống quản lý chất lượng của đơn vị. (UR_NF63)",
+          "Sử dụng bộ biểu mẫu BM01–BM10, trong đó tài liệu này là BM04_SRS."
+        ],
+        [
+          "SRS_NF64",
+          "Phân tích thiết kế theo UML, tài liệu API theo OpenAPI. (UR_NF64)",
+          "Áp dụng từ giai đoạn thiết kế kỹ thuật Giai đoạn 0."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "ĐIỀU KIỆN NGHIỆM THU HỆ THỐNG"
+    },
+    {
+      "type": "p",
+      "text": "Hệ thống được nghiệm thu khi thỏa đồng thời các điều kiện sau:"
+    },
+    {
+      "type": "number",
+      "items": [
+        "Hệ thống được thiết kế và vận hành đúng như mô tả trong tài liệu này, đáp ứng toàn bộ yêu cầu chức năng ghi nhận tại mục Đặc tả yêu cầu chức năng hệ thống, bao gồm đầy đủ các tình huống ngoại lệ đã đặc tả.",
+        "Toàn bộ yêu cầu phi chức năng SRS_NF01–SRS_NF64 và SRS_NF45a được kiểm chứng theo đúng cột Đặc tả và có biên bản kiểm thử kèm theo.",
+        "Module quyết định khả năng hiển thị được kiểm thử đầy đủ với cả năm cơ chế ẩn và các trường hợp chồng lấn tại Bảng 4; không xảy ra rò rỉ nội dung đã bị ẩn trên bất kỳ bề mặt đọc nào, kể cả liên kết sâu và bản xem trước khi chia sẻ.",
+        "Bộ kiểm thử bảo mật bao phủ đầy đủ chống chèn mã, ký tự đối kháng, truy cập vượt phạm vi tại tầng API, thông tin định danh trong thông báo đẩy và trong gợi ý nhắc tên, cùng việc vô hiệu hóa phiên khi khóa tài khoản.",
+        "Bộ kiểm thử khả năng tiếp cận đạt WCAG 2.1 mức AA, bao gồm kiểm thử thủ công với công nghệ hỗ trợ đọc màn hình cho đoạn Làm mờ, nút Thích, mốc thời gian và bộ chọn sao đánh giá.",
+        "Hệ thống được hiệu chỉnh sau khi triển khai thử nghiệm trên nhóm phim thí điểm và đạt các tiêu chí thoát của giai đoạn thí điểm.",
+        "Tổ chức đào tạo và bàn giao tài liệu cho kiểm duyệt viên, quản trị viên và Tổng đài; các đối tượng này thao tác thành thạo sau khóa đào tạo.",
+        "Toàn bộ tài liệu và mã nguồn được bàn giao đầy đủ cho Tổng công ty Truyền thông."
+      ]
+    },
+    {
+      "type": "h1",
+      "text": "PHỤ LỤC"
+    },
+    {
+      "type": "p",
+      "text": "Phụ lục A — Ma trận truy vết yêu cầu người sử dụng sang đặc tả phần mềm",
+      "bold": true
+    },
+    {
+      "type": "table",
+      "widths": [
+        10,
+        26,
+        16,
+        48
+      ],
+      "header": [
+        "Mã URD",
+        "Tên yêu cầu người dùng",
+        "Mã SRS",
+        "Mục đặc tả tương ứng"
+      ],
+      "rows": [
+        [
+          "UR01",
+          "Đọc khu vực bình luận",
+          "SRS_CMT_01",
+          "Phân hệ Trải nghiệm — Module Đọc và sắp xếp — Chức năng 1"
+        ],
+        [
+          "UR02",
+          "Xem số lượng và sắp xếp bình luận",
+          "SRS_CMT_02",
+          "Phân hệ Trải nghiệm — Module Đọc và sắp xếp — Chức năng 2"
+        ],
+        [
+          "UR03",
+          "Đánh giá phim",
+          "SRS_RAT_01",
+          "Phân hệ Trải nghiệm — Module Đánh giá — Chức năng 1"
+        ],
+        [
+          "UR04",
+          "Đăng bình luận",
+          "SRS_CMT_03",
+          "Phân hệ Trải nghiệm — Module Đăng, sửa và xóa — Chức năng 1"
+        ],
+        [
+          "UR05",
+          "Sửa và xóa bình luận của mình",
+          "SRS_CMT_04",
+          "Phân hệ Trải nghiệm — Module Đăng, sửa và xóa — Chức năng 2"
+        ],
+        [
+          "UR06",
+          "Bình luận kèm mốc thời gian (chỉ phim lẻ)",
+          "SRS_CMT_03",
+          "Phân hệ Trải nghiệm — Module Đăng, sửa và xóa — Bảng 2 trường Mốc thời gian; ràng buộc SRS_NF42, SRS_NF43, SRS_NF45a"
+        ],
+        [
+          "UR07",
+          "Thích và bỏ thích bình luận",
+          "SRS_INT_01",
+          "Phân hệ Tương tác — Module Thích và Trả lời — Chức năng 1"
+        ],
+        [
+          "UR08",
+          "Trả lời bình luận một cấp",
+          "SRS_INT_02",
+          "Phân hệ Tương tác — Module Thích và Trả lời — Chức năng 2"
+        ],
+        [
+          "UR09",
+          "Nhắc tên và nhận thông báo",
+          "SRS_NOT_01",
+          "Phân hệ Tương tác — Module Nhắc tên và Thông báo — Chức năng 1"
+        ],
+        [
+          "UR10",
+          "Báo cáo bình luận vi phạm",
+          "SRS_MOD_01",
+          "Phân hệ An toàn — Module Báo cáo vi phạm — Chức năng 1"
+        ],
+        [
+          "UR11",
+          "Kiểm duyệt bằng AI theo hai chế độ",
+          "SRS_MOD_02",
+          "Phân hệ An toàn — Module Kiểm duyệt AI và Khả năng hiển thị — Chức năng 1"
+        ],
+        [
+          "UR12",
+          "Quản lý trạng thái và phạm vi hiển thị",
+          "SRS_MOD_03",
+          "Phân hệ An toàn — Module Kiểm duyệt AI và Khả năng hiển thị — Chức năng 2"
+        ],
+        [
+          "UR13",
+          "Tra cứu bình luận trên CMS",
+          "SRS_CMS_01",
+          "Phân hệ CMS — Module Tra cứu và Xử lý — Chức năng 1"
+        ],
+        [
+          "UR14",
+          "Xử lý nội dung trên CMS",
+          "SRS_CMS_02",
+          "Phân hệ CMS — Module Tra cứu và Xử lý — Chức năng 2"
+        ],
+        [
+          "UR15",
+          "Quản lý bình luận ghim và cấu hình theo phim",
+          "SRS_CMS_03",
+          "Phân hệ CMS — Module Ghim, Cấu hình và Chế tài — Chức năng 1"
+        ],
+        [
+          "UR16",
+          "Quản lý người dùng vi phạm và nhật ký kiểm toán",
+          "SRS_CMS_04",
+          "Phân hệ CMS — Module Ghim, Cấu hình và Chế tài — Chức năng 2"
+        ],
+        [
+          "UR17",
+          "Huy hiệu người dùng",
+          "SRS_GRW_01",
+          "Phân hệ Tăng trưởng — Module Huy hiệu và Chia sẻ — Chức năng 1"
+        ],
+        [
+          "UR18",
+          "Chia sẻ bình luận",
+          "SRS_GRW_02",
+          "Phân hệ Tăng trưởng — Module Huy hiệu và Chia sẻ — Chức năng 2"
+        ],
+        [
+          "UR19",
+          "Thống kê hoạt động bình luận",
+          "SRS_ANA_01",
+          "Phân hệ Tăng trưởng — Module Thống kê và AI vận hành — Chức năng 1"
+        ],
+        [
+          "UR20",
+          "AI hỗ trợ vận hành cộng đồng",
+          "SRS_ANA_02",
+          "Phân hệ Tăng trưởng — Module Thống kê và AI vận hành — Chức năng 2"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Phụ lục B — Trạng thái thiết kế giao diện theo nền tảng",
+      "bold": true
+    },
+    {
+      "type": "p",
+      "text": "Bảng dưới đây ghi nhận trạng thái bộ thiết kế tại thời điểm phát hành tài liệu. Khi thiết kế của một nền tảng hoàn thiện, ảnh màn hình và mô tả trường dữ liệu sẽ được bổ sung vào đúng các mục “Yêu cầu giao diện” tương ứng, theo cùng chuẩn trình bày đã áp dụng cho Phone."
+    },
+    {
+      "type": "table",
+      "widths": [
+        16,
+        18,
+        30,
+        36
+      ],
+      "header": [
+        "Nền tảng",
+        "Trạng thái thiết kế",
+        "Phạm vi chức năng",
+        "Mục chịu ảnh hưởng trong tài liệu này"
+      ],
+      "rows": [
+        [
+          "Phone (iOS, Android)",
+          "Đã hoàn thiện",
+          "Đầy đủ chức năng người xem",
+          "Đã trích dẫn tại Hình 1 đến Hình 27"
+        ],
+        [
+          "Website",
+          "Chờ hoàn thiện",
+          "Đầy đủ chức năng người xem, tương đương Phone",
+          "Yêu cầu giao diện của phân hệ Trải nghiệm, Tương tác và An toàn"
+        ],
+        [
+          "Smart TV / STB",
+          "Chờ hoàn thiện",
+          "Chỉ đọc, Thích, Đánh giá, đổi cách sắp xếp, hiện đoạn Làm mờ, nhảy tới mốc thời gian; có hướng dẫn kèm mã QR để chuyển sang điện thoại",
+          "Yêu cầu giao diện của phân hệ Trải nghiệm và Tương tác; ràng buộc SRS_NF45"
+        ],
+        [
+          "CMS (Web/Desktop)",
+          "Chờ hoàn thiện",
+          "Tra cứu, xử lý nội dung, ghim, cấu hình theo phim, chế tài, khiếu nại, bảng chỉ số, AI đề xuất",
+          "Yêu cầu giao diện của phân hệ CMS và phân hệ Tăng trưởng"
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "[Việc thiếu thiết kế của Website, Smart TV và CMS không làm thay đổi các yêu cầu nghiệp vụ, tình huống sử dụng và yêu cầu phi chức năng đã đặc tả trong tài liệu này. Khi bổ sung thiết kế, cần cập nhật lịch sử thay đổi và tăng phiên bản tài liệu.]"
+    },
+    {
+      "type": "p",
+      "text": "Phụ lục C — Bảng tra nhanh các hằng số nghiệp vụ",
+      "bold": true
+    },
+    {
+      "type": "table",
+      "widths": [
+        44,
+        20,
+        36
+      ],
+      "header": [
+        "Hằng số",
+        "Giá trị",
+        "Áp dụng tại"
+      ],
+      "rows": [
+        [
+          "Độ dài bình luận và trả lời",
+          "1 – 1000 ký tự",
+          "SRS_CMT_03, SRS_INT_02"
+        ],
+        [
+          "Giới hạn tần suất gửi bình luận và trả lời",
+          "5 nội dung / 1 phút / người dùng",
+          "SRS_CMT_03"
+        ],
+        [
+          "Giới hạn tần suất sửa",
+          "5 lần / 1 phút / bình luận",
+          "SRS_CMT_04"
+        ],
+        [
+          "Giới hạn tần suất báo cáo",
+          "10 báo cáo / 1 giờ / người dùng",
+          "SRS_MOD_01"
+        ],
+        [
+          "Thời gian chờ báo cáo lại cùng đối tượng",
+          "24 giờ",
+          "SRS_MOD_01"
+        ],
+        [
+          "Độ dài mô tả khi chọn lý do Khác",
+          "1 – 500 ký tự",
+          "SRS_MOD_01, SRS_CMS_02, SRS_CMS_04"
+        ],
+        [
+          "Hạn mức đổi nickname",
+          "1 lần thành công / 24 giờ / tài khoản",
+          "SRS_MOD_02"
+        ],
+        [
+          "Độ dài nickname",
+          "3 – 30 ký tự",
+          "SRS_MOD_02"
+        ],
+        [
+          "Thời gian chờ tối đa của dịch vụ AI",
+          "5 giây",
+          "SRS_MOD_02, SRS_NF31"
+        ],
+        [
+          "Số bình luận gốc tải lần đầu và mỗi lần cuộn",
+          "10",
+          "SRS_CMT_01, SRS_CMT_02"
+        ],
+        [
+          "Số trả lời tải lần đầu trong màn hình Phản hồi",
+          "3",
+          "SRS_INT_02"
+        ],
+        [
+          "Số trả lời tải thêm mỗi lần",
+          "Tối đa 10",
+          "SRS_INT_02"
+        ],
+        [
+          "Số bình luận ghim tối đa trên mỗi scope",
+          "3",
+          "SRS_CMS_03"
+        ],
+        [
+          "Số mục tối đa cho một lần xử lý hàng loạt",
+          "100",
+          "SRS_CMS_02"
+        ],
+        [
+          "Chu kỳ gom lô đồng bộ thao tác Thích",
+          "Tối đa 5 giây",
+          "SRS_INT_01, SRS_NF30"
+        ],
+        [
+          "Thời hạn lưu nội dung xóa mềm",
+          "90 ngày",
+          "SRS_CMT_04, SRS_CMS_02, SRS_NF11"
+        ],
+        [
+          "Thời hạn lưu nhật ký kiểm toán",
+          "2 năm",
+          "SRS_NF11"
+        ],
+        [
+          "Thời hạn lưu thông báo trong ứng dụng",
+          "90 ngày",
+          "SRS_NOT_01"
+        ],
+        [
+          "SLA xử lý hàng chờ kiểm duyệt",
+          "24 giờ",
+          "SRS_CMS_01"
+        ],
+        [
+          "SLA xử lý khiếu nại",
+          "48 giờ",
+          "SRS_CMS_04"
+        ],
+        [
+          "Ân hạn trước khi thu hồi huy hiệu Fan",
+          "7 ngày",
+          "SRS_GRW_01"
+        ],
+        [
+          "Cửa sổ xét huy hiệu Fan tích cực",
+          "30 ngày",
+          "SRS_GRW_01"
+        ],
+        [
+          "Cửa sổ xét huy hiệu Fan kỳ cựu",
+          "90 ngày",
+          "SRS_GRW_01"
+        ],
+        [
+          "Độ trễ tối đa của bảng chỉ số",
+          "5 phút",
+          "SRS_ANA_01, SRS_NF32"
+        ],
+        [
+          "Số huy hiệu hiển thị tối đa trên giao diện",
+          "1",
+          "SRS_GRW_01"
+        ],
+        [
+          "Số mốc thời gian tối đa trên mỗi bình luận",
+          "1",
+          "SRS_CMT_03"
+        ]
+      ]
+    }
+  ]
+}

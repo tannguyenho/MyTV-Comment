@@ -8,7 +8,7 @@ flowchart TD
  B --> C[Review before/after + effective time]
  C --> D[Save + audit]
  D --> E{Phim bộ?}
- E -->|Có| F[Config mặc định cấp phim bộ; tập có thể override]
+ E -->|Có| F[Config cấp phim, kế thừa default hệ thống]
  E -->|Không| G[Config cấp phim]
  D --> H{Đóng?}
  H -->|Có| I[User tab Bình luận vẫn hiện nhưng bỏ count]
@@ -18,8 +18,8 @@ flowchart TD
 
 ## UX/Scope đã chốt
 
-- User-facing **không có scope Series**. Phim bộ chỉ đọc/comment/rating theo tập hiện tại.
-- CMS vẫn có cấu hình mặc định cấp phim bộ để vận hành, từng tập override Mode1/Mode2/Đóng.
+- Phạm vi đọc/comment/rating phía người xem là **bộ phim**, áp dụng chung cho phim lẻ và phim bộ.
+- CMS cấu hình Mode1/Mode2/Đóng ở **cấp phim**, kế thừa default hệ thống khi không có override.
 - Scope Đóng: tab `Bình luận` vẫn tồn tại, không count, không list/composer/interaction; rating vẫn hoạt động.
-- Deep link vào scope Đóng mở đúng phim/tập + tab Bình luận + fallback.
+- Deep link vào scope Đóng mở đúng phim + tab Bình luận + fallback.
 - Resolver priority: self-delete → own moderation → Admin root cascade → Account Lock → scope Closed.

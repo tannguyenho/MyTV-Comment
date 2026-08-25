@@ -14,7 +14,7 @@
 ### Acceptance Criteria
 
 1. Tác giả có thể sửa comment/reply của mình bất kỳ lúc nào khi tài khoản còn quyền sửa; user đang **Khóa bình luận** không được tạo edit mới, nhưng vẫn được **tự xóa** nội dung của mình.
-2. Nội dung sửa tạo version mới và đi qua moderation **theo đúng chế độ kiểm duyệt của phim/tập** (US11/US12):
+2. Nội dung sửa tạo version mới và đi qua moderation **theo đúng chế độ kiểm duyệt của phim** (US11/US12):
    - **Chế độ 1 + AI mức Nhẹ/An toàn:** version mới public ngay, hiển thị toast **“Chỉnh sửa thành công”**.
    - **Chế độ 1 + AI mức Trung bình, hoặc Chế độ 2:** version mới vào Chờ duyệt, hiển thị toast **“Đã gửi bản chỉnh sửa, đang chờ duyệt”**; người khác tiếp tục thấy version công khai cũ, còn tác giả thấy bản chờ kèm dòng trạng thái “Bình luận của bạn sẽ sớm được xuất hiện”.
    - **AI mức Nặng:** version mới bị chặn ngay tại submit, không tạo bản chờ, version công khai cũ giữ nguyên.
@@ -49,7 +49,7 @@
 - Undo root delete tại US14 chỉ đảo action **CMS/Admin soft-delete**, không áp dụng self-delete của user.
 - Pending edit gửi trước sanction không bị hồi tố hủy chỉ vì Khóa bình luận có hiệu lực sau đó.
 - Edit rate limit được tính riêng cho từng comment/reply: tối đa **5 edit/phút/target**; không dùng chung quota Comment+Reply của US04.
-- Kết quả hiển thị của một lần sửa **do chế độ kiểm duyệt của phim/tập quyết định**, không phải luôn public ngay; UI phải phân biệt rõ hai toast “Chỉnh sửa thành công” và “Đã gửi bản chỉnh sửa, đang chờ duyệt”.
+- Kết quả hiển thị của một lần sửa **do chế độ kiểm duyệt của phim quyết định**, không phải luôn public ngay; UI phải phân biệt rõ hai toast “Chỉnh sửa thành công” và “Đã gửi bản chỉnh sửa, đang chờ duyệt”.
 - **Hủy đăng nội dung Chờ duyệt là lifecycle riêng**, không phải self-delete: nội dung chưa từng public nên không có soft-delete 90 ngày, không có audit record và không có đường khôi phục. Vì không ghi audit, hành vi gửi rồi hủy liên tục **không** được tính vào lịch sử vi phạm tại US16; rào cản duy nhất là quota 5 nội dung/phút không được hoàn lại.
 
 ### Phụ thuộc

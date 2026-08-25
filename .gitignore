@@ -1,0 +1,17 @@
+# Trạng thái cục bộ của Claude Code — KHÔNG commit.
+# Thư mục này chứa .credentials.json và history.jsonl (có thể lẫn token),
+# nên mặc định loại trừ toàn bộ và chỉ mở lại đúng phần skills dùng chung
+# để cả đội sinh lại được tài liệu URD/SRS.
+.claude/*
+!.claude/skills/
+
+# Tệp tạm của Word khi mở tài liệu
+~$*.docx
+~$*.doc
+
+# Hệ điều hành
+Thumbs.db
+.DS_Store
+
+# Phụ thuộc
+node_modules/

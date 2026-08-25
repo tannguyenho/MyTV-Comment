@@ -5,7 +5,7 @@
 
 ### User Story
 
-**Là người dùng đã đăng nhập**, tôi muốn đăng bình luận bằng văn bản, emoji và tùy chọn Spoiler, để chia sẻ cảm nhận về series hoặc tập phim đang xem.
+**Là người dùng đã đăng nhập**, tôi muốn đăng bình luận bằng văn bản, emoji và tùy chọn Spoiler, để chia sẻ cảm nhận về bộ phim đang xem.
 
 ### Ưu tiên
 
@@ -17,13 +17,13 @@
 2. Comment tối thiểu **1 ký tự hợp lệ hoặc 1 emoji**, không tính khoảng trắng; tối đa **1000 ký tự**. UI và API dùng cùng giới hạn.
 3. URL chỉ hợp lệ khi hostname là `mytv.com.vn` hoặc subdomain thực sự của `mytv.com.vn`; không chấp nhận domain giả như `mytv.com.vn.evil.com`.
 4. Mỗi user tối đa **5 comment/reply trong 1 phút**; quota được tính chung giữa comment và reply.
-5. Comment được gắn đúng series/tập hiện tại và đi qua moderation theo US11.
+5. Comment được gắn đúng bộ phim hiện tại và đi qua moderation theo US11.
 6. Ở Chế độ 1, nội dung AI mức Nhẹ/An toàn được Hiển thị; Trung bình vào Chờ duyệt; Nặng bị chặn.
 7. Ở Chế độ 2, nội dung không bị chặn vẫn vào Chờ duyệt tới khi Admin duyệt.
 8. Đoạn chữ được đánh Spoiler hiển thị dưới dạng **dải làm mờ tại đúng vị trí trong nội dung**; người xem **chạm trực tiếp vào đoạn mờ** để hiện chữ. Không dùng overlay phủ cả comment và không có nút reveal riêng. Mở một đoạn không tự mở các đoạn mờ khác trong cùng comment.
 9. Menu định dạng khi soạn comment **chỉ gồm Làm mờ, Gạch chân, Đậm và Nghiêng**; **không có mục Link** — luồng comment không cung cấp chức năng chèn hyperlink. Việc dán URL dưới dạng text vẫn chịu validation hostname tại AC3.
 10. Nickname phải **unique không phân biệt hoa/thường**, dài **3–30 ký tự**; cho phép chữ, số, khoảng trắng, `_`, `-`; không cho URL, số điện thoại hoặc ký tự điều khiển.
-11. User được đổi nickname tối đa **1 lần đổi thành công/24 giờ/account** (submission bị validation/AI chặn không tiêu quota); nickname mới/đổi phải qua **global AI moderation policy độc lập với Chế độ 1/2 của phim/tập**, chỉ có **2 kết quả**: Nhẹ/An toàn → dùng ngay, cập nhật nickname công khai ngay lập tức; Trung bình HOẶC Nặng (gộp) → **bị chặn ngay lập tức tại thời điểm submit**, không tạo bất kỳ trạng thái chờ duyệt nào. Trường hợp AI không cho được quyết định hợp lệ (timeout >5 giây/5xx/dịch vụ không khả dụng, nickname bằng ngôn ngữ ngoài tiếng Việt/tiếng Anh, hoặc AI low-confidence) cũng **không tạo trạng thái chờ duyệt**: nickname không đổi, user được báo lỗi và cho thử lại, và **không tiêu quota** (theo US11).
+11. User được đổi nickname tối đa **1 lần đổi thành công/24 giờ/account** (submission bị validation/AI chặn không tiêu quota); nickname mới/đổi phải qua **global AI moderation policy độc lập với Chế độ 1/2 của phim**, chỉ có **2 kết quả**: Nhẹ/An toàn → dùng ngay, cập nhật nickname công khai ngay lập tức; Trung bình HOẶC Nặng (gộp) → **bị chặn ngay lập tức tại thời điểm submit**, không tạo bất kỳ trạng thái chờ duyệt nào. Trường hợp AI không cho được quyết định hợp lệ (timeout >5 giây/5xx/dịch vụ không khả dụng, nickname bằng ngôn ngữ ngoài tiếng Việt/tiếng Anh, hoặc AI low-confidence) cũng **không tạo trạng thái chờ duyệt**: nickname không đổi, user được báo lỗi và cho thử lại, và **không tiêu quota** (theo US11).
 12. Khi nickname bị chặn tại submit, user thấy lỗi ngay, nickname không đổi và tiếp tục dùng nickname hợp lệ cũ. Nếu chưa từng có nickname hợp lệ, hiển thị số điện thoại đã mask: giữ `0` đầu + 3 số cuối, toàn bộ số giữa thành `*` theo độ dài thực tế, ví dụ `0912345124 → 0******124`.
 13. Không hiển thị đầy đủ số điện thoại hoặc PII nhạy cảm trên trải nghiệm người xem.
 14. Sau khi gửi thành công, ô nhập được xóa; retry không tạo comment trùng.
@@ -35,7 +35,7 @@
 - Chỉ tài khoản đăng nhập mới được đăng bình luận.
 - Giới hạn 1000 ký tự và rate limit 5 nội dung/phút cũng áp dụng Reply tại US08. Giới hạn 1000 ký tự được đếm theo **grapheme cluster** (đơn vị hiển thị/Unicode extended grapheme cluster), không đếm theo code unit/UTF-16, để nhất quán với emoji tổ hợp (ZWJ, skin-tone modifier); UI và API phải dùng cùng thuật toán đếm.
 - URL được validate theo hostname, không theo chuỗi chứa tên miền.
-- **Nickname là identity toàn tài khoản**, không thuộc scope series/episode; vì vậy không kế thừa Mode1/Mode2 hay threshold override theo phim/tập. Nickname dùng global AI policy riêng theo US11, chỉ có 2 kết quả: Nhẹ/An toàn dùng ngay; Trung bình hoặc Nặng đều bị chặn ngay tại submit, không tạo hàng chờ duyệt.
+- **Nickname là identity toàn tài khoản**, không thuộc scope phim; vì vậy không kế thừa Mode1/Mode2 hay threshold override theo phim. Nickname dùng global AI policy riêng theo US11, chỉ có 2 kết quả: Nhẹ/An toàn dùng ngay; Trung bình hoặc Nặng đều bị chặn ngay tại submit, không tạo hàng chờ duyệt.
 - Nickname bị chặn tại submit không public và không tạo bản ghi chờ; nickname công khai giữ nguyên giá trị hợp lệ trước đó.
 - Đổi nickname có quota riêng: tối đa **1 lần đổi nickname thành công/24 giờ/account**. Quota được tính khi nickname mới vượt qua validation + global AI policy và được hệ thống chấp nhận lưu; submission bị validation/AI chặn không tiêu quota. Các trường hợp AI timeout/5xx/không khả dụng, nickname ngoài tiếng Việt/tiếng Anh hoặc AI low-confidence cũng bị chặn + cho thử lại (không có trạng thái Chờ duyệt cho nickname) và **không tiêu quota**, theo US11.
 - Khi comment bị Từ chối/Ẩn/Xóa bởi Admin, tác giả được xem lý do trong app và nhận notification theo US14/US16.
@@ -60,7 +60,7 @@
 | TC-US04-009 | Mode 2 | Nội dung không bị chặn | Gửi | Vào Chờ duyệt; chưa public trước Admin. |
 | TC-US04-010 | Nickname uniqueness | Có `MyTVFan` | User khác thử `mytvfan`/`MYTVFAN` | Bị coi là trùng. |
 | TC-US04-011 | Nickname format | Nickname 2/3/30/31 ký tự; có URL/phone/control char | Lưu nickname | Chỉ dữ liệu đúng 3–30 và charset/rule hợp lệ được nhận. |
-| TC-US04-012 | Nickname global moderation | Series/episode lần lượt ở Mode1/Mode2; đổi nickname Nhẹ/Trung bình/Nặng | Thực hiện đổi ở các scope khác nhau | Kết quả nickname giống nhau ở mọi scope: Nhẹ dùng ngay; Trung bình HOẶC Nặng đều **bị chặn ngay tại submit**, không tạo hàng chờ duyệt, nickname cũ được giữ nguyên; Mode1/2 không làm thay đổi decision. |
+| TC-US04-012 | Nickname global moderation | Các phim lần lượt ở Mode1/Mode2; đổi nickname Nhẹ/Trung bình/Nặng | Thực hiện đổi ở các phim khác nhau | Kết quả nickname giống nhau ở mọi scope: Nhẹ dùng ngay; Trung bình HOẶC Nặng đều **bị chặn ngay tại submit**, không tạo hàng chờ duyệt, nickname cũ được giữ nguyên; Mode1/2 không làm thay đổi decision. |
 | TC-US04-013 | Fallback identity | U1 chưa có nickname hợp lệ, phone `0912345124` | Mở comment | Hiển thị `0******124`, không lộ số đầy đủ. |
 | TC-US04-014 | Security/idempotency | Logout hoặc retry request | Gửi qua API | Không bypass auth; retry không tạo trùng. |
 | TC-US04-015 | Media restriction | Thử upload ảnh/video cá nhân | UI/API | Không có luồng upload; API từ chối. |

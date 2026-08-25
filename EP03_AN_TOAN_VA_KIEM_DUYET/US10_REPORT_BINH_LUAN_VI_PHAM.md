@@ -51,7 +51,7 @@ Report/AI/CMS dùng chung taxonomy nghiệp vụ:
 | Report đã gửi thành công | **Báo cáo thành công, bình luận sẽ được xem xét** — dạng toast tự tắt, không có nút hành động. |
 | Report cooldown 24h (Report lại cùng target quá sớm) | **Bạn đã báo cáo bình luận này**<br>Có thể báo cáo lại sau {n} giờ nếu nội dung vẫn còn.<br>`[Đóng]` |
 | Report rate limit 10/giờ | **Bạn đã gửi 10 báo cáo trong 1 giờ qua**<br>Vui lòng thử lại sau {mm:ss}.<br>`[Đóng]` |
-| Notification kết quả report (không tiết lộ chi tiết chế tài) | **Kết quả báo cáo của bạn**<br>MyTV đã xem xét báo cáo của bạn trong {tên tập}. Cảm ơn bạn đã giúp giữ cộng đồng an toàn.<br>`[Xem chi tiết]` |
+| Notification kết quả report (không tiết lộ chi tiết chế tài) | **Kết quả báo cáo của bạn**<br>MyTV đã xem xét báo cáo của bạn trong {tên phim}. Cảm ơn bạn đã giúp giữ cộng đồng an toàn.<br>`[Xem chi tiết]` |
 
 ---
 

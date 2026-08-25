@@ -7,7 +7,7 @@
 ```mermaid
 flowchart TD
  A[Gõ @ trong composer] --> B[Gợi ý user trong thread trước]
- B --> C[Sau đó user đã tham gia phim/tập hiện tại]
+ B --> C[Sau đó user đã tham gia bộ phim hiện tại]
  C --> D[Chọn user → lưu mention theo account ID]
  D --> E[Submit content → moderation]
  E -->|Pending| F[Chưa gửi community notification]

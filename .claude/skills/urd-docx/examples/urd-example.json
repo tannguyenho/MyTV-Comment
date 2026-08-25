@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "projectName": "Hệ thống Bình luận MyTV",
+    "title": "TÀI LIỆU ĐẶC TẢ YÊU CẦU NGƯỜI SỬ DỤNG",
+    "subtitle": "URD - User Requirement Description",
+    "docCode": "BM03_URD",
+    "version": "1.0",
+    "effectiveDate": "25/08/2026",
+    "projectCode": "MYTV-CMT"
+  },
+  "approvals": [
+    { "role": "Soạn thảo", "name": "Nguyễn Văn A", "title": "Business Analyst", "date": "20/08/2026" },
+    { "role": "Xem xét", "name": "Trần Thị B", "title": "Trưởng nhóm BA", "date": "22/08/2026" },
+    { "role": "Thẩm định", "name": "", "title": "", "date": "" },
+    { "role": "Phê chuẩn", "name": "", "title": "", "date": "" }
+  ],
+  "history": [
+    {
+      "no": 1, "version": "1.0", "author": "Nguyễn Văn A",
+      "approver": "Trần Thị B", "date": "25/08/2026",
+      "changes": "Khởi tạo tài liệu"
+    }
+  ],
+  "showInstructions": false,
+  "tocDepth": 3,
+
+  "body": [
+    { "type": "h1", "text": "TỔNG QUAN" },
+
+    { "type": "h2", "text": "Mục đích" },
+    { "type": "p", "text": "Tài liệu mô tả yêu cầu của người sử dụng đối với tính năng Bình luận trên nền tảng MyTV, làm cơ sở để đội phát triển đặc tả chi tiết (SRS), thiết kế và nghiệm thu hệ thống." },
+
+    { "type": "h2", "text": "Phạm vi" },
+    { "type": "p", "text": "Tài liệu áp dụng cho tính năng Bình luận trên ứng dụng MyTV (Set-top box, Mobile, Web) và công cụ kiểm duyệt nội dung dành cho bộ phận vận hành." },
+
+    { "type": "h2", "text": "Tài liệu liên quan" },
+    {
+      "type": "table",
+      "widths": [8, 57, 35],
+      "header": ["STT", "Tên tài liệu", "Tên file"],
+      "rows": [
+        ["1", "Kiến trúc hệ thống Bình luận", "ARCHITECTURE.md"],
+        ["2", "Danh sách User Story", "BACKLOG.md"]
+      ]
+    },
+
+    { "type": "h2", "text": "Giải thích từ ngữ và các chữ viết tắt" },
+    {
+      "type": "table",
+      "widths": [25, 75],
+      "header": ["Thuật ngữ", "Ý nghĩa"],
+      "rows": [
+        ["STB", "Set-top box — đầu thu truyền hình MyTV"],
+        ["Kiểm duyệt", "Quá trình duyệt bình luận trước khi hiển thị công khai"],
+        ["Người kiểm duyệt", "Nhân sự vận hành có quyền duyệt/ẩn/xoá bình luận"]
+      ]
+    },
+
+    { "type": "h1", "text": "TỔNG QUAN HỆ THỐNG" },
+
+    { "type": "h2", "text": "Mục tiêu hệ thống" },
+    {
+      "type": "table",
+      "widths": [6, 14, 30, 28, 22],
+      "header": ["STT", "Mã mục tiêu", "Tên mục tiêu", "Đối tượng liên quan", "Mức độ ưu tiên"],
+      "rows": [
+        ["1", "MT01", "Cho phép khán giả bình luận theo từng nội dung", "Người xem", "Cao"],
+        ["2", "MT02", "Kiểm duyệt bình luận trước khi hiển thị công khai", "Người kiểm duyệt", "Cao"],
+        ["3", "MT03", "Tăng thời lượng tương tác trên nền tảng", "Ban sản phẩm", "Trung bình"]
+      ]
+    },
+
+    { "type": "h2", "text": "Đối tượng người dùng của hệ thống" },
+    { "type": "note", "text": "[Chèn sơ đồ ngữ cảnh: hệ thống ở trung tâm, các đối tượng bao quanh với luồng Vào/Ra.]" },
+    {
+      "type": "table",
+      "caption": "Bảng 1: Đối tượng người dùng và tương tác với hệ thống",
+      "widths": [6, 18, 28, 15, 15, 18],
+      "header": [
+        { "text": "STT", "rowspan": 2 },
+        { "text": "Tên đối tượng", "rowspan": 2 },
+        { "text": "Mô tả", "rowspan": 2 },
+        { "text": "Tương tác với hệ thống", "colspan": 2 },
+        { "text": "Lợi ích mong đợi", "rowspan": 2 }
+      ],
+      "rows": [
+        [
+          { "text": "Vào", "bold": true, "align": "center", "shade": "D9D9D9" },
+          { "text": "Ra", "bold": true, "align": "center", "shade": "D9D9D9" }
+        ],
+        [
+          "1", "Người xem",
+          "Khán giả đang xem nội dung trên MyTV",
+          "Gửi bình luận, thả cảm xúc",
+          "Danh sách bình luận đã duyệt",
+          "Tương tác và chia sẻ cảm nhận"
+        ],
+        [
+          "2", "Người kiểm duyệt",
+          "Nhân sự vận hành nội dung",
+          "Thao tác duyệt / ẩn / xoá",
+          "Hàng đợi bình luận chờ duyệt",
+          "Kiểm soát chất lượng nội dung"
+        ],
+        [
+          "3", "Quản trị hệ thống",
+          "Quản trị cấu hình và phân quyền",
+          "Cấu hình bộ lọc từ khoá, phân quyền",
+          "Báo cáo, nhật ký hệ thống",
+          "Vận hành an toàn, đúng quy định"
+        ]
+      ]
+    },
+
+    { "type": "h1", "text": "QUY TRÌNH NGHIỆP VỤ" },
+
+    { "type": "h2", "text": "Quy trình nghiệp vụ tổng thể" },
+    { "type": "note", "text": "[Chèn lưu đồ workflow tổng thể, nêu rõ đầu vào, đầu ra và các bước thực hiện.]" },
+    { "type": "p", "text": "Lưu ý về quy ước đánh mã bước quy trình:", "bold": true },
+    {
+      "type": "bullet",
+      "items": [
+        "Mỗi bước được đánh mã theo dạng <Viết tắt quy trình>.xx.<Tên bước>, với xx từ 01 đến 99.",
+        "Quy trình con mang cả mã quy trình mẹ: <Viết tắt quy trình>.xx.yy.<Tên bước con>."
+      ]
+    },
+    {
+      "type": "table",
+      "widths": [16, 24, 20, 40],
+      "header": ["Mã bước thực hiện", "Tên bước", "Người thực hiện", "Diễn giải bước thực hiện"],
+      "rows": [
+        ["B01", "Gửi bình luận", "Người xem", "Người xem nhập nội dung và gửi lên hệ thống"],
+        ["B02", "Lọc tự động", "Hệ thống", "Đối chiếu bộ lọc từ khoá, tự động chặn nội dung vi phạm rõ ràng"],
+        ["B03", "Kiểm duyệt thủ công", "Người kiểm duyệt", "Duyệt, ẩn hoặc xoá bình luận trong hàng đợi"],
+        ["B04", "Hiển thị công khai", "Hệ thống", "Đưa bình luận đã duyệt vào danh sách hiển thị"]
+      ]
+    },
+
+    { "type": "h2", "text": "Quy trình nghiệp vụ chi tiết" },
+    { "type": "h3", "text": "Quy trình kiểm duyệt bình luận" },
+    { "type": "note", "text": "[Chèn lưu đồ chi tiết của quy trình kiểm duyệt.]" },
+    {
+      "type": "table",
+      "widths": [16, 24, 20, 40],
+      "header": ["Mã bước thực hiện", "Tên bước", "Người thực hiện", "Diễn giải bước thực hiện"],
+      "rows": [
+        ["CMT.01.B01", "Mở hàng đợi", "Người kiểm duyệt", "Truy cập màn hình hàng đợi bình luận chờ duyệt"],
+        ["CMT.01.B02", "Đánh giá nội dung", "Người kiểm duyệt", "Đọc nội dung, đối chiếu quy định nội dung"],
+        ["CMT.01.B03", "Ra quyết định", "Người kiểm duyệt", "Chọn Duyệt / Ẩn / Xoá; ghi lý do khi từ chối"]
+      ]
+    },
+    {
+      "type": "table",
+      "caption": "Yêu cầu chung đối với quy trình kiểm duyệt",
+      "widths": [6, 14, 20, 30, 14, 16],
+      "header": ["STT", "Mã yêu cầu", "Tên yêu cầu", "Mô tả yêu cầu", "Mức độ ưu tiên", "Đối tượng có liên quan"],
+      "rows": [
+        ["1", "UR_QT01", "Ghi vết thao tác", "Mọi thao tác duyệt/ẩn/xoá phải được ghi nhật ký kèm người thực hiện và thời điểm", "Cao", "Người kiểm duyệt"]
+      ]
+    },
+
+    { "type": "h1", "text": "YÊU CẦU CHỨC NĂNG" },
+    { "type": "note", "text": "[Chèn sơ đồ cây chức năng tổng thể hệ thống dạng tree view hoặc business use-case model.]" },
+
+    { "type": "h2", "text": "Phân hệ Bình luận" },
+    {
+      "type": "table",
+      "widths": [5, 10, 15, 38, 10, 10, 12],
+      "header": ["STT", "Mã yêu cầu", "Tên yêu cầu", "Mô tả", "Mức độ ưu tiên", "Mức độ quan trọng", "Đối tượng liên quan"],
+      "rows": [
+        [
+          "1", "UR01", "Gửi bình luận",
+          "Phát biểu yêu cầu: Cho phép người xem gửi bình luận cho nội dung đang xem.\nThông tin đầu vào:\n- Nội dung bình luận (*): tối đa 500 ký tự\n- Mã nội dung (*): lấy từ ngữ cảnh đang xem\nThông tin đầu ra: Bình luận được ghi nhận ở trạng thái Chờ duyệt và hiển thị cho chính người gửi.\nChức năng xử lý: Kiểm tra độ dài, đối chiếu bộ lọc từ khoá, ghi nhận bình luận kèm thời điểm gửi.\nCác ngoại lệ: Nội dung rỗng, vượt quá độ dài, chứa từ khoá bị chặn, người dùng chưa đăng nhập.",
+          "Cao", "Cao", "Người xem"
+        ],
+        [
+          "2", "UR02", "Kiểm duyệt bình luận",
+          "Phát biểu yêu cầu: Cho phép người kiểm duyệt duyệt, ẩn hoặc xoá bình luận trong hàng đợi.\nThông tin đầu vào:\n- Mã bình luận (*)\n- Quyết định (*): Duyệt / Ẩn / Xoá\n- Lý do: bắt buộc khi Ẩn hoặc Xoá\nThông tin đầu ra: Trạng thái bình luận được cập nhật và ghi vào nhật ký.\nChức năng xử lý: Kiểm tra quyền, cập nhật trạng thái, ghi nhật ký thao tác.\nCác ngoại lệ: Không đủ quyền, bình luận đã bị xử lý bởi người khác.",
+          "Cao", "Cao", "Người kiểm duyệt"
+        ]
+      ]
+    },
+
+    { "type": "h1", "text": "CÁC YÊU CẦU PHI CHỨC NĂNG" },
+
+    { "type": "h2", "text": "Yêu cầu bảo mật, phân quyền người sử dụng" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã YC", "Yêu cầu"],
+      "rows": [
+        ["UR_NF01", "Hệ thống cho phép nhiều cấp quản trị; một người sử dụng có thể có nhiều vai trò."],
+        ["UR_NF02", "Việc phân quyền được thực hiện theo chức năng, không theo từng bản ghi."],
+        ["UR_NF03", "Mọi thao tác kiểm duyệt phải được ghi nhật ký và lưu tối thiểu 12 tháng."]
+      ]
+    },
+
+    { "type": "h2", "text": "Yêu cầu sao lưu và phục hồi dữ liệu" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF04", "Dữ liệu bình luận được sao lưu tự động hằng ngày, giữ tối thiểu 30 bản."],
+        ["UR_NF05", "Thời gian phục hồi dữ liệu (RTO) tối đa 4 giờ; mất mát dữ liệu (RPO) tối đa 1 giờ."]
+      ]
+    },
+
+    { "type": "h2", "text": "Yêu cầu về tính khả dụng (Usability)" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF06", "Người kiểm duyệt mới thao tác thành thạo sau tối đa 2 giờ đào tạo."],
+        ["UR_NF07", "Giao diện hỗ trợ điều khiển bằng remote trên STB và cảm ứng trên Mobile."]
+      ]
+    },
+
+    { "type": "h2", "text": "Yêu cầu về tính ổn định (Reliability)" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF08", "Tính sẵn sàng tối thiểu 99,5% theo tháng."],
+        ["UR_NF09", "Khi xảy ra sự cố, hệ thống phục hồi 90% trong vòng 1 giờ và 100% trong vòng 24 giờ."]
+      ]
+    },
+
+    { "type": "h2", "text": "Yêu cầu về hiệu năng (Performance)" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF10", "Thời gian phản hồi khi gửi bình luận dưới 1 giây ở phân vị 95."],
+        ["UR_NF11", "Hệ thống đáp ứng tối thiểu 5.000 người dùng đồng thời."]
+      ]
+    },
+
+    { "type": "h2", "text": "Yêu cầu về tính hỗ trợ (Supportability)" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF12", "Hỗ trợ 24/7 trong 12 tháng đầu sau khi vận hành chính thức, phản hồi tối đa 4 giờ làm việc."]
+      ]
+    },
+
+    { "type": "h2", "text": "Yêu cầu các ràng buộc thiết kế (Design constraints)" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF13", "Hệ thống triển khai trên hạ tầng nội bộ của Tổng công ty Truyền thông."],
+        ["UR_NF14", "Thiết kế theo hướng module hoá để bổ sung/tháo gỡ phân hệ mà không ảnh hưởng phần còn lại."]
+      ]
+    },
+
+    { "type": "h2", "text": "Yêu cầu về giao tiếp (Interfaces)" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF15", "Giao tiếp chung: hệ thống cung cấp API theo giao thức HTTPS, chuẩn REST/JSON."],
+        ["UR_NF16", "Giao tiếp người dùng: font Unicode; định dạng ngày dd/mm/yyyy; định dạng số 000.000,000; toàn bộ giao diện bằng tiếng Việt."],
+        ["UR_NF17", "Giao tiếp phần cứng: hoạt động trên STB hiện hành và thiết bị di động Android 8.0 / iOS 13 trở lên."],
+        ["UR_NF18", "Giao tiếp phần mềm — phần mềm dùng để xây dựng hệ thống: N/A (do đơn vị phát triển đề xuất trong tài liệu giải pháp)."],
+        ["UR_NF19", "Giao tiếp phần mềm — giữa các module: phân hệ Kiểm duyệt lấy dữ liệu từ phân hệ Bình luận; phân hệ Báo cáo lấy số liệu từ cả hai."],
+        ["UR_NF20", "Giao tiếp phần mềm — bên ngoài và truyền thông: xác thực người dùng qua hệ thống tài khoản MyTV hiện có."]
+      ]
+    },
+
+    { "type": "h2", "text": "Các yêu cầu về tài liệu người dùng và hỗ trợ trực tuyến" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF21", "Cung cấp tài liệu hướng dẫn sử dụng cho người kiểm duyệt và tổ chức đào tạo trực tiếp."]
+      ]
+    },
+
+    { "type": "h2", "text": "Các thành phần mua ngoài" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [["UR_NF22", "N/A"]]
+    },
+
+    { "type": "h2", "text": "Các yêu cầu pháp lý, bản quyền và ghi chú khác" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF23", "Toàn bộ mã nguồn và tài liệu được bàn giao và thuộc quyền quản lý của Tổng công ty Truyền thông."]
+      ]
+    },
+
+    { "type": "h2", "text": "Các tiêu chuẩn áp dụng" },
+    {
+      "type": "table",
+      "widths": [15, 85],
+      "header": ["Mã", "Yêu cầu"],
+      "rows": [
+        ["UR_NF24", "Quy trình phát triển tuân thủ hệ thống quản lý chất lượng ISO 9001 đang áp dụng tại đơn vị."]
+      ]
+    },
+
+    { "type": "h1", "text": "TIÊU CHUẨN NGHIỆM THU (*)" },
+    { "type": "p", "text": "Hệ thống được nghiệm thu khi thoả đồng thời các điều kiện sau:" },
+    {
+      "type": "number",
+      "items": [
+        "Hệ thống được thiết kế và vận hành đúng như mô tả trong tài liệu này, đáp ứng trên 90% yêu cầu có mức độ ưu tiên Cao tại Mục IV.",
+        "Hệ thống được hiệu chỉnh sau khi triển khai thử nghiệm.",
+        "Tổ chức hướng dẫn sử dụng cho người dùng.",
+        "Người sử dụng thao tác thành thạo sau khoá đào tạo.",
+        "Toàn bộ tài liệu và mã nguồn được bàn giao đầy đủ."
+      ]
+    }
+  ]
+}

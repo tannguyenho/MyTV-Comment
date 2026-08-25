@@ -5,7 +5,7 @@
 
 ### User Story
 
-**Là Admin vận hành**, tôi muốn hệ thống áp dụng trạng thái và phạm vi hiển thị theo cấu hình từng phim/tập, để kiểm soát chính xác ai được xem nội dung ở từng giai đoạn moderation.
+**Là Admin vận hành**, tôi muốn hệ thống áp dụng trạng thái và phạm vi hiển thị theo cấu hình từng phim, để kiểm soát chính xác ai được xem nội dung ở từng giai đoạn moderation.
 
 ### Ưu tiên
 
@@ -45,19 +45,19 @@ Quy tắc chọn thông báo:
 
 1. Chờ duyệt chỉ hiển thị với tác giả; không xuất hiện ở public API/count/notification cho người khác.
 2. Bản sửa Chờ duyệt không ghi đè version public cũ; nếu bị Từ chối/chặn, version cũ vẫn Hiển thị.
-3. Phim/tập có ba trạng thái vận hành: Chế độ 1, Chế độ 2, Đóng bình luận.
-4. Khi Đóng, tab `Bình luận` **vẫn hiển thị nhưng bỏ count**; danh sách comment/reply, ô nhập và các action tương tác bị ẩn, thay bằng **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**. UI/API chặn **Comment, Reply, Like, Mention, Report và Share mới**. **Rating không nằm trong phạm vi gate này**: rating thuộc khối thông tin phim/tập nên vẫn hiển thị aggregate và vẫn nhận đánh giá mới khi scope đang Đóng (US03 AC11).
+3. Mỗi phim có ba trạng thái vận hành: Chế độ 1, Chế độ 2, Đóng bình luận.
+4. Khi Đóng, tab `Bình luận` **vẫn hiển thị nhưng bỏ count**; danh sách comment/reply, ô nhập và các action tương tác bị ẩn, thay bằng **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**. UI/API chặn **Comment, Reply, Like, Mention, Report và Share mới**. **Rating không nằm trong phạm vi gate này**: rating thuộc khối thông tin phim nên vẫn hiển thị aggregate và vẫn nhận đánh giá mới khi scope đang Đóng (US03 AC11).
 5. Đóng bình luận không xóa dữ liệu lịch sử và không đổi moderation state của comment/reply chỉ vì scope bị Đóng.
 6. Khi mở lại, dữ liệu đủ điều kiện được hiển thị lại; nội dung đã Từ chối/Ẩn/Xóa vẫn không public.
 7. Khi chuyển **Chế độ 2 → Chế độ 1**, comment đang Chờ duyệt mà **đã có AI result an toàn/Nhẹ trước đó** tự chuyển Hiển thị; các case Trung bình/không đủ điều kiện tiếp tục Chờ duyệt.
 8. Khi chuyển **Chế độ 1 → Chế độ 2**, nội dung đã Hiển thị trước effective time vẫn giữ Hiển thị; Chế độ 2 áp dụng cho nội dung mới/version mới từ effective time.
 9. Khi chuyển sang **Đóng** trong lúc còn queue, queue được giữ và Admin vẫn xử lý trên CMS; item được Duyệt trong lúc Đóng không public cho tới khi mở lại.
-10. Deep link cũ từ Share/Notification tới target trong scope đang Đóng vẫn mở đúng phim/tập nhưng **không hiển thị comment/thread**; thông báo fallback chọn theo **Effective Visibility Resolver** — nếu target CHỈ bị gate scope Đóng thì hiển thị **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**, nếu target còn bị moderation riêng/Admin root cascade/Account Lock thì hiển thị thông báo của gate có ưu tiên cao hơn. Khi mở lại scope, link cũ hoạt động lại nếu target vẫn hợp lệ và không còn gate ưu tiên cao hơn đang active.
-11. Rule “sau X giờ” hỗ trợ ba loại mốc và **Admin chọn loại mốc khi cấu hình**: giờ phát hành MyTV, giờ phát sóng thực tế, hoặc mốc Admin nhập thủ công.
+10. Deep link cũ từ Share/Notification tới target trong scope đang Đóng vẫn mở đúng phim nhưng **không hiển thị comment/thread**; thông báo fallback chọn theo **Effective Visibility Resolver** — nếu target CHỈ bị gate scope Đóng thì hiển thị **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**, nếu target còn bị moderation riêng/Admin root cascade/Account Lock thì hiển thị thông báo của gate có ưu tiên cao hơn. Khi mở lại scope, link cũ hoạt động lại nếu target vẫn hợp lệ và không còn gate ưu tiên cao hơn đang active.
+11. Rule “sau X giờ” cho phép **Admin chọn loại mốc khi cấu hình**. **Phim lẻ** có ba loại mốc: giờ phát hành MyTV, giờ phát sóng thực tế, hoặc mốc Admin nhập thủ công. **Phim bộ** chỉ có hai loại: giờ phát hành MyTV hoặc mốc Admin nhập thủ công — mốc “giờ phát sóng thực tế” không áp dụng vì cấu hình ở cấp phim trong khi mỗi tập có giờ phát sóng riêng.
 12. Thay đổi mode/schedule chỉ áp dụng từ effective time và có timezone nhất quán.
 13. Khi comment bị **Từ chối / Ẩn / Xóa**, tác giả thấy lý do cụ thể trong app và nhận notification nghiệp vụ bắt buộc.
 14. Mọi transition/configuration được lưu audit.
-15. Trong thời gian scope Đóng, việc user chỉ truy cập trang phim/tập **không tạo active day badge** vì khu vực Bình luận không thể được mở/đọc theo định nghĩa US17.
+15. Trong thời gian scope Đóng, việc user chỉ truy cập trang phim **không tạo active day badge** vì khu vực Bình luận không thể được mở/đọc theo định nghĩa US17.
 
 ### Quy tắc nghiệp vụ
 
@@ -81,14 +81,14 @@ Quy tắc chọn thông báo:
 | TC-US12-003 | Mode2→1 safe | Pending có AI Nhẹ/an toàn | Chuyển Mode2 → Mode1 | Item tự Hiển thị từ effective time, không cần Admin duyệt lại. |
 | TC-US12-004 | Mode2→1 medium | Pending có AI Trung bình | Chuyển Mode2 → Mode1 | Item tiếp tục Chờ duyệt. |
 | TC-US12-005 | Mode1→2 | Có C1 đã public | Chuyển Mode1 → Mode2 | C1 vẫn public; nội dung mới sau effective time vào queue. |
-| TC-US12-006 | Close UI/API | Phim/tập Đóng | Mở UI và gọi Comment/Reply/Like/Mention/Report/Rating/Share APIs | Toàn bộ comment area/rating ẩn; mọi interaction mới trong scope bị chặn. |
+| TC-US12-006 | Close UI/API | Phim đang Đóng bình luận | Mở UI và gọi Comment/Reply/Like/Mention/Report/Rating/Share APIs | Toàn bộ comment area/rating ẩn; mọi interaction mới trong scope bị chặn. |
 | TC-US12-007 | Close with queue | Có pending item | Đóng rồi Admin duyệt item | Queue vẫn xử lý; item đã duyệt không public trong lúc Đóng. |
 | TC-US12-008 | Reopen | Đang Đóng có data cũ/item đã duyệt | Mở lại | Data đủ điều kiện public lại; state xử lý riêng vẫn được tôn trọng. |
-| TC-US12-009 | Closed deep link | Scope Đóng; TH1: C1 hợp lệ, chỉ bị gate scope Đóng. TH2: C1 vừa trong scope Đóng vừa bị Ẩn/Từ chối riêng. TH3: C1 trong scope Đóng và tác giả đang Account Lock | Mở deep link Share/Notification tới C1 ở từng TH | Cả 3 TH đều mở đúng phim/tập, không hiển thị C1 và không đổi state C1. Thông báo theo Effective Visibility Resolver: TH1 “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; TH2 “Bình luận không còn khả dụng” (gate 2 thắng gate 5); TH3 “Bình luận hiện không khả dụng” (gate 4 thắng gate 5). |
+| TC-US12-009 | Closed deep link | Scope Đóng; TH1: C1 hợp lệ, chỉ bị gate scope Đóng. TH2: C1 vừa trong scope Đóng vừa bị Ẩn/Từ chối riêng. TH3: C1 trong scope Đóng và tác giả đang Account Lock | Mở deep link Share/Notification tới C1 ở từng TH | Cả 3 TH đều mở đúng phim, không hiển thị C1 và không đổi state C1. Thông báo theo Effective Visibility Resolver: TH1 “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; TH2 “Bình luận không còn khả dụng” (gate 2 thắng gate 5); TH3 “Bình luận hiện không khả dụng” (gate 4 thắng gate 5). |
 | TC-US12-010 | Reopen deep link | Scope mở lại, C1 vẫn hợp lệ | Mở lại deep link cũ | Link lại mở đúng C1/thread, không cần tạo link mới. |
 | TC-US12-011 | X-hours | Cấu hình lần lượt 3 loại mốc | Kiểm tra trước/đúng/sau mốc | Transition đúng loại mốc Admin chọn và timezone. |
 | TC-US12-012 | Reason notification | Admin Từ chối/Ẩn/Xóa C1 | U1 mở app/notification | U1 thấy lý do cụ thể và nhận notification bắt buộc. |
-| TC-US12-013 | Active day closed | U1 đăng nhập; scope đang Đóng | U1 mở trang phim/tập nhiều lần | Không phát sinh active day vì comment area không khả dụng. |
+| TC-US12-013 | Active day closed | U1 đăng nhập; scope đang Đóng | U1 mở trang phim nhiều lần | Không phát sinh active day vì comment area không khả dụng. |
 | TC-US12-014 | Audit | Đổi mode/schedule/state | Tra audit | Có actor/time/before-after/effective config. |
 | TC-US12-015 | State × Action matrix | 5 state (Chờ duyệt/Hiển thị/Từ chối/Ẩn/Xóa mềm) × 8 action (Duyệt/Từ chối/Ẩn/Xóa mềm/Undo/Bỏ qua Report/Flag/Spoiler) | Với mỗi state, thử lần lượt cả 8 action qua UI và API | Chỉ tổ hợp hợp lệ được thực hiện: Duyệt chỉ từ Chờ duyệt; Từ chối chỉ từ Chờ duyệt; Ẩn chỉ từ Hiển thị. Mọi tổ hợp không hợp lệ khác bị chặn ở cả UI và API, không ghi audit "thành công", không đổi state. |
 | TC-US12-016 | Concurrency tại effective time | Scope sắp chuyển Đóng, hoặc Mode1 sắp chuyển Mode2 tại effective time T | User gửi Comment/Reply/Rating/Share ngay trước T và ngay sau T | Request nhận trước T được xử lý theo mode/scope cũ; request nhận sau T được xử lý theo mode/scope mới; quyết định bám theo **thời điểm hệ thống nhận request**, không phụ thuộc thời điểm AI trả kết quả (kể cả khi AI trả kết quả chậm, sau T). |

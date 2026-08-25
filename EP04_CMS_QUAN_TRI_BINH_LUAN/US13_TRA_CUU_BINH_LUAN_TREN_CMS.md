@@ -14,9 +14,9 @@
 ### Acceptance Criteria
 
 1. Admin/Moderator xem được comment/reply trong phạm vi CMS được cấp.
-2. Mỗi record có tối thiểu: nội dung, tác giả, phim/series, tập, thời gian, state, Like, Reply, Report, AI risk và thời gian chờ nếu đang moderation.
+2. Mỗi record có tối thiểu: nội dung, tác giả, phim, thời gian, state, Like, Reply, Report, AI risk và thời gian chờ nếu đang moderation.
 3. Search theo keyword, nickname/account và định danh user được hỗ trợ.
-4. Filter theo phim/tập/thời gian/state/AI label/Report/Spoiler và có thể kết hợp nhiều filter.
+4. Filter theo phim/thời gian/state/AI label/Report/Spoiler và có thể kết hợp nhiều filter.
 5. Moderation queue mặc định sắp **risk cao trước**; trong cùng mức risk, item **cũ hơn/chờ lâu hơn trước**.
 6. Item sắp/quá SLA được hiển thị rõ và tham gia ưu tiên queue theo US14.
 7. Chi tiết record cho xem thread, version history, AI result, Report/Flag và lịch sử moderation.

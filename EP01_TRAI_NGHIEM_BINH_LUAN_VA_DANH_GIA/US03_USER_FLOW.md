@@ -1,6 +1,6 @@
 # User Flow — US03 Đánh giá 5 sao
 
-> User Story: [US03_DANH_GIA_SERIES_VA_TAP_PHIM.md](US03_DANH_GIA_SERIES_VA_TAP_PHIM.md)
+> User Story: [US03_DANH_GIA_PHIM.md](US03_DANH_GIA_PHIM.md)
 
 **Platforms:** Phone, Web, SmartTV
 
@@ -8,7 +8,7 @@
 
 ```mermaid
 flowchart TD
- A[Mở trang phim/tập] --> B[Khối thông tin phim hiển thị điểm trung bình]
+ A[Mở trang phim] --> B[Khối thông tin phim hiển thị điểm trung bình]
  B --> C[User chạm vào điểm đánh giá]
  C --> D[Bottom sheet: average + total + 5 sao + nút Gửi đánh giá]
  D --> E{User chọn 1–5 sao?}
@@ -25,8 +25,8 @@ flowchart TD
 
 ## UX/Business đã chốt
 
-- Rating nằm ở **khối thông tin phim/tập**, không nằm trong tab Bình luận; entry point là điểm trung bình trên khối đó.
-- Phim lẻ: rating cấp phim. Phim bộ: rating **chỉ cấp tập hiện tại**; không còn rating Series.
+- Rating nằm ở **khối thông tin phim**, không nằm trong tab Bình luận; entry point là điểm trung bình trên khối đó.
+- Rating ở **cấp phim** cho cả phim lẻ và phim bộ: một account có tối đa một rating hiện hành trên mỗi bộ phim.
 - Một account có 1 rating hiện hành/content scope.
 - User **được thay đổi 1–5 sao nhưng không được xóa rating**.
 - Chọn sao **chưa** gửi; phải bấm nút `Gửi đánh giá` để xác nhận. Nút disabled khi chưa chọn sao. Đóng sheet giữa chừng thì rating cũ giữ nguyên.

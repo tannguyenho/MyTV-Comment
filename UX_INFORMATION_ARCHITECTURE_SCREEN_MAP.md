@@ -13,7 +13,7 @@
 
 IA/SM phải bảo đảm 6 mục tiêu:
 
-1. Người xem hiểu mình đang xem phim lẻ nào hoặc tập nào của phim bộ **qua player và khối thông tin nội dung**; khu vực Bình luận không cần lặp lại ngữ cảnh này.
+1. Người xem hiểu mình đang xem phim nào **qua player và khối thông tin nội dung**; khu vực Bình luận không cần lặp lại ngữ cảnh này.
 2. Guest có thể đọc ngay, nhưng mọi interaction đi qua **auth gate** và quay lại đúng context.
 3. Không có đường điều hướng nào làm lộ comment/thread đang non-public do moderation, cascade, Account Lock hoặc scope Đóng.
 4. Các trạng thái moderation/sanction phải có **lối ra rõ ràng**, không tạo dead-end khó hiểu.
@@ -28,22 +28,22 @@ IA/SM phải bảo đảm 6 mục tiêu:
 
 Trong scope hiện tại không có Community Home, global comment feed, profile feed hay discovery feed.
 
-- Comment luôn thuộc **một phim lẻ hoặc một tập của phim bộ**.
-- Deep link luôn quay về **phim/tập + comment/thread** nếu còn khả dụng.
-- Khi target không còn xem được, user vẫn ở **phim/tập**, không rơi vào 404 comment page.
+- Comment luôn thuộc **một bộ phim**.
+- Deep link luôn quay về **phim + comment/thread** nếu còn khả dụng.
+- Khi target không còn xem được, user vẫn ở **phim**, không rơi vào 404 comment page.
 
 **Hệ quả UX:** Comment Area nằm trong trải nghiệm Content Detail/Watch; không tạo tab cấp ứng dụng tên “Cộng đồng” chỉ cho feature này.
 
-## IA-02 — Không có scope Series phía người xem; context là phim lẻ hoặc tập hiện tại
+## IA-02 — Bình luận và rating ở cấp phim
 
-Phía người xem **không tồn tại** phạm vi bình luận/rating “Toàn bộ phim/Series” và **không có** bộ chuyển scope Series ↔ Tập trên UI.
+Phạm vi bình luận và rating là **bộ phim**. Mỗi bộ phim có duy nhất một Comment Area và một điểm đánh giá.
 
 - **Phim lẻ:** comment và rating ở **cấp phim**.
-- **Phim bộ:** comment và rating **chỉ theo tập đang xem**. Đổi tập là đổi **context nội dung**, không phải đổi scope trong cùng một Comment Area.
-- Không tạo hai hệ thống comment độc lập ở navigation cấp app.
-- Comment Area **không bắt buộc** hiển thị lại tên phim/tập: ngữ cảnh đã rõ từ player và khối thông tin nội dung ngay phía trên. Đổi tập vẫn reload toàn bộ dữ liệu bình luận của tập mới.
-- Khi đổi tập, count/rating/Pin/list reload theo tập mới và sort **reset về `Nổi bật`** (US02 AC3).
-- **CMS vẫn giữ cấu hình cấp series** (mode/Đóng/threshold/schedule/Pin theo inheritance episode override → series override → default hệ thống, US15). Đây là **cấu hình vận hành**, hoàn toàn khác với scope bình luận của người xem — bỏ scope Series phía người xem **không** đồng nghĩa bỏ cấu hình CMS cấp series.
+- **Phim bộ:** comment và rating cũng ở **cấp phim** — mọi tập dùng chung một Comment Area. Đổi tập chỉ đổi **context phát**, không đổi phạm vi bình luận.
+- Không có bộ chuyển phạm vi bình luận trên UI người xem, cũng không tạo hai hệ thống comment độc lập ở navigation cấp app.
+- Comment Area **không bắt buộc** hiển thị lại tên phim: ngữ cảnh đã rõ từ player và khối thông tin nội dung ngay phía trên.
+- Đổi tập **không** reload count/rating/Pin/list và **không** reset sort, vì dữ liệu bình luận thuộc về bộ phim chứ không thuộc tập (US02 AC2).
+- **CMS cấu hình ở cấp phim** (mode/Đóng/threshold/schedule/Pin theo inheritance override cấp phim → default hệ thống, US15). Đây là **cấu hình vận hành**, tách bạch với trải nghiệm đọc của người xem.
 
 ## IA-03 — State nội dung và gate hiển thị là hai lớp
 
@@ -106,7 +106,7 @@ flowchart TD
     NOTI["Notification Center"]
     PROFILE["Profile / Settings"]
 
-    SCOPE["Content Context: phim lẻ / tập hiện tại"]
+    SCOPE["Content Context: bộ phim hiện tại"]
     RATING["Rating"]
     LIST["Comment List"]
     THREAD["Thread / Reply"]
@@ -152,7 +152,7 @@ Chứa hoặc dẫn tới:
 - Player/metadata nội dung hiện có.
 - Comment Area.
 - Rating.
-- Context nội dung hiện tại: phim lẻ hoặc tập đang xem.
+- Context nội dung hiện tại: bộ phim đang xem.
 - Sort/Pin/list/thread.
 - Comment/Reply composer.
 - Deep-link target focus.
@@ -192,7 +192,7 @@ User không thể đi vào app khi Account Lock còn hiệu lực.
 flowchart TD
     CA["Comment Area"]
     TAB["Nhãn tab: Bình luận + public count"]
-    CONTEXT["Content Context: phim lẻ / tập hiện tại"]
+    CONTEXT["Content Context: bộ phim hiện tại"]
     RATE["Rating: ở khối thông tin phim, NGOÀI Comment Area"]
     SORT["Sort Control"]
     PIN["Pinned Comments 0–3"]
@@ -203,7 +203,7 @@ flowchart TD
 
     CA --> TAB
     CA --> CONTEXT
-    CONTENT_INFO["Khối thông tin phim/tập"] --> RATE
+    CONTENT_INFO["Khối thông tin phim"] --> RATE
     CA --> SORT
     CA --> PIN
     CA --> ROOTS
@@ -216,7 +216,7 @@ flowchart TD
 
 Đây là **thứ tự thông tin đề xuất**, không phải quyết định layout cứng:
 
-1. Content context hiện tại (phim lẻ hoặc tập đang xem).
+1. Content context hiện tại (bộ phim đang xem).
 2. Public comment count — hiển thị ở **nhãn tab** `Bình luận ({count})`, không phải header đếm riêng bên trong Comment Area.
 3. Sort control.
 4. Pinned group — cụm tối đa 3 comment ghim, cố định trên cùng, tách khỏi list thường bằng divider.
@@ -224,7 +224,7 @@ flowchart TD
 6. Load more/end state.
 7. Composer entry — thanh nhập inline cố định ở đáy màn hình nên luôn nhìn thấy, không nằm trong thứ tự cuộn.
 
-Rating **không** nằm trong thứ tự này: theo US03 AC1 rating thuộc khối thông tin phim/tập bên ngoài tab Bình luận, và theo US03 AC11 rating không bị gate bởi scope Đóng bình luận.
+Rating **không** nằm trong thứ tự này: theo US03 AC1 rating thuộc khối thông tin phim bên ngoài tab Bình luận, và theo US03 AC11 rating không bị gate bởi scope Đóng bình luận.
 
 Lý do:
 
@@ -276,13 +276,13 @@ flowchart TD
 
 | Entry | Destination | Context phải giữ |
 |---|---|---|
-| Mở Content Detail/Watch | Comment Area | phim lẻ hoặc tập hiện tại |
+| Mở Content Detail/Watch | Comment Area | bộ phim hiện tại |
 | Guest bấm Like/Reply/Comment/Rating/Report/Share | Auth Gate → quay lại Content | scope + thread + target comment + action origin |
-| Notification Reply/Mention | Content + target | phim/tập/thread/comment |
+| Notification Reply/Mention | Content + target | phim/thread/comment |
 | Notification moderation | Content hoặc moderation status | target + reason phù hợp |
 | Notification badge | Content/Profile context | badge type |
-| Share deep link | Content + target/fallback | phim/tập/thread/comment |
-| Bấm timestamp | Player trong Content | episode + timecode |
+| Share deep link | Content + target/fallback | phim/thread/comment |
+| Bấm timestamp | Player trong Content | phim lẻ + timecode |
 | Comment Lock banner/status | Sanction detail/appeal | sanction reason + expiry |
 | Login khi Account Lock | Locked Account Screen | sanction status + reason |
 
@@ -294,7 +294,7 @@ flowchart TD
 
 Đây là **mô hình thông tin**, không phải API/URL contract:
 
-- Content route: `Phim lẻ` hoặc `Tập của phim bộ`.
+- Content route: `Phim lẻ` hoặc `Phim bộ`.
 - Optional thread target: `Root Comment`.
 - Optional comment target: `Comment/Reply`.
 - Optional source: `notification/share`.
@@ -303,7 +303,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    DL["Mở deep link"] --> CTX["Resolve phim lẻ / tập phim bộ"]
+    DL["Mở deep link"] --> CTX["Resolve bộ phim"]
     CTX --> VIS["Effective Visibility Resolver"]
     VIS -->|Public| TARGET["Mở Comment Area + focus target"]
     VIS -->|Moderation/Self-delete/Admin cascade| F1["Bình luận không còn khả dụng"]
@@ -311,7 +311,7 @@ flowchart TD
     VIS -->|Scope Đóng| F3["Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau"]
 ```
 
-**UX rule:** fallback vẫn giữ content context và CTA quay về xem phim/tập; không hiển thị raw target data.
+**UX rule:** fallback vẫn giữ content context và CTA quay về xem phim; không hiển thị raw target data.
 
 ---
 
@@ -348,7 +348,7 @@ Backlog không khóa vị trí đổi nickname.
 1. Profile/Settings → Nickname.
 2. Identity affordance trong Comment Composer → “Đổi tên hiển thị”.
 
-Không tạo logic nickname riêng theo từng phim/tập vì nickname là identity toàn account.
+Không tạo logic nickname riêng theo từng phim vì nickname là identity toàn account.
 
 ---
 
@@ -377,7 +377,7 @@ Tối thiểu:
 
 - Event type.
 - Safe actor identity nếu cần.
-- Safe content context: tên phim/tập.
+- Safe content context: tên phim.
 - Time.
 - Read/unread.
 - Deep-link target.
@@ -452,7 +452,7 @@ Search/filter theo:
 
 - Keyword.
 - Nickname/account/định danh user.
-- Series/Episode.
+- Phim.
 - Time.
 - Moderation state.
 - AI label.
@@ -493,7 +493,7 @@ Action availability phải dựa trên state hiện tại; không hiển thị a
 
 ## 11.1. Pin Management
 
-- Scope selector Series/Episode.
+- Bộ chọn phim.
 - Current pinned list 0–3.
 - Drag/reorder.
 - Expiry.
@@ -505,8 +505,8 @@ Action availability phải dựa trên state hiện tại; không hiển thị a
 
 Một config workspace cần thể hiện đồng thời:
 
-- Scope đang chỉnh: Series/Episode.
-- Inheritance source: system / series / episode.
+- Phim đang chỉnh.
+- Inheritance source: system / phim.
 - Current effective mode.
 - Proposed new mode.
 - AI threshold.
@@ -586,7 +586,7 @@ Auto badge Fan/Featured do system job; CMS chủ yếu inspect/config/audit, kh�
 
 ## 13.2. AI Ops
 
-AI Ops gắn context phim/tập, không phải global AI chat.
+AI Ops gắn context phim, không phải global AI chat.
 
 Hai task:
 
@@ -635,7 +635,7 @@ Một Screen ID có thể là **responsive destination dùng chung Web/Mobile**,
 | C05 | Focused Thread / Deep-link target | Context state | Phone, Web (TV dùng C17) | Notification/share/list | C02, C07/C08/actions | US01, US08, US09, US18 |
 | C06 | Comment Composer | Task view | Phone (thanh nhập inline đáy màn hình), Web (inline) | C02 | C02 pending/public/error | US04, US06, US11 |
 | C07 | Reply Composer | Task view | Phone (thanh nhập inline đáy màn hình), Web (inline) | C05 | C05 pending/public/error | US08, US09, US11 |
-| C08 | Rating bottom sheet | Task view (overlay) | Phone, Web, SmartTV | C01 — khối thông tin phim/tập (không thuộc C02) | C01 | US03 |
+| C08 | Rating bottom sheet | Task view (overlay) | Phone, Web, SmartTV | C01 — khối thông tin phim (không thuộc C02) | C01 | US03 |
 | C09 | Nickname Settings | Secondary | Phone, Web | Profile hoặc composer identity | previous screen | US04, US11 |
 | C10 | Notification Center | Primary/secondary | Phone, Web | App shell | C01/C05/C13 | US09, US10, US14, US16, US17 |
 | C11 | Community Notification Settings | Secondary | Phone, Web | Profile/Settings | Profile | US09 |
@@ -667,7 +667,7 @@ SmartTV không có destination tạo nội dung: C06, C07, O03–O06, O08, O09, 
 
 | ID | State | Platform | Trigger | User-facing behavior | US |
 |---|---|---|---|---|---|
-| S01 | Comment Area Loading | Phone, Web, SmartTV | mở tab Bình luận / đổi tập / đổi sort | skeleton/progress | US01, US02 |
+| S01 | Comment Area Loading | Phone, Web, SmartTV | mở tab Bình luận / đổi sort | skeleton/progress | US01, US02 |
 | S02 | Comment Area Empty | Phone, Web, SmartTV | no public data | guest CTA login / logged-in CTA viết đầu tiên / SmartTV hướng dẫn + QR (S13) | US01 |
 | S03 | Target no longer available | Phone, Web, SmartTV | moderation/self-delete/admin cascade | “Bình luận không còn khả dụng” (vĩnh viễn) | US12, US18 |
 | S04 | Target temporarily unavailable | Phone, Web, SmartTV | Account Lock của tác giả/root author | “Bình luận hiện không khả dụng” (tạm thời; link hoạt động lại sau khi gỡ khóa) | US12, US16, US18 |
@@ -910,8 +910,8 @@ Không cần mọi screen có đủ 12 state; wireframe checklist phải xác đ
 # 22. Navigation rules quan trọng
 
 1. Login return giữ target context nhưng **không giữ pending action để auto-submit**.
-2. Phim bộ đổi tập → reload toàn bộ dữ liệu của tập mới (count/rating/Pin/list), không carry list cũ. Phía người xem không có thao tác đổi scope Series↔Tập.
-3. Sort preference chỉ áp dụng cho content context hiện tại và **không persist sang context khác**: phim bộ đổi tập → **sort reset về `Nổi bật`** cùng lúc reload rating/public count/Pin/list của tập mới (US02 AC3).
+2. Phim bộ đổi tập → **giữ nguyên** count/rating/Pin/list vì dữ liệu bình luận thuộc về bộ phim, không thuộc tập.
+3. Sort preference chỉ áp dụng cho bộ phim hiện tại và **không persist sang phim khác**: mở phim khác → **sort reset về `Nổi bật`** cùng lúc load rating/public count/Pin/list của phim đó (US02 AC3).
 4. Deep link public → focus đúng target.
 5. Deep link non-public → content context + fallback, không lộ target.
 6. Account Lock → chặn toàn App Shell.
@@ -928,7 +928,7 @@ Các quyết định sau có thể coi là **UX structure baseline**:
 
 - Không có Community Home/global feed trong MVP.
 - Comment nằm trong Content Detail/Watch context.
-- Không có scope selector Series↔Tập phía người xem; context của Comment Area là phim lẻ hoặc tập đang xem. CMS vẫn cấu hình được ở cấp series.
+- Context của Comment Area là bộ phim đang xem; phía người xem không có bộ chọn phạm vi bình luận. CMS cấu hình ở cấp phim.
 - Notification là destination cấp app; comment target vẫn quay về content context.
 - Profile/Settings chứa nickname + community notification + Comment Lock status/appeal.
 - Account Lock nằm ngoài App Shell.
@@ -962,7 +962,7 @@ Ba điểm trước đây nằm trong danh sách trên đã được thiết k�
 | Comment action menu | **Kebab (⋯) mở bottom sheet**, không dùng action row. Hai biến thể theo quyền: tác giả thấy `Chỉnh sửa bình luận` / `Xóa bình luận`; người khác thấy `Báo cáo bình luận` / `Chia sẻ bình luận`. |
 | Notification Center | **Một feed chung** theo thời gian, phân biệt bằng type label/icon trên từng item; không tách tab “Cộng đồng” vs “Hệ thống”. |
 
-Các điểm sau **đã được chốt ở nơi khác** nên không nằm trong danh sách cần quyết định: vị trí Comment Area (tab riêng trong trang nội dung — `UX_USER_FLOWS.md`), composer Phone = thanh nhập inline đáy màn hình / Web = inline (`UX_USER_FLOWS.md`), truncate comment dài **3 dòng** trước `Xem thêm`/`Thu gọn` (US01), vị trí rating ở khối thông tin phim/tập (US03 AC1), và bộ chuyển Series↔Tập phía người xem (đã bỏ hẳn — xem IA-02).
+Các điểm sau **đã được chốt ở nơi khác** nên không nằm trong danh sách cần quyết định: vị trí Comment Area (tab riêng trong trang nội dung — `UX_USER_FLOWS.md`), composer Phone = thanh nhập inline đáy màn hình / Web = inline (`UX_USER_FLOWS.md`), truncate comment dài **3 dòng** trước `Xem thêm`/`Thu gọn` (US01), và vị trí rating ở khối thông tin phim (US03 AC1).
 
 ---
 
@@ -1071,7 +1071,7 @@ Khẳng định sau vẫn giữ nguyên hiệu lực: IA/Screen Map này **khôn
 
 IA đề xuất giữ feature Comment **contextual, lean và an toàn**:
 
-- Người xem luôn bắt đầu từ nội dung phim/tập.
+- Người xem luôn bắt đầu từ nội dung phim.
 - Interaction được layer vào Comment Area thay vì tạo social product độc lập.
 - Exception flow (moderation, scope Đóng, Account Lock) là first-class state.
 - CMS được tổ chức theo job vận hành, không theo cấu trúc backend service.

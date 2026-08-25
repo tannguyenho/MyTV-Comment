@@ -5,7 +5,7 @@
 
 ### User Story
 
-**Là Admin vận hành nội dung**, tôi muốn ghim bình luận và cấu hình moderation theo series/tập, để định hướng thảo luận và áp dụng mức kiểm soát phù hợp.
+**Là Admin vận hành nội dung**, tôi muốn ghim bình luận và cấu hình moderation theo từng phim, để định hướng thảo luận và áp dụng mức kiểm soát phù hợp.
 
 ### Ưu tiên
 
@@ -26,10 +26,10 @@
 
 ### Acceptance Criteria — Cấu hình moderation
 
-1. Series có thể cấu hình Chế độ 1, Chế độ 2 hoặc Đóng bình luận.
-2. **Episode được phép override series** cho cả Mở/Đóng và moderation mode; nếu episode không có config riêng thì kế thừa series.
-3. AI threshold cũng theo inheritance: episode override → series override → default hệ thống theo US11; **nickname không dùng inheritance này** vì dùng global AI policy riêng.
-4. Rule “sau X giờ” cho phép Admin chọn mốc: giờ phát hành MyTV, giờ phát sóng thực tế hoặc mốc Admin nhập thủ công.
+1. Mỗi phim có thể cấu hình Chế độ 1, Chế độ 2 hoặc Đóng bình luận; phim không có config riêng thì kế thừa default hệ thống.
+2. Cấu hình Mở/Đóng và moderation mode áp cho **toàn bộ phim**, kể cả mọi tập của phim bộ.
+3. AI threshold cũng theo inheritance: override cấp phim → default hệ thống theo US11; **nickname không dùng inheritance này** vì dùng global AI policy riêng.
+4. Rule “sau X giờ” cho phép Admin chọn mốc. **Phim lẻ:** giờ phát hành MyTV, giờ phát sóng thực tế hoặc mốc Admin nhập thủ công. **Phim bộ:** chỉ giờ phát hành MyTV hoặc mốc Admin nhập thủ công.
 5. Admin thấy rõ config hiệu lực, inheritance source và effective time trước khi lưu.
 6. Khi thay đổi mode/Đóng, cách xử lý item đang Hiển thị/Chờ duyệt tuân US12.
 7. Đóng bình luận không xóa dữ liệu cũ.
@@ -39,7 +39,7 @@
 
 - Hard max pin = 3.
 - Pin order là editorial order thủ công.
-- Episode override series; không có override thì inherit.
+- Phim override default hệ thống; không có override thì inherit.
 - Account Lock chỉ **tạm ẩn Pin**; moderation invalidation thực sự làm mất Pin.
 - Undo moderation không tự tạo lại Pin đã mất; khác với unlock Account Lock, vốn có thể khôi phục Pin metadata tạm ẩn nếu còn hợp lệ/chưa hết hạn.
 - Scheduled config phải audit before/after, actor, effective time và loại mốc.
@@ -58,10 +58,10 @@
 | TC-US15-006 | Account Lock pin | C1 đang Pin; tác giả U1 bị Account Lock rồi mở khóa trước expiry | Kiểm tra vùng ghim | Khi khóa Pin tạm ẩn nhưng metadata còn; mở khóa tự hiện lại nếu C1 vẫn hợp lệ. |
 | TC-US15-007 | Account Lock + moderation | C1 đang Pin; U1 bị Account Lock; sau đó Admin Ẩn/Xóa/Từ chối C1 | Mở khóa U1 | Pin không tự trở lại vì source đã bị moderation riêng. |
 | TC-US15-008 | Undo moderation pin | C1 từng Pin rồi bị Admin Ẩn/Xóa làm mất Pin | Undo moderation | Content state có thể phục hồi nhưng Pin không tự phục hồi; cần Admin ghim lại. |
-| TC-US15-009 | Inheritance | Series Mode1, E1 không override, E2 override Mode2 | Gửi nội dung E1/E2 | E1 dùng Mode1 series; E2 dùng Mode2. |
-| TC-US15-010 | Episode close | Series Mở, E2 override Đóng | Mở E1/E2 | E1 hoạt động; E2 ẩn toàn khu vực và chặn interaction theo US12. |
-| TC-US15-011 | AI threshold inheritance | Default/series/episode khác nhau | Gửi cùng mẫu content | Dùng đúng episode→series→default; nickname không bị ảnh hưởng. |
-| TC-US15-012 | X-hours | Cấu hình lần lượt 3 loại mốc | Kiểm tra effective transition | Hệ thống dùng đúng loại mốc Admin chọn. |
+| TC-US15-009 | Inheritance | Default hệ thống Mode1, phim M1 không override, phim M2 override Mode2 | Gửi nội dung ở M1 và M2 | M1 dùng Mode1 từ default; M2 dùng Mode2. |
+| TC-US15-010 | Đóng bình luận | Phim M1 Mở, phim M2 Đóng | Mở tab Bình luận của M1 và M2 | M1 hoạt động; M2 ẩn toàn khu vực và chặn interaction theo US12, áp cho mọi tập của M2. |
+| TC-US15-011 | AI threshold inheritance | Default hệ thống và override cấp phim khác nhau | Gửi cùng mẫu content | Dùng đúng override cấp phim → default; nickname không bị ảnh hưởng. |
+| TC-US15-012 | X-hours | Phim lẻ cấu hình lần lượt 3 loại mốc; phim bộ mở màn hình cấu hình mốc | Kiểm tra effective transition ở phim lẻ; kiểm tra danh sách loại mốc khả dụng ở phim bộ | Phim lẻ dùng đúng loại mốc Admin chọn. Phim bộ chỉ hiển thị 2 lựa chọn (giờ phát hành MyTV, mốc thủ công); API từ chối nếu ép giá trị “giờ phát sóng thực tế”. |
 | TC-US15-013 | Mode transition | Có item public/pending | Đổi Mode1↔Mode2/Đóng | Hành vi đúng US12, không mất lịch sử. |
 | TC-US15-014 | Audit | Pin/reorder/expiry/config/lifecycle Pin | Tra history | Có actor/time/before-after/effective data phù hợp. |
-| TC-US15-015 | Xác nhận trước khi lưu | Admin thay đổi threshold cho episode đang inherit từ series | Mở màn hình xác nhận trước khi lưu | Hiển thị rõ: config đang hiệu lực, nguồn kế thừa (inherit từ series/default hay override riêng), config sau khi lưu, effective time kèm timezone. |
+| TC-US15-015 | Xác nhận trước khi lưu | Admin thay đổi threshold cho phim đang inherit từ default hệ thống | Mở màn hình xác nhận trước khi lưu | Hiển thị rõ: config đang hiệu lực, nguồn kế thừa (inherit từ default hay override riêng), config sau khi lưu, effective time kèm timezone. |

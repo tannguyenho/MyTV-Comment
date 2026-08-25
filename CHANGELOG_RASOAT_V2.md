@@ -1,5 +1,8 @@
 # Nhật ký thay đổi — Áp dụng rà soát vòng 2
 
+> **Ghi chú:** đây là hồ sơ của vòng rà soát V2. Quyết định **QĐ-A** dưới đây (phim bộ bình luận và đánh giá theo từng tập) **đã được thay thế** tại [CHANGELOG_RASOAT_V3.md](CHANGELOG_RASOAT_V3.md). Khi hai tài liệu mâu thuẫn, V3 là bản có hiệu lực.
+
+
 **Ngày:** 19/08/2026 · **Áp lên:** `e1c71a0`
 **Căn cứ:** Báo cáo rà soát vòng 2 (19 phát hiện) + 4 quyết định PO chốt ngày 19/08/2026
 

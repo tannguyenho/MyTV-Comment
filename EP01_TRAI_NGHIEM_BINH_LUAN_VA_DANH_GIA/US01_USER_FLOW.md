@@ -9,7 +9,7 @@
 
 ```mermaid
 flowchart TD
- A[Mở trang phim/tập] --> B[Trang giữ tab mặc định hiện hành]
+ A[Mở trang phim] --> B[Trang giữ tab mặc định hiện hành]
  B --> C[User chọn Bình luận count]
  C --> D{Scope đang mở?}
  D -->|Không| E[Tab vẫn hiện tên Bình luận, bỏ count + trạng thái không khả dụng]
@@ -19,7 +19,7 @@ flowchart TD
  H -->|Có| I[Auth gate]
  I --> J[Login thành công → quay lại đúng context, không auto action]
  H -->|Không| K[Tiếp tục đọc]
- L[Deep link comment/thread] --> M[Mở đúng phim/tập + active tab Bình luận]
+ L[Deep link comment/thread] --> M[Mở đúng phim + active tab Bình luận]
  M --> N{Target public?}
  N -->|Có| O[Focus đúng target]
  N -->|Không| P[Fallback an toàn theo Visibility Resolver]
