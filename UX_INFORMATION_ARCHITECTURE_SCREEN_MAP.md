@@ -630,35 +630,35 @@ Một Screen ID có thể là **responsive destination dùng chung Web/Mobile**,
 
 | ID | Screen / View | Loại | Platform | Entry chính | Exit / Next | US |
 |---|---|---|---|---|---|---|
-| C01 | Content Detail / Watch | Primary | Phone, Web, SmartTV | Browse, search, deep link | C02, player, app nav | US01, US06, US18 |
-| C02 | Comment Area — populated | Contextual view | Phone, Web, SmartTV (TV read-only) | C01 | C05/C06/C08/O01/O04; TV → C17 | US01–US08 |
+| C01 | Content Detail / Watch | Primary | Phone, Web, Smart TV | Browse, search, deep link | C02, player, app nav | US01, US06, US18 (TV: chỉ US01) |
+| C02 | Comment Area — populated | Contextual view | Phone, Web, Smart TV (TV read-only) | C01 | C05/C06/C08/O01/O04; TV → C17, O03 bản rút gọn | US01–US08 (TV: US01, US07, US10, US17) |
 | C05 | Focused Thread / Deep-link target | Context state | Phone, Web (TV dùng C17) | Notification/share/list | C02, C07/C08/actions | US01, US08, US09, US18 |
 | C06 | Comment Composer | Task view | Phone (thanh nhập inline đáy màn hình), Web (inline) | C02 | C02 pending/public/error | US04, US06, US11 |
 | C07 | Reply Composer | Task view | Phone (thanh nhập inline đáy màn hình), Web (inline) | C05 | C05 pending/public/error | US08, US09, US11 |
-| C08 | Rating bottom sheet | Task view (overlay) | Phone, Web, SmartTV | C01 — khối thông tin phim (không thuộc C02) | C01 | US03 |
+| C08 | Rating bottom sheet | Task view (overlay) | Phone, Web (TV chỉ hiển thị điểm chỉ đọc, không mở sheet) | C01 — khối thông tin phim (không thuộc C02) | C01 | US03 |
 | C09 | Nickname Settings | Secondary | Phone, Web | Profile hoặc composer identity | previous screen | US04, US11 |
-| C10 | Notification Center | Primary/secondary | Phone, Web | App shell | C01/C05/C13 | US09, US10, US14, US16, US17 |
+| C10 | Notification Center | Primary/secondary | Phone, Web; Smart TV dùng mục thông báo sẵn có của ứng dụng TV (hiển thị đầy đủ noti của account) | App shell | C01/C05/C13; trên TV → C02 hoặc C17 | US09, US10, US14, US16, US17 |
 | C11 | Community Notification Settings | Secondary | Phone, Web | Profile/Settings | Profile | US09 |
 | C12 | Comment Lock Status | Secondary/status | Phone, Web | banner/notification/Profile | C13 hoặc previous | US16 |
 | C13 | Comment Lock Appeal | Task | Phone, Web | C12 | C12 confirmation/status | US16 |
 | C14 | Chi tiết thông báo (kết quả moderation/chế tài) | Status/context | Phone, Web | notification bắt buộc **không có comment target**; notification cộng đồng deep-link thẳng comment nên không đi qua màn này | C01/C05/C12 | US09, US12, US14 |
 | C15 | Badge feedback/context | Status | Phone, Web (TV chỉ hiển thị icon + tên) | notification/profile/comment identity | source context | US17 |
-| C16 | Share Deep-link Landing | Route state | Phone, Web | external link | C01/C05/S03–S05 | US18 |
-| C17 | Thread — SmartTV read-only | Primary (TV) | SmartTV | C02 trên TV: chọn root comment | quay lại C02; không có Reply composer | US01, US08 |
+| C16 | Share Deep-link Landing | Route state | Phone, Web, Smart TV (TV chỉ mở link, không tạo Share) | external link | C01/C05/S03–S05; trên TV → C02 hoặc C17 | US18 |
+| C17 | Thread — SmartTV read-only | Primary (TV) | Smart TV | C02 trên TV: chọn root comment | quay lại C02; không có Reply composer | US01 (Like/Báo cáo/huy hiệu theo US07, US10, US17) |
 
-SmartTV không có destination tạo nội dung: C06, C07, O03–O06, O08, O09, O10 không render trên TV; thay bằng state S13 (hướng dẫn + QR chuyển sang smartphone).
+Smart TV không có destination tạo nội dung: C06, C07, C08, C09, C11, C13, C14, C15, O02, O04, O05, O07, O08, O09, O10 không render trên TV; thay bằng state S13 (hướng dẫn + QR chuyển sang smartphone). Riêng **O03 render bản rút gọn chỉ có `Báo cáo`** và **O06 Report sheet có bản 10-foot với 5 reason, ẩn `Vi phạm khác`** vì US10 áp dụng trên Smart TV.
 
 ## 15.3. Consumer overlays / sheets
 
 | ID | Overlay | Platform | Entry | Outcome | US |
 |---|---|---|---|---|---|
-| O01 | Auth Gate | Phone, Web, SmartTV | Guest interaction (TV: Like/Rating) | Login → return context / cancel | US01, US03, US04, US07, US08, US10, US18 |
-| O02 | Sort selector | Phone, Web, SmartTV (remote) | C02 | Nổi bật/Mới nhất/Nhiều lượt thích | US02 |
-| O03 | Comment action menu | Phone, Web | comment/reply overflow | Edit/Delete/Report/Share theo quyền | US05, US10, US18 |
+| O01 | Auth Gate | Phone, Web, Smart TV | Guest interaction (TV: Like/Báo cáo) | Login → return context / cancel | US01, US03, US04, US07, US08, US10, US18 |
+| O02 | Sort selector | Phone, Web (không render trên TV) | C02 | Nổi bật/Mới nhất/Nhiều lượt thích | US02 |
+| O03 | Comment action menu | Phone, Web; Smart TV (bản rút gọn chỉ có `Báo cáo`) | comment/reply overflow | Edit/Delete/Report/Share theo quyền; TV chỉ có Report | US05, US10, US18 (TV: chỉ US10) |
 | O04 | Edit Comment/Reply | Phone, Web | O03 | submit version / validation/error | US05, US11 |
 | O05 | Delete confirmation | Phone, Web | O03 | self-delete / cancel | US05 |
-| O06 | Report sheet | Phone, Web | O03 | submit report / cooldown/rate-limit | US10 |
-| O07 | Spoiler reveal | Phone, Web, SmartTV | chạm vào đoạn chữ bị làm mờ trong comment | hiện nội dung đoạn đó | US04, US08 |
+| O06 | Report sheet | Phone, Web; Smart TV (10-foot, 5 reason, ẩn `Vi phạm khác`) | O03 | submit report / cooldown/rate-limit | US10 |
+| O07 | Spoiler reveal | Phone, Web (TV không áp dụng: nội dung hiển thị nguyên văn) | chạm vào đoạn chữ bị làm mờ trong comment | hiện nội dung đoạn đó | US04, US08 |
 | O08 | Timestamp — user gõ trong nội dung | Phone, Web | composer (không có control gắn mốc riêng) | nhận chuỗi thời gian hợp lệ đầu tiên làm 1 timestamp | US06 |
 | O09 | Mention suggestion | Phone, Web | composer after `@` | select account ID | US09 |
 | O10 | OS Share Sheet | Phone, Web | Share action | successful open = Share event | US18 |
@@ -667,19 +667,19 @@ SmartTV không có destination tạo nội dung: C06, C07, O03–O06, O08, O09, 
 
 | ID | State | Platform | Trigger | User-facing behavior | US |
 |---|---|---|---|---|---|
-| S01 | Comment Area Loading | Phone, Web, SmartTV | mở tab Bình luận / đổi sort | skeleton/progress | US01, US02 |
+| S01 | Comment Area Loading | Phone, Web, Smart TV | mở tab Bình luận / đổi sort (TV: chỉ mở tab) | skeleton/progress | US01, US02 |
 | S02 | Comment Area Empty | Phone, Web, SmartTV | no public data | guest CTA login / logged-in CTA viết đầu tiên / SmartTV hướng dẫn + QR (S13) | US01 |
 | S03 | Target no longer available | Phone, Web, SmartTV | moderation/self-delete/admin cascade | “Bình luận không còn khả dụng” (vĩnh viễn) | US12, US18 |
 | S04 | Target temporarily unavailable | Phone, Web, SmartTV | Account Lock của tác giả/root author | “Bình luận hiện không khả dụng” (tạm thời; link hoạt động lại sau khi gỡ khóa) | US12, US16, US18 |
-| S05 | Comment Area closed | Phone, Web, SmartTV | scope Đóng | giữ tab `Bình luận` nhưng **bỏ count**; hiển thị “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; ẩn list/composer/actions (rating **không** bị ẩn — xem US03 AC11) | US01, US12, US18 |
+| S05 | Comment Area closed | Phone, Web, Smart TV | scope Đóng | giữ tab `Bình luận` nhưng **bỏ count**; hiển thị “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; ẩn list/composer/actions (rating **không** bị ẩn — xem US03 AC11; trên TV rating là chỉ đọc) | US01, US12, US18 |
 | S06 | Pending moderation — author only | Phone, Web | Comment/Reply/Edit pending | status visible only to author | US04, US05, US11, US12 |
 | S07 | Comment Lock interaction blocked | Phone, Web | Comment/Reply/Mention/Edit after lock | explain sanction + allowed alternatives | US16 |
 | S08 | Account Lock full-screen | Phone, Web, SmartTV | login/session effective lock | reason + hotline; no App Shell | US09, US16 |
 | S09 | Like reconcile error | Phone, Web, SmartTV | server mismatch/fail | revert + announce + retry | US07 |
-| S10 | Timestamp unavailable | Phone, Web, SmartTV | media/time invalid/unavailable | disabled timestamp + fallback | US06 |
-| S11 | Report cooldown | Phone, Web | same target <24h | remaining time | US10 |
-| S12 | Report rate limit | Phone, Web | >10/hour | retry countdown | US10 |
-| S13 | SmartTV — không hỗ trợ tạo nội dung | SmartTV | user muốn Comment/Reply/Mention/Report/Share trên TV | ẩn entry tạo nội dung; hiển thị **hướng dẫn + QR** để chuyển sang smartphone; vẫn giữ đọc/Like/Rating/Sort/Spoiler/Timestamp | US01, US04, US09, US10, US18 |
+| S10 | Timestamp unavailable | Phone, Web (TV không áp dụng US06) | media/time invalid/unavailable | disabled timestamp + fallback | US06 |
+| S11 | Report cooldown | Phone, Web, Smart TV | same target <24h (tính theo account, dùng chung quota giữa các thiết bị) | remaining time | US10 |
+| S12 | Report rate limit | Phone, Web, Smart TV | >10/hour (tính theo account) | retry countdown | US10 |
+| S13 | SmartTV — không hỗ trợ tạo nội dung | Smart TV | user muốn Comment/Reply/Mention/Chia sẻ, đổi sort, chấm sao hoặc nhảy mốc thời gian trên TV | ẩn entry của các chức năng không áp dụng; hiển thị **hướng dẫn + QR** để chuyển sang smartphone; TV vẫn giữ đọc (gồm thread chỉ đọc), Like/Unlike, Báo cáo và hiển thị huy hiệu | US01, US04, US05, US06, US08, US09, US18 |
 | S14 | Rate limit Comment/Reply | Phone, Web | >5 nội dung/phút/user (quota chung Comment+Reply) | “Bạn đang bình luận hơi nhanh”; không tạo record; cho gửi lại sau | US04, US08, US11 |
 | S15 | Edit rate limit | Phone, Web | >5 lần sửa/phút/target | chặn trước khi tạo version mới/gọi AI; giữ nội dung đang soạn; cho thử lại | US05, US11 |
 | S16 | Nickname bị chặn tại submit | Phone, Web | validation/AI chặn, hoặc AI không cho quyết định hợp lệ | “Tên này chưa phù hợp”; giữ nickname cũ/fallback mask; cho thử tên khác; không Pending, không tiêu quota | US04, US11 |
@@ -895,12 +895,18 @@ Không cần mọi screen có đủ 12 state; wireframe checklist phải xác đ
 
 ## SmartTV / 10-foot UI
 
-- SmartTV **không tạo nội dung**: không Comment, Reply, Mention, Report, Share. Không render composer entry (C06/C07) và các overlay tạo nội dung (O03–O06, O08, O09, O10).
-- SmartTV **vẫn hỗ trợ**: đọc comment/thread, Like/Unlike, Rating 1–5 sao, đổi Sort, reveal Spoiler và bấm Timestamp để seek — tất cả bằng remote. Like/Rating vẫn yêu cầu login (O01).
+- **Ma trận nền tảng đã chốt:** Phone và Web áp dụng US01–US10, US17, US18. **Smart TV chỉ áp dụng US01, US07, US10, US17.** US11–US16, US19, US20 thuộc CMS/quản trị và do backend áp dụng phía sau.
+- Smart TV **vẫn hỗ trợ**: đọc comment và thread chỉ đọc, Like/Unlike (US07), Báo cáo bình luận (US10) và hiển thị huy hiệu (US17) — tất cả bằng remote. Like và Báo cáo vẫn yêu cầu login (O01).
+- Smart TV **không hỗ trợ**: Comment, Reply, Sửa/Xóa, Mention, Chia sẻ, đổi Sort, chấm sao (Rating), reveal Spoiler và seek theo Timestamp. Không render composer entry (C06/C07), C08, C09, C11, C13, C14, C15, O02, O04, O05, O07, O08, O09, O10.
+- TV **không tạo Share** nhưng **mở được deep link** tới comment/thread — từ notification trong app hoặc từ link chia sẻ bên ngoài (`C16`): mở `C02` hoặc `C17`, fallback theo Effective Visibility Resolver (US12).
+- Riêng **O03 có bản rút gọn chỉ gồm `Báo cáo`** và **O06 Report sheet có bản 10-foot với 5 reason, ẩn `Vi phạm khác`** (reason đó bắt buộc nhập mô tả nên không dùng trên TV).
+- Danh sách trên TV kế thừa quy tắc render của US02 — count trên tab, tối đa 3 pin trên cùng, thứ tự `Nổi bật`, lazy load 10 root/batch — nhưng **không có control sort**.
+- Điểm đánh giá phim trên TV là **chỉ đọc**; đoạn Làm mờ hiển thị **nguyên văn** vì TV không áp dụng cơ chế spoiler của US04.
+- Mục thông báo sẵn có của ứng dụng Smart TV hiển thị **đầy đủ notification của account** (Reply/Mention, moderation/chế tài, kết quả Báo cáo US10, huy hiệu US17); bấm notification có target bình luận thì mở `C02` hoặc `C17`, fallback theo Effective Visibility Resolver (US12). TV không render `C10`/`C11`/`C14`/`C15`: switch Thông báo cộng đồng và màn chi tiết huy hiệu chỉ có trên Phone/Web.
 - Khi user muốn tham gia bình luận, TV hiển thị **hướng dẫn + QR** để chuyển sang smartphone (state `S13`). Empty state trên TV cũng dùng hướng dẫn + QR thay cho CTA viết bình luận đầu tiên (US01).
-- Thread trên TV **không expand inline** mà mở **trang thread riêng chỉ đọc** (`C17`, US08); không có Reply composer trong màn này.
+- Thread trên TV **không expand inline** mà mở **trang thread riêng chỉ đọc** (`C17`); phần đọc này thuộc US01, không có Reply composer trong màn này.
 - Badge trên TV chỉ hiển thị icon + tên, không mở badge detail (US17).
-- Navigation theo D-pad/remote: focus order tuyến tính, focus indicator rõ ràng, không phụ thuộc hover/touch; lazy load và đổi sort phải thao tác được bằng remote (US02).
+- Navigation theo D-pad/remote: focus order tuyến tính, focus indicator rõ ràng, không phụ thuộc hover/touch; đọc, lazy load, Like và Báo cáo phải thao tác được bằng remote.
 - Account Lock áp dụng cho mọi platform gồm SmartTV; appeal Account Lock qua hotline `1800 1166` (US16).
 
 **Không khóa ở IA:** breakpoint, pixel width, side-panel vs full-page cụ thể, kích thước/vị trí QR trên TV.
@@ -980,7 +986,7 @@ Wireframe trước:
 - Edit/Delete/Report.
 - `C09` Nickname Settings + state `S16` nickname bị chặn tại submit và `S17` hết quota 24h (US04/US11 nằm trong P0).
 - Rate-limit states `S14` (Comment/Reply 5/phút/user) và `S15` (Edit 5/phút/target).
-- SmartTV: biến thể read-only của `C02`, màn `C17` thread read-only và state `S13` (hướng dẫn + QR chuyển sang smartphone).
+- SmartTV: biến thể read-only của `C02`, màn `C17` thread read-only, `O03` bản rút gọn chỉ có `Báo cáo`, `O06` Report 10-foot (5 reason) và state `S13` (hướng dẫn + QR chuyển sang smartphone).
 
 Bao phủ US01, US02, US04, US05, US08, US10, US11, US12.
 
@@ -1036,7 +1042,7 @@ Mỗi screen/frame trong Figma nên gắn metadata tối thiểu:
 
 - Screen ID từ tài liệu này.
 - User Story liên quan.
-- Platform: Phone / Web / SmartTV (theo cột Platform ở mục 15).
+- Platform: Phone / Web / Smart TV / CMS (theo cột Platform ở mục 15).
 - Actor/role.
 - Entry point.
 - Primary task.
@@ -1049,7 +1055,7 @@ Ví dụ:
 
 `C05 · US08/US09 · Phone/Web · Logged-in · Deep-linked thread · Public · Reply available`
 
-`C17 · US08 · SmartTV · Logged-in/Guest · Thread read-only · Public · Không có Reply`
+`C17 · US01 · SmartTV · Logged-in/Guest · Thread read-only · Public · Không có Reply`
 
 Điều này giúp Design/Dev/QA đối chiếu cùng một screen mà không dựa vào tên frame tự do.
 

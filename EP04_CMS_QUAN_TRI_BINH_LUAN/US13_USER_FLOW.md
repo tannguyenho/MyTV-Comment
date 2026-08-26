@@ -2,7 +2,7 @@
 
 > User Story: [US13_TRA_CUU_BINH_LUAN_TREN_CMS.md](US13_TRA_CUU_BINH_LUAN_TREN_CMS.md)
 
-**Platform:** Web/Desktop only
+**Platform:** CMS Web/Desktop only
 
 ```mermaid
 flowchart TD

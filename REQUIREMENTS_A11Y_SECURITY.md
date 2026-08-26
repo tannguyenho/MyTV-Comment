@@ -6,7 +6,7 @@ Tài liệu này tổng hợp các yêu cầu **cross-cutting** (áp dụng xuy�
 
 ### A.1. Yêu cầu chung
 
-- Toàn bộ tính năng bình luận (web + mobile) phải tuân thủ **WCAG 2.1 mức AA**.
+- Toàn bộ tính năng bình luận (web + mobile + Smart TV) phải tuân thủ **WCAG 2.1 mức AA**.
 - **Tương phản màu**: tối thiểu **4.5:1** cho văn bản thường, tối thiểu **3:1** cho thành phần UI/đồ họa (bao gồm nền của **đoạn chữ bị làm mờ do Spoiler** và trạng thái focus/underline của **timestamp link**).
 - **Touch target**: tối thiểu **44×44pt** cho mọi phần tử tương tác (nút Like, nút Report, timestamp, sao rating, đoạn chữ bị làm mờ do Spoiler, nút "Xem thêm phản hồi"...).
 - **Font scaling / Dynamic Type**: hỗ trợ phóng to tới **200%** mà không bị cắt nội dung, không mất chức năng, không chồng chéo layout.
@@ -25,6 +25,20 @@ Tài liệu này tổng hợp các yêu cầu **cross-cutting** (áp dụng xuy�
 | "Xem thêm phản hồi" | US08 (AC10) | Sau khi tải thêm reply xong, giữ nguyên **focus tại nút "Xem thêm phản hồi"** (hoặc chuyển focus tới reply đầu tiên vừa tải, tuỳ thiết kế), đồng thời announce số lượng reply vừa tải qua vùng `aria-live` (ví dụ "Đã tải thêm 10 phản hồi"). |
 | Badge | US17 | Badge hiển thị bằng icon phải có **text alternative** là tên huy hiệu (`alt`/`aria-label`, ví dụ "Huy hiệu Fan kỳ cựu"), không được truyền đạt chỉ bằng hình ảnh. |
 | Chip trạng thái (Chờ duyệt/Từ chối/Khóa bình luận...) | Toàn bộ US có trạng thái hiển thị dạng chip trên CMS/app | Bắt buộc kết hợp **icon + text**, không được truyền đạt thông tin chỉ bằng màu sắc đơn thuần (theo WCAG 1.4.1 — Use of Color). |
+
+### A.3. Smart TV / 10-foot UI (điều hướng bằng remote)
+
+Smart TV chỉ áp dụng US01, US07, US10 và US17 (xem ma trận nền tảng tại `README.md` mục 4.1), nhưng phần thao tác được đó phải dùng trọn vẹn bằng remote:
+
+- **Không phụ thuộc hover/touch**: mọi thông tin và action phải đạt được bằng D-pad + nút OK. Không có state nào chỉ xuất hiện khi hover hoặc chỉ chạm được bằng ngón tay.
+- **Focus order tuyến tính và dự đoán được**: theo đúng thứ tự đọc của màn hình (tab Bình luận → nhóm Ghim → danh sách root → lối vào thread). Không có bẫy focus; luôn có đường quay lại `C02` từ `C17`.
+- **Focus indicator rõ ràng**: viền/nền focus đạt tương phản tối thiểu **3:1** so với nền xung quanh và **không được truyền đạt chỉ bằng màu** — phải kèm thay đổi về viền, kích thước hoặc nền.
+- **Thay thế cho touch target 44×44pt**: trên TV, tiêu chí tương ứng là vùng focus đủ lớn và **khoảng cách giữa các phần tử focus được** đủ để không chọn nhầm bằng D-pad.
+- **Đọc ở khoảng cách xa**: cỡ chữ, độ tương phản và chiều dài dòng phải đọc được ở khoảng cách ngồi xem TV; không dùng chữ mảnh cỡ nhỏ cho nội dung comment.
+- **Announce thay đổi động**: khi lazy load thêm 10 bình luận gốc, giữ focus tại vị trí hiện tại và thông báo số lượng vừa tải bằng cơ chế tương đương `aria-live` của nền tảng TV — không đổi nội dung âm thầm.
+- **Accessible name cho action trên TV**: nút Like dùng trạng thái bật/tắt (tương đương `aria-pressed`), nút `Báo cáo` và các lựa chọn reason đều phải có nhãn đọc được; huy hiệu có text alternative là tên huy hiệu như trên Phone/Web.
+- **Không có yêu cầu nhập văn bản trên TV**: đây là lý do reason `Vi phạm khác` bị ẩn khỏi form Báo cáo trên TV (US10 AC12) — không được thay thế bằng bàn phím ảo.
+- Đoạn Làm mờ (Spoiler) **không áp dụng trên TV**: nội dung hiển thị nguyên văn, nên không cần vùng focusable "Hiện nội dung có tiết lộ" như Phone/Web.
 
 ## Phần B — Bảo mật
 
@@ -77,3 +91,5 @@ Tài liệu này tổng hợp các yêu cầu **cross-cutting** (áp dụng xuy�
 ## Phần C — Cách các User Story khác tham chiếu file này
 
 Các User Story liên quan trực tiếp (**US01, US03, US04, US06, US07, US08, US09, US13, US14, US16, US17, US18**) dẫn chiếu tới mục tương ứng trong file này thay vì lặp lại toàn bộ yêu cầu.
+
+Riêng mục **A.3** áp dụng cho phần chạy trên Smart TV của **US01, US07, US10 và US17**.

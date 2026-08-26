@@ -2,6 +2,8 @@
 
 > User Story: [US12_QUAN_LY_TRANG_THAI_VA_PHAM_VI_HIEN_THI_BINH_LUAN.md](US12_QUAN_LY_TRANG_THAI_VA_PHAM_VI_HIEN_THI_BINH_LUAN.md)
 
+**Platform:** CMS Web/Desktop only (Admin cấu hình). Effective Visibility Resolver do backend áp dụng cho mọi nền tảng; ứng dụng Phone/Web/Smart TV chỉ render kết quả theo các state đã đặc tả ở US01, không phát sinh chức năng mới trên app.
+
 ```mermaid
 flowchart TD
  A[Admin mở Content Operations] --> B[Chọn Mode1 / Mode2 / Đóng]

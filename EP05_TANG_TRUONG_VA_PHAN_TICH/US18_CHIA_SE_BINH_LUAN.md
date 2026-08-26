@@ -35,6 +35,7 @@
 15. Ghi nhận kênh đích khi nền tảng cung cấp và lượt mở link phục vụ US19; retry/lỗi kỹ thuật phải dedup để không tăng Share KPI sai.
 16. Guest không được thực hiện action Share từ MyTV vì Share là interaction; phải đăng nhập trước khi tạo share event.
 17. Scope đang Đóng, target không public hoặc user đang Account Lock thì không thể tạo Share event mới từ target đó.
+18. **Smart TV không tạo Share** (không có action Chia sẻ) nhưng **mở được link chia sẻ trỏ tới comment/thread**: app TV mở đúng phim và tab Bình luận, hoặc trang thread chỉ đọc `C17` nếu target là reply. Toàn bộ gate và fallback áp dụng y như Phone/Web theo Effective Visibility Resolver (US12); lượt mở link từ TV vẫn được ghi nhận cho US19 như mọi nền tảng khác.
 
 ### Quy tắc nghiệp vụ
 

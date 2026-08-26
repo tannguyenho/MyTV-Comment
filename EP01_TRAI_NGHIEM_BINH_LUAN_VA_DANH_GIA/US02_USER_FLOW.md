@@ -2,7 +2,7 @@
 
 > User Story: [US02_XEM_BINH_LUAN_SO_LUONG_VA_SAP_XEP.md](US02_XEM_BINH_LUAN_SO_LUONG_VA_SAP_XEP.md)
 
-**Platforms:** Phone, Web, SmartTV
+**Platforms:** Phone, Web. Smart TV không áp dụng US02.
 
 ## Flow
 
@@ -30,7 +30,7 @@ flowchart TD
 - Sort control dạng dropdown `Nổi bật ▼`.
 - Root comment lazy load **10/batch**.
 - Khi user bấm indicator comment mới: `Nổi bật` và `Nhiều lượt thích` luôn giữ ranking đúng, không ép comment mới lên đầu; `Mới nhất` có thể đưa user tới comment mới đầu tiên.
-- SmartTV vẫn được đổi sort bằng remote.
+- Smart TV không đổi sort: TV không render control sort, danh sách cố định thứ tự `Nổi bật` và kế thừa quy tắc count/pin/lazy load của US02 (xem US01 AC10).
 
 ## States
 

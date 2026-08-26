@@ -2,7 +2,7 @@
 
 > User Story: [US05_SUA_VA_XOA_BINH_LUAN.md](US05_SUA_VA_XOA_BINH_LUAN.md)
 
-**Platforms:** Phone, Web
+**Platforms:** Phone, Web. Smart TV không áp dụng US05.
 
 ```mermaid
 flowchart TD

@@ -41,6 +41,7 @@ MyTV bổ sung khu vực thảo luận cho phim truyện/VOD: người xem đọ
 
 - Phim truyện/VOD có timeline cố định; **bình luận và đánh giá đều ở cấp phim**. Mỗi bộ phim — phim lẻ hay phim bộ — có duy nhất một khu vực bình luận và một điểm đánh giá dùng chung. CMS cấu hình ở cấp phim (AI threshold/mode kế thừa override cấp phim → default hệ thống, US15).
 - Đọc công khai; đăng nhập mới được Bình luận, Trả lời, Thích, Nhắc tên, Báo cáo, Đánh giá, Chia sẻ.
+- **Phạm vi theo nền tảng** (chi tiết tại `README.md` mục 4.1): Phone và Web áp dụng US01–US10, US17, US18; **Smart TV chỉ áp dụng US01, US07, US10, US17** — đọc (gồm thread chỉ đọc), Thích/Bỏ thích, Báo cáo với taxonomy rút gọn 5 reason và hiển thị huy hiệu; CMS Web/Desktop cho US11–US16, US19, US20. Client Smart TV dùng chung API đọc và các endpoint Like/Report với Phone/Web, không có endpoint riêng; hệ thống **không lưu nền tảng nguồn** của bình luận/lượt thích/báo cáo.
 - Trả lời **một cấp** (không lồng sâu).
 - Kiểm duyệt AI hai chế độ + kiểm duyệt viên, có trạng thái và nhật ký kiểm toán rõ ràng.
 - CMS: tra cứu, xử lý nội dung, ghim, cấu hình theo phim, chế tài người dùng, audit.
@@ -120,6 +121,7 @@ flowchart TB
     subgraph client["Lớp giao diện"]
         web["MyTV Web"]
         mob["MyTV Mobile<br/>iOS · Android"]
+        tv["MyTV Smart TV / STB<br/>đọc · Thích · Báo cáo · huy hiệu"]
         cmsui["CMS Quản trị"]
     end
 

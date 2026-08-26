@@ -12,10 +12,11 @@
 3. **Comment và rating ở cấp phim.** Mỗi bộ phim có duy nhất một khu vực bình luận và một điểm đánh giá, dùng chung cho mọi tập nếu là phim bộ. CMS cấu hình ở cấp phim.
 4. Effective Visibility Resolver là source of truth cho render/deep link/fallback.
 5. Scope Đóng giữ tab `Bình luận` nhưng bỏ count, hiển thị `Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau` và ẩn list/composer/actions (rating **không** bị ẩn — xem US03 AC11).
-6. Phone composer = thanh nhập inline cố định đáy màn hình (nở lên khi bàn phím bật); Web = inline; SmartTV không tạo Comment/Reply/Mention/Report/Share nhưng vẫn cho đọc, Like/Unlike, Rating, Sort, reveal Spoiler và Timestamp seek.
+6. Phone composer = thanh nhập inline cố định đáy màn hình (nở lên khi bàn phím bật); Web = inline; Smart TV không tạo Comment/Reply/Mention/Chia sẻ, không Sửa/Xóa, không đổi Sort, không chấm sao, không reveal Spoiler và không Timestamp seek — TV chỉ đọc (gồm thread chỉ đọc), Like/Unlike và Báo cáo bình luận.
 7. SmartTV hướng dẫn + QR để chuyển sang smartphone khi muốn tham gia bình luận.
 8. WCAG 2.1 AA; touch target ≥44×44pt; focus/keyboard/remote navigation phải rõ; state không chỉ dùng màu.
 9. CMS moderation chỉ thiết kế **Web/Desktop**.
+10. **Ma trận nền tảng đã chốt:** Phone và Web áp dụng US01–US10, US17, US18; **Smart TV chỉ áp dụng US01, US07, US10, US17**; US11–US16, US19, US20 thuộc CMS/quản trị và do backend áp dụng phía sau, không phát sinh chức năng mới trên app người dùng.
 
 ## Index 20 User Flow
 

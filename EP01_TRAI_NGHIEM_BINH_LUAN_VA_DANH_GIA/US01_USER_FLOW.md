@@ -2,7 +2,7 @@
 
 > User Story: [US01_DOC_KHU_VUC_BINH_LUAN.md](US01_DOC_KHU_VUC_BINH_LUAN.md)
 
-**Platforms:** Phone, Web, SmartTV  
+**Platforms:** Phone, Web, Smart TV  
 **Actor:** Guest / User đăng nhập
 
 ## Flow
@@ -34,7 +34,9 @@ flowchart TD
 - Có dữ liệu mới khi đang đọc: không tự chèn; hiện `Có {n} bình luận mới` để user chủ động refresh.
 - Guest được đọc public content; login chỉ khi tương tác.
 - Empty: logged-in có CTA viết đầu tiên; Guest có CTA login; SmartTV có hướng dẫn + QR chuyển sang smartphone.
-- SmartTV chỉ đọc nội dung, nhưng vẫn hỗ trợ Like/Unlike, Rating, Sort và Timestamp theo các flow tương ứng; không có composer.
+- **Smart TV chỉ áp dụng US01, US07, US10 và US17.** TV đọc danh sách gốc, mở trang thread chỉ đọc để xem reply, Thích/Bỏ thích, Báo cáo bình luận và hiển thị huy hiệu. Không composer, không Trả lời/Sửa/Xóa/Nhắc tên/Chia sẻ, không đổi sort, không chấm sao, không seek timestamp.
+- Danh sách trên Smart TV kế thừa quy tắc render của US02 (count trên tab, tối đa 3 pin trên cùng, thứ tự `Nổi bật`, lazy load 10 root/batch) nhưng không có control sort.
+- Smart TV không áp dụng cơ chế Làm mờ: nội dung comment hiển thị nguyên văn, không có dải mờ.
 
 ## States
 

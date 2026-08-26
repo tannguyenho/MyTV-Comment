@@ -2,7 +2,7 @@
 
 > User Story: [US06_BINH_LUAN_KEM_MOC_THOI_GIAN.md](US06_BINH_LUAN_KEM_MOC_THOI_GIAN.md)
 
-**Platforms:** Phone, Web; SmartTV được bấm timestamp để seek.
+**Platforms:** Phone, Web. Smart TV không áp dụng US06.
 
 ```mermaid
 flowchart TD
@@ -22,5 +22,5 @@ flowchart TD
 - Nội dung có nhiều chuỗi thời gian hợp lệ thì chỉ chuỗi **đầu tiên** thành timestamp, phần còn lại là text thường.
 - Chức năng chỉ áp dụng cho **phim lẻ**. Timestamp phải thuộc phim hiện tại và không vượt duration; sai thì báo `Mốc thời gian không hợp lệ`.
 - Edit comment được sửa timestamp.
-- SmartTV bấm timestamp bằng remote để seek/phát.
+- Smart TV không seek theo mốc thời gian: chuỗi thời gian trong nội dung hiển thị như chữ thường, không bấm được.
 - Share deep link không auto-seek.

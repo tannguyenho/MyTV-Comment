@@ -37,7 +37,7 @@
 11. Root list không preload Reply; nếu có reply hiển thị lối vào thread `{n} phản hồi` và đi US08.
 12. Có comment mới khi đang đọc: không tự chèn; hiện `Có {n} bình luận mới`. Khi refresh, `Nổi bật`/`Nhiều lượt thích` luôn giữ đúng ranking; `Mới nhất` có thể đưa tới comment mới đầu tiên.
 13. Rời tab rồi quay lại cùng phiên giữ scroll/sort/thread/expand state và refresh ngầm không reset context.
-14. SmartTV cho đọc, đổi sort và lazy load bằng remote.
+14. **US02 không áp dụng trên Smart TV.** TV không render control chọn cách sắp xếp và không có thao tác đổi sort. Danh sách trên TV dùng cố định thứ tự `Nổi bật` và kế thừa quy tắc count trên tab, nhóm Ghim tối đa 3, tải lần đầu 10 root và lazy load 10 root/batch của US này như hành vi render — xem US01 AC10.
 
 ### Quy tắc nghiệp vụ
 
@@ -99,7 +99,7 @@ Kiểm tra phân tách dữ liệu theo bộ phim, tổng số công khai, hard 
 | TC-US02-018 | Truncate | Có comment dài hơn 3 dòng | Mở list và bấm `Xem thêm` rồi `Thu gọn` | Mặc định rút gọn tối đa 3 dòng; `Xem thêm`/`Thu gọn` hoạt động đúng. |
 | TC-US02-019 | Reply preview | Root có reply và root không có reply | Mở list root | Không preload reply; root có reply hiển thị `{n} phản hồi` (không dùng nhãn khác như “{n} bình luận”) và mở thread theo US08. |
 | TC-US02-020 | Session context | Rời tab Bình luận rồi quay lại trong cùng phiên | Quay lại tab | Giữ scroll/sort/thread/expand state; refresh ngầm không reset context. |
-| TC-US02-021 | SmartTV | Thiết bị SmartTV, scope có >20 root | Dùng remote để đọc, mở dropdown đổi sort và cuộn lazy load | Đọc, đổi sort và lazy load thực hiện được đầy đủ bằng remote. |
+| TC-US02-021 | SmartTV | Thiết bị Smart TV, scope có >20 root và có comment ghim | Mở tab Bình luận bằng remote, tìm control sort rồi cuộn lazy load | **Không có** control/dropdown chọn cách sắp xếp trên TV; danh sách cố định thứ tự `Nổi bật` với pin trên cùng; count trên tab và lazy load 10 root/batch vẫn đúng như Phone/Web. |
 
 ### Microcopy
 

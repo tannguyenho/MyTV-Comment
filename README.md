@@ -57,6 +57,24 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 | US19 | Thống kê hoạt động bình luận | EP05 | Must |
 | US20 | AI hỗ trợ vận hành cộng đồng | EP05 | Could |
 
+### 4.1. Ma trận nền tảng
+
+| Nền tảng | User Story áp dụng |
+|---|---|
+| **Phone** (iOS/Android) | US01, US02, US03, US04, US05, US06, US07, US08, US09, US10, US17, US18 |
+| **Web** (MyTV Web) | US01, US02, US03, US04, US05, US06, US07, US08, US09, US10, US17, US18 |
+| **Smart TV / STB** | US01, US07, US10, US17 |
+| **CMS Web/Desktop (quản trị)** | US11, US12, US13, US14, US15, US16, US19, US20 |
+
+Quy tắc đọc ma trận:
+
+- Phone và Web có phạm vi giống nhau; khác biệt chỉ ở dạng trình bày (composer inline đáy màn hình trên Phone, inline trên Web).
+- **Smart TV chỉ đọc và tương tác tối thiểu:** đọc danh sách bình luận gốc, mở trang thread chỉ đọc để xem reply, Thích/Bỏ thích (US07), Báo cáo bình luận với taxonomy rút gọn 5 reason (US10) và hiển thị huy hiệu (US17). TV không có ô nhập, không Trả lời, không Sửa/Xóa, không Nhắc tên, không Chia sẻ, không đổi cách sắp xếp, không đánh giá phim, không nhảy tới mốc thời gian và không áp dụng cơ chế Làm mờ (nội dung hiển thị nguyên văn).
+- Danh sách bình luận trên Smart TV **kế thừa quy tắc render của US02** (count trên tab, tối đa 3 pin trên cùng, thứ tự `Nổi bật`, lazy load 10 root/batch) nhưng không render control sort — xem US01 AC10.
+- US11, US12 và US16 nằm ở nhóm CMS vì thao tác thuộc về Admin; phần **hệ quả** của chúng do backend áp dụng và được hiển thị bằng các state đã đặc tả sẵn trên app, không phát sinh chức năng mới cho FE ứng dụng.
+- Mục thông báo sẵn có của ứng dụng Smart TV hiển thị **đầy đủ** notification của account (Reply/Mention, moderation/chế tài, kết quả Báo cáo, huy hiệu); bấm notification có target bình luận thì mở đúng phim/tab Bình luận hoặc trang thread chỉ đọc, fallback theo US12. TV cũng mở được link chia sẻ tới comment dù không có action Chia sẻ.
+- **Hệ thống không lưu nền tảng nguồn** của bình luận, lượt thích và báo cáo: CMS (US13/US14) và dashboard (US19) không phân biệt bản ghi đến từ Phone, Web hay Smart TV. Đây là quyết định đã chốt, không phải thiếu sót đặc tả.
+
 ## 5. Các quyết định nghiệp vụ đã khóa
 
 ### 5.1. Quyền truy cập, scope và cấu trúc thảo luận

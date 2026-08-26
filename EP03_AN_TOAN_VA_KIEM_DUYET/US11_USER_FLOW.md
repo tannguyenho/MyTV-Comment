@@ -2,6 +2,8 @@
 
 > User Story: [US11_AI_KIEM_DUYET_THEO_HAI_CHE_DO.md](US11_AI_KIEM_DUYET_THEO_HAI_CHE_DO.md)
 
+**Platform:** CMS Web/Desktop only (cấu hình + vận hành). Việc phân loại AI do backend xử lý phía sau; ứng dụng Phone/Web/Smart TV chỉ hiển thị kết quả trạng thái đã có, không phát sinh chức năng mới trên app.
+
 ```mermaid
 flowchart TD
  A[Submit Comment/Reply/Edit] --> B[Snapshot mode + scope]

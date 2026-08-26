@@ -2,7 +2,7 @@
 
 > User Story: [US18_CHIA_SE_BINH_LUAN.md](US18_CHIA_SE_BINH_LUAN.md)
 
-**Platforms:** Phone, Web. SmartTV không Share.
+**Platforms:** Phone, Web. Smart TV không tạo Share nhưng mở được link chia sẻ tới comment/thread (AC18).
 
 ```mermaid
 flowchart TD
@@ -35,4 +35,4 @@ flowchart TD
   - Nhánh bị chặn (chưa login, target non-public, scope Đóng, Account Lock) hoặc mở sheet/copy thất bại thì **không ghi Share event**.
 - Vì Share có trọng số ×2 trong Engagement Score (`Comment×2 + Reply×2 + Net Like + Rating + Share×2`), nhánh Web bắt buộc phải ghi event; nếu bỏ sót, dashboard và ranking phim sẽ thiếu điểm mà đối soát hằng ngày không phát hiện được do đối soát cùng nguồn sự kiện.
 - Payload/preview không chứa nguyên văn comment, nickname/phone/Spoiler; CTA `Xem nội dung này trên MyTV`.
-- SmartTV không Share.
+- Smart TV không có action Chia sẻ, nhưng mở được link chia sẻ trỏ tới comment/thread: mở đúng phim + tab Bình luận, hoặc thread chỉ đọc `C17` nếu target là reply; gate và fallback theo US12 giống Phone/Web.

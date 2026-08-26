@@ -2,7 +2,7 @@
 
 > User Story: [US16_QUAN_LY_NGUOI_DUNG_VI_PHAM_VA_AUDIT_LOG.md](US16_QUAN_LY_NGUOI_DUNG_VI_PHAM_VA_AUDIT_LOG.md)
 
-**CMS:** Web/Desktop only
+**Platform:** CMS Web/Desktop only (Admin ra quyết định). Account Lock do backend áp dụng trên mọi nền tảng gồm Smart TV; app chỉ hiển thị màn khóa và các state đã đặc tả.
 
 ```mermaid
 flowchart TD

@@ -34,7 +34,7 @@
 9. Average hiển thị 1 chữ số thập phân và luôn làm tròn lên đến 0.1 gần nhất, ví dụ `4.21 → 4.3`, `4.20 → 4.2`.
 10. Account Lock tạm loại rating khỏi cả average và public total; unlock tính lại nếu record còn. Comment Lock không loại rating.
 11. **Scope Đóng bình luận không ảnh hưởng rating**: điểm trung bình, tổng số lượt và thao tác đánh giá vẫn hoạt động bình thường khi phim đang Đóng bình luận. Đóng bình luận chỉ gate danh sách comment/reply, không gate rating.
-12. SmartTV cho user đã login đánh giá 1–5 sao bằng remote và thay đổi rating.
+12. **US03 không áp dụng trên Smart TV.** TV chỉ hiển thị điểm trung bình và tổng số lượt ở khối thông tin phim dưới dạng **chỉ đọc**; TV không mở sheet chấm sao và không nhận rating mới từ remote. Người dùng muốn đánh giá thì dùng Phone/Web.
 
 ### Quy tắc nghiệp vụ
 
@@ -68,7 +68,7 @@
 | TC-US03-015 | Rating hiện hành | U1 đã đánh giá content ở mức 4★ | Mở lại bottom sheet đánh giá | Sheet hiển thị sẵn 4★ đang chọn (không phải 0 sao) và nút Gửi đánh giá cho phép xác nhận mức mới. |
 | TC-US03-006 | Error | U1 có rating hợp lệ; mock lỗi khi update | Chọn mức sao mới và để request thất bại | Revert về rating hợp lệ trước đó + thông báo lỗi; không tạo state nửa chừng và không tự retry ngầm. |
 | TC-US03-007 | Account Lock | U1 có rating; khóa rồi mở khóa toàn bộ account U1 | Đối chiếu average và total công khai ở ba mốc | Khi khóa, rating U1 bị loại khỏi **cả average và total công khai** mà không xóa record; mở khóa tính lại nếu record vẫn còn. |
-| TC-US03-008 | SmartTV | U1 đã đăng nhập trên SmartTV | Chọn số sao bằng remote rồi đổi sang mức khác | Submit và update rating hoạt động như Phone/Web. |
+| TC-US03-008 | SmartTV | U1 đã đăng nhập trên Smart TV; phim M1 đã có rating aggregate | Mở trang phim và thử focus/bấm vào khối điểm đánh giá bằng remote | Điểm trung bình và tổng số lượt hiển thị chỉ đọc; không mở được sheet chấm sao; không tạo/đổi được rating từ TV; API không nhận rating từ client TV. |
 | TC-US03-009 | Comment Lock | U1 bị Khóa bình luận nhưng account không bị khóa | Đối chiếu aggregate | Rating của U1 vẫn được tính trong cả average và total count công khai. |
 | TC-US03-010 | Rounding | Average thô lần lượt 4.20, 4.21, 4.29, 4.31 | Đối chiếu hiển thị UI và API public | Kết quả lần lượt 4.2, 4.3, 4.3, 4.4 — luôn làm tròn lên đến 0.1 gần nhất, hiển thị đúng 1 chữ số thập phân. |
 | TC-US03-011 | Scope Đóng | Content đang ở trạng thái Đóng bình luận, đã có rating trước đó | Mở trang phim; gửi rating mới qua UI và API; sau đó Admin mở lại scope | Khi Đóng: khối thông tin phim vẫn hiển thị average/total, bottom sheet vẫn mở được và rating mới **vẫn được nhận** ở cả UI và API; chỉ danh sách comment/reply bị ẩn kèm thông báo “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”. Khi mở lại scope: rating và aggregate không thay đổi do việc đóng/mở. |

@@ -33,6 +33,12 @@
 6. Sau khi đăng nhập thành công, hệ thống đưa người dùng trở lại **đúng phim/thread/comment** liên quan nhưng **không tự thực hiện action đã chọn trước login**; user phải chủ động thao tác lại sau khi đã xác thực. Khi quay lại, hệ thống **set focus + highlight nhẹ vào comment/thread target và không hiển thị toast thông báo**.
 7. Khi phim bị đóng bình luận, tab `Bình luận` **vẫn hiển thị nhưng bỏ số count**; toàn bộ danh sách comment/reply, ô nhập và các action tương tác bị ẩn, thay bằng thông báo **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**. Rating không bị ảnh hưởng vì nằm ở khối thông tin phim (US03 AC11). Quy tắc chi tiết được quản lý tại US12 và US15.
 8. Nếu người dùng mở deep link cũ tới comment/thread trong scope đang **Đóng bình luận**, hệ thống vẫn mở đúng phim nhưng **không hiển thị comment/thread**, hiển thị thông báo **“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”**; đây là visibility gate của scope, không đổi target sang trạng thái Ẩn/Xóa. Khi Admin mở lại, deep link cũ hoạt động lại nếu target vẫn hợp lệ. Khi nhiều gate cùng đúng, áp dụng Effective Visibility Resolver tại US12 (mục ưu tiên gate).
+9. **Phạm vi nền tảng.** Phone và Web hỗ trợ đầy đủ khu vực bình luận. **Smart TV chỉ áp dụng US01, US07 (Thích/Bỏ thích), US10 (Báo cáo bình luận) và US17 (hiển thị huy hiệu)**: TV đọc danh sách bình luận gốc, mở trang thread chỉ đọc để xem reply, Thích/Bỏ thích, Báo cáo và xem huy hiệu của tác giả. TV **không** có ô nhập, không Trả lời, không Sửa/Xóa, không Nhắc tên, không Chia sẻ, không đổi cách sắp xếp, không đánh giá phim và không nhảy tới mốc thời gian.
+10. **Danh sách trên Smart TV kế thừa quy tắc render của US02** dù US02 không áp dụng như một tính năng trên TV: tab hiển thị `Bình luận ({public_count})`, tối đa 3 bình luận Ghim luôn ở trên cùng, phần còn lại xếp theo `Nổi bật`, tải lần đầu 10 bình luận gốc và lazy load 10 bình luận gốc mỗi batch bằng remote. TV **không** render control chọn cách sắp xếp.
+11. Trên Smart TV, reply được đọc tại **trang thread riêng chỉ đọc** (màn `C17`): chọn một bình luận gốc để mở, không có ô trả lời và không có action Trả lời. Đây là phần đọc thuộc US01; US08 không áp dụng trên TV.
+12. Trên Smart TV, điểm đánh giá trung bình và tổng số lượt của phim vẫn hiển thị ở khối thông tin phim dưới dạng **chỉ đọc**; TV không mở luồng chấm sao vì US03 không áp dụng trên TV.
+13. **Smart TV không áp dụng cơ chế Làm mờ (spoiler) của US04**: mọi đoạn chữ trong bình luận hiển thị nguyên văn như nội dung bình thường, không có dải mờ và không có thao tác hiện nội dung. Mốc thời gian trong nội dung hiển thị như chữ thường và không bấm được vì US06 không áp dụng trên TV.
+14. **Thông báo trên Smart TV.** Mục thông báo sẵn có của ứng dụng Smart TV hiển thị **đầy đủ notification của account** — Reply/Mention, kết quả moderation/chế tài, kết quả Báo cáo (US10) và cấp huy hiệu (US17) — dù TV không tạo được các nội dung đó. Bấm một notification có target bình luận thì **mở đúng phim và tab Bình luận, hoặc trang thread chỉ đọc `C17`** nếu target là reply; target không còn khả dụng thì dùng fallback theo Effective Visibility Resolver (US12) giống Phone/Web. TV **không** có màn cấu hình Thông báo cộng đồng — switch đó nằm ở Phone/Web và áp dụng cho cả TV vì là thiết lập cấp account. Thông báo cấp huy hiệu trên TV hiển thị dạng đọc, **không có CTA `Xem huy hiệu`** vì TV không có màn chi tiết huy hiệu.
 
 ### Quy tắc nghiệp vụ
 
@@ -42,6 +48,8 @@
 - Chỉ hiển thị dữ liệu mà người xem có quyền xem.
 - Việc không đăng nhập không làm thay đổi thứ tự hoặc nội dung bình luận công khai.
 - Đóng bình luận là gate theo scope; không đồng nghĩa target deep link bị moderation Ẩn/Xóa.
+- **Ma trận nền tảng đã chốt:** Phone và Web áp dụng US01–US10, US17, US18; Smart TV áp dụng US01, US07, US10, US17; các US còn lại (US11–US16, US19, US20) thuộc phạm vi CMS/quản trị và được backend áp dụng phía sau, không phát sinh chức năng mới cho ứng dụng người dùng.
+- Việc một US không áp dụng trên Smart TV chỉ bỏ **thao tác** của US đó trên TV; dữ liệu và quy tắc nghiệp vụ do backend áp dụng vẫn giữ nguyên trên mọi nền tảng.
 
 ### Phụ thuộc
 
@@ -90,6 +98,10 @@ Một phim đang Mở bình luận có bình luận gốc, reply, Chờ duyệt,
 | TC-US01-007 | Security | Có ID bình luận Chờ duyệt/Ẩn | Gọi trực tiếp API bằng phiên khách với ID nội dung không công khai | API từ chối hoặc trả dữ liệu rỗng theo chuẩn bảo mật; không suy ra nội dung qua mã lỗi/metadata. |
 | TC-US01-008 | Reopen deep link | Scope từng Đóng, C1 vẫn hợp lệ | Mở lại scope rồi mở lại deep link cũ | Deep link lại mở đúng C1/thread; không cần phát hành link mới. |
 | TC-US01-009 | Accessibility | Khách chọn Like/Reply tại comment C1, được điều hướng qua login | Đăng nhập thành công và quay lại | Hệ thống set focus (không chỉ scroll) vào đúng C1/thread; điều hướng bàn phím tới được C1 ngay sau khi quay lại. |
+| TC-US01-010 | SmartTV scope | Smart TV; phim đang Mở bình luận, scope có >20 bình luận gốc và có comment được ghim | Mở tab Bình luận và cuộn bằng remote | Tab hiện `Bình luận ({public_count})`; tối đa 3 comment ghim ở trên cùng; 10 root đầu rồi lazy load 10 root/batch; **không** có control chọn cách sắp xếp, **không** có ô nhập và **không** có action Trả lời/Sửa/Xóa/Chia sẻ. |
+| TC-US01-011 | SmartTV thread | Smart TV; root C1 có 5 reply công khai | Chọn C1 bằng remote | Mở trang thread chỉ đọc; đọc được toàn bộ reply công khai; không có ô trả lời và không có action Trả lời. |
+| TC-US01-012 | SmartTV interaction | Smart TV; U1 đã đăng nhập; C1 của user khác | Thử lần lượt Thích, Báo cáo, xem huy hiệu tác giả, rồi tìm luồng chấm sao/đổi sort/bấm mốc thời gian | Thích/Bỏ thích, Báo cáo và huy hiệu hoạt động bằng remote; TV không có luồng chấm sao, không có control sort và mốc thời gian không bấm được. |
+| TC-US01-013 | SmartTV spoiler | Comment C2 có 2 đoạn được Làm mờ khi soạn trên Phone | Mở C2 trên Smart TV và trên Phone rồi đối chiếu | Trên TV, C2 hiển thị nguyên văn toàn bộ nội dung, không có dải mờ và không có thao tác hiện nội dung; trên Phone vẫn đúng 2 đoạn bị làm mờ. |
 
 ### Microcopy
 

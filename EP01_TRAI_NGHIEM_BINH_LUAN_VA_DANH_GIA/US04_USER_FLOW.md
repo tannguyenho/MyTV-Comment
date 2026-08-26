@@ -2,7 +2,7 @@
 
 > User Story: [US04_DANG_BINH_LUAN.md](US04_DANG_BINH_LUAN.md)
 
-**Platforms:** Phone, Web. SmartTV không tạo comment.
+**Platforms:** Phone, Web. Smart TV không áp dụng US04.
 
 ## Flow
 
@@ -30,4 +30,5 @@ flowchart TD
 - Nickname đổi được ở Profile và có shortcut `Đổi nickname` trong composer.
 - Nickname AI timeout/5xx/down: **không đổi nickname**, giữ old/fallback, báo thử lại, không Pending, không vào queue, không tiêu quota đổi nickname.
 - Pending comment hiển thị inline chỉ tác giả với nhãn `Đang chờ duyệt`, không tính public count.
-- SmartTV không có nút Viết bình luận; hiển thị hướng dẫn + QR để dùng smartphone.
+- Smart TV không có nút Viết bình luận; hiển thị hướng dẫn + QR để dùng smartphone.
+- Smart TV cũng không áp dụng cơ chế Làm mờ của US04: đoạn chữ được làm mờ khi soạn trên Phone/Web sẽ hiển thị nguyên văn khi đọc trên TV.

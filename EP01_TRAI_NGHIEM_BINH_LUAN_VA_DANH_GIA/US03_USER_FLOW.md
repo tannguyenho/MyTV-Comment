@@ -2,7 +2,7 @@
 
 > User Story: [US03_DANH_GIA_PHIM.md](US03_DANH_GIA_PHIM.md)
 
-**Platforms:** Phone, Web, SmartTV
+**Platforms:** Phone, Web. Smart TV không áp dụng US03 (chỉ hiển thị điểm chỉ đọc).
 
 ## Flow
 
@@ -33,5 +33,5 @@ flowchart TD
 - Mở lại sheet khi đã từng đánh giá thì hiển thị sẵn mức sao hiện hành.
 - Submit lỗi: revert rating cũ, không tự retry.
 - **Scope Đóng bình luận không ảnh hưởng rating**: vẫn hiển thị aggregate và vẫn nhận đánh giá mới.
-- SmartTV cho đánh giá bằng remote nếu đã đăng nhập.
+- Smart TV không đánh giá: TV chỉ hiển thị điểm trung bình và tổng lượt dưới dạng chỉ đọc, không mở sheet chấm sao.
 - A11y: radiogroup, mỗi option label `{n} sao`.

@@ -2,7 +2,7 @@
 
 > User Story: [US15_QUAN_LY_BINH_LUAN_GHIM_VA_CAU_HINH_THEO_PHIM.md](US15_QUAN_LY_BINH_LUAN_GHIM_VA_CAU_HINH_THEO_PHIM.md)
 
-**Platform:** Web/Desktop only
+**Platform:** CMS Web/Desktop only
 
 ```mermaid
 flowchart TD
