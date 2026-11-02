@@ -1,5 +1,8 @@
 ﻿# US18 — Chia sẻ bình luận
 
+> ⚠️ **DEFERRED (CHANGELOG V5 — 02/11/2026):** User Story này không triển khai trong giai đoạn hiện tại. Bỏ OS share sheet và deep link cài app; chỉ giữ deep link nội bộ cho thông báo (US09). Thiết kế giữ ở trạng thái ẩn trên Figma. Nội dung dưới đây giữ để tham khảo khi bật lại.
+
+
 > Thuộc EP05 — Tăng trưởng và phân tích
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
 

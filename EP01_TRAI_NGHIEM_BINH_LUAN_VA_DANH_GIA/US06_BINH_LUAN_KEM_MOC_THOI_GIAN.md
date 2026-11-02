@@ -1,5 +1,8 @@
 # US06 — Bình luận kèm mốc thời gian (chỉ phim lẻ)
 
+> ⚠️ **DEFERRED (CHANGELOG V5 — 02/11/2026):** User Story này không triển khai trong giai đoạn hiện tại. Thiếu thiết kế highlight/popup; chuỗi thời gian hiển thị như text thường (feedback US03 - Phone). Thiết kế giữ ở trạng thái ẩn trên Figma. Nội dung dưới đây giữ để tham khảo khi bật lại.
+
+
 > Thuộc EP01 — Trải nghiệm bình luận và đánh giá
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md)
 

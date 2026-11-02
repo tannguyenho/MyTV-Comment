@@ -4,7 +4,7 @@
 
 | Tệp | Nội dung |
 |---|---|
-| `03_BM03_URD_MyTV_Comment.docx` | Đặc tả yêu cầu người sử dụng (BM03_URD), phiên bản 1.1 — 6 chương, 20 yêu cầu chức năng UR01–UR20, 64 yêu cầu phi chức năng, 22 ảnh Figma |
+| `03_BM03_URD_MyTV_Comment.docx` | Đặc tả yêu cầu người sử dụng (BM03_URD), **phiên bản 2.0 (02/11/2026)** — 6 chương, 20 yêu cầu chức năng UR01–UR20 (UR03/UR06/UR18 Deferred), 70 yêu cầu phi chức năng, 51 ảnh Figma Phone/Web/Smart TV. Sinh từ `URD_content.json`; file JSON này do `build_urd_v2_content.py` tạo ra từ `URD_content_v1.1.json` + quyết định CHANGELOG V5 |
 | `04_BM04_SRS_MyTV_Comment.docx` | Đặc tả yêu cầu phần mềm (BM04_SRS), phiên bản 1.1 — 5 phân hệ, 8 module, 14 chức năng, 34 bảng tình huống sử dụng, 27 ảnh Figma |
 
 Mở bằng Word rồi nhấn **Ctrl+A → F9** để cập nhật số trang trong mục lục.
@@ -16,7 +16,7 @@ nếu muốn giữ khả năng tái tạo:
 
 | Tệp nguồn | Sinh ra |
 |---|---|
-| `URD_content.json` | `03_BM03_URD_MyTV_Comment.docx` |
+| `URD_content.json` (sinh bởi `python3 build_urd_v2_content.py` trong thư mục TAI_LIEU; bản v1.1 giữ ở `URD_content_v1.1.json`) | `03_BM03_URD_MyTV_Comment.docx` |
 | `SRS_content.json` | `04_BM04_SRS_MyTV_Comment.docx` |
 
 Lệnh sinh lại:
@@ -47,7 +47,10 @@ node .claude/skills/urd-docx/scripts/inspect-docx.js <file.docx>           # in 
 
 | Thư mục | Nội dung |
 |---|---|
-| `assets/flow/` | 11 lưu đồ theo User Story (US01–US10, US17), đã tự cắt bỏ viền nền thừa |
+| `assets/flow/` | 11 lưu đồ theo User Story (US01–US10, US17); bản `.jpg` dùng cho URD 2.0 |
+| `assets/phone/` | 30 ảnh màn hình Phone 375×812 xuất ngày 02/11/2026 (dùng cho URD 2.0) |
+| `assets/web/` | 11 ảnh màn hình Web 1920×1080 (URD 2.0) |
+| `assets/tv/` | 10 ảnh màn hình Smart TV 1920×1080 (URD 2.0) |
 | `assets/screen/` | 45 ảnh màn hình 375×812 xuất ở tỉ lệ 2× |
 
 ## Trạng thái thiết kế theo nền tảng
@@ -55,9 +58,9 @@ node .claude/skills/urd-docx/scripts/inspect-docx.js <file.docx>           # in 
 | Nền tảng | Trạng thái | Ghi chú |
 |---|---|---|
 | Phone (iOS, Android) | Đã hoàn thiện | Đã đưa vào cả hai tài liệu |
-| Website | Chờ hoàn thiện | Bổ sung vào các mục "Yêu cầu giao diện" tương ứng khi có |
-| Smart TV / STB | Chờ hoàn thiện | Phạm vi rút gọn: chỉ đọc, Thích, Đánh giá, Sắp xếp, hiện đoạn Làm mờ, nhảy mốc thời gian |
-| CMS (Web/Desktop) | Chờ hoàn thiện | Ảnh hưởng mục "Yêu cầu giao diện" của phân hệ CMS và Tăng trưởng |
+| Website | Đã có trên Figma, đang xử lý ghi chú [BA] | Đã đưa vào URD 2.0 |
+| Smart TV / STB | Đã có trên Figma, đang xử lý ghi chú [BA] | Phạm vi: chỉ đọc (full text), Thích, Báo cáo 4 lý do, chip huy hiệu — đã đưa vào URD 2.0 |
+| CMS (Web/Desktop) | Chờ hoàn thiện | URD 2.0 mô tả CMS ở cấp nghiệp vụ, chưa có ảnh |
 
 Cả hai tài liệu đã ghi rõ trạng thái này (URD: ghi chú tại Chương III và IV; SRS: Phụ lục B).
 Khi bổ sung thiết kế của một nền tảng, cần thêm một dòng vào `history` trong tệp JSON

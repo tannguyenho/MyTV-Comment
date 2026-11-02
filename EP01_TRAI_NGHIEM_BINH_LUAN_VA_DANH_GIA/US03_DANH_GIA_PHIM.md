@@ -1,5 +1,8 @@
 # US03 — Đánh giá phim
 
+> ⚠️ **DEFERRED (CHANGELOG V5 — 02/11/2026):** User Story này không triển khai trong giai đoạn hiện tại. Đánh giá sao là tính năng mới cần thiết kế riêng (feedback US02 - Phone). Thiết kế giữ ở trạng thái ẩn trên Figma. Nội dung dưới đây giữ để tham khảo khi bật lại.
+
+
 > Thuộc EP01 — Trải nghiệm bình luận và đánh giá  
 > [← Quay lại README của Epic](README.md) · [← Backlog MyTV](../README.md) · [User Flow →](US03_USER_FLOW.md)
 
