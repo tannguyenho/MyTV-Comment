@@ -2,6 +2,8 @@
 
 ## 5 Epic và 20 User Story
 
+> **Cập nhật 06/11/2026 (URD 2.1):** phạm vi giai đoạn này chỉ gồm luồng có thiết kế Figma — Phone/Web: US01, US02, US04, US05, US07, US08, US09, US10, US17; Smart TV: US01, US17. CMS (US11–US16, US19, US20) và Thích/Báo cáo trên TV → giai đoạn sau. Tiêu chí huy hiệu mới: Fan tích cực = 7 ngày có ≥10 bình luận và đã thích ≥20 nội dung khác nhau; Fan kỳ cựu = 30 ngày có ≥30 bình luận và ≥1 bình luận nhận ≥10 like (không còn tính ngày hoạt động). Format thời gian 6 mức (Vừa mới xong / X phút / X giờ / X ngày / X tháng / X năm trước); không phân biệt UI bình luận của mình.
+>
 > **Rà soát V5 (02/11/2026):** kịch bản đã chốt theo thiết kế Figma Phone/Web/Smart TV. US03, US06, US18 chuyển **Deferred**; nhiều quyết định dưới đây được thay thế — xem [CHANGELOG_RASOAT_V5.md](CHANGELOG_RASOAT_V5.md) (có hiệu lực cao hơn khi mâu thuẫn).
 
 Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backlog sản phẩm ở cấp PO. Backlog gồm 5 Epic và 20 User Story; frontend/backend/database/infra/test là task triển khai, không phát sinh thêm User Story nếu không tạo giá trị người dùng độc lập.
@@ -67,7 +69,7 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 |---|---|
 | **Phone** (iOS/Android) | US01, US02, US04, US05, US07, US08, US09, US10, US17 |
 | **Web** (MyTV Web) | US01, US02, US04, US05, US07, US08, US09, US10, US17 |
-| **Smart TV / STB** | US01 (chỉ đọc, hiện full text), US07, US10 (4 lý do), US17 (chip) |
+| **Smart TV / STB** | US01 (chỉ đọc), US17 (chip). US07/US10 trên TV → giai đoạn sau (06/11/2026) |
 | **CMS Web/Desktop (quản trị)** | US11, US12, US13, US14, US15, US16, US19, US20 |
 
 Quy tắc đọc ma trận:

@@ -4,7 +4,7 @@
 
 | Tệp | Nội dung |
 |---|---|
-| `03_BM03_URD_MyTV_Comment.docx` | Đặc tả yêu cầu người sử dụng (BM03_URD), **phiên bản 2.0 (02/11/2026)** — 6 chương, 20 yêu cầu chức năng UR01–UR20 (UR03/UR06/UR18 Deferred), 70 yêu cầu phi chức năng, 51 ảnh Figma Phone/Web/Smart TV. Sinh từ `URD_content.json`; file JSON này do `build_urd_v2_content.py` tạo ra từ `URD_content_v1.1.json` + quyết định CHANGELOG V5 |
+| `03_BM03_URD_MyTV_Comment.docx` | Đặc tả yêu cầu người sử dụng (BM03_URD), **phiên bản 2.1 (06/11/2026)** — chỉ đặc tả các luồng có thiết kế Figma (Phone/Web: US01, US02, US04, US05, US07, US08, US09, US10, US17; TV: US01, US17), các UR còn lại ghi “Giai đoạn sau”; tiêu chí huy hiệu mới; 54 ảnh Figma. Sinh từ `URD_content.json`; file JSON này do `build_urd_content.py` tạo ra từ `URD_content_v1.1.json` |
 | `04_BM04_SRS_MyTV_Comment.docx` | Đặc tả yêu cầu phần mềm (BM04_SRS), phiên bản 1.1 — 5 phân hệ, 8 module, 14 chức năng, 34 bảng tình huống sử dụng, 27 ảnh Figma |
 
 Mở bằng Word rồi nhấn **Ctrl+A → F9** để cập nhật số trang trong mục lục.
@@ -16,7 +16,7 @@ nếu muốn giữ khả năng tái tạo:
 
 | Tệp nguồn | Sinh ra |
 |---|---|
-| `URD_content.json` (sinh bởi `python3 build_urd_v2_content.py` trong thư mục TAI_LIEU; bản v1.1 giữ ở `URD_content_v1.1.json`) | `03_BM03_URD_MyTV_Comment.docx` |
+| `URD_content.json` (sinh bởi `python3 build_urd_content.py` trong thư mục TAI_LIEU; bản v1.1 giữ ở `URD_content_v1.1.json`) | `03_BM03_URD_MyTV_Comment.docx` |
 | `SRS_content.json` | `04_BM04_SRS_MyTV_Comment.docx` |
 
 Lệnh sinh lại:
@@ -48,9 +48,9 @@ node .claude/skills/urd-docx/scripts/inspect-docx.js <file.docx>           # in 
 | Thư mục | Nội dung |
 |---|---|
 | `assets/flow/` | 11 lưu đồ theo User Story (US01–US10, US17); bản `.jpg` dùng cho URD 2.0 |
-| `assets/phone/` | 30 ảnh màn hình Phone 375×812 xuất ngày 02/11/2026 (dùng cho URD 2.0) |
-| `assets/web/` | 11 ảnh màn hình Web 1920×1080 (URD 2.0) |
-| `assets/tv/` | 10 ảnh màn hình Smart TV 1920×1080 (URD 2.0) |
+| `assets/phone/` | 44 ảnh màn hình Phone 375×812 (xuất 02/11 và 06/11/2026) |
+| `assets/web/` | 14 ảnh màn hình Web |
+| `assets/tv/` | 13 ảnh màn hình Smart TV |
 | `assets/screen/` | 45 ảnh màn hình 375×812 xuất ở tỉ lệ 2× |
 
 ## Trạng thái thiết kế theo nền tảng
@@ -59,7 +59,7 @@ node .claude/skills/urd-docx/scripts/inspect-docx.js <file.docx>           # in 
 |---|---|---|
 | Phone (iOS, Android) | Đã hoàn thiện | Đã đưa vào cả hai tài liệu |
 | Website | Đã có trên Figma, đang xử lý ghi chú [BA] | Đã đưa vào URD 2.0 |
-| Smart TV / STB | Đã có trên Figma, đang xử lý ghi chú [BA] | Phạm vi: chỉ đọc (full text), Thích, Báo cáo 4 lý do, chip huy hiệu — đã đưa vào URD 2.0 |
+| Smart TV / STB | Đã có trên Figma, đang xử lý ghi chú [BA] | Phạm vi giai đoạn này: chỉ đọc + chip huy hiệu (US01, US17); Thích/Báo cáo trên TV đã ẩn trên Figma → giai đoạn sau |
 | CMS (Web/Desktop) | Chờ hoàn thiện | URD 2.0 mô tả CMS ở cấp nghiệp vụ, chưa có ảnh |
 
 Cả hai tài liệu đã ghi rõ trạng thái này (URD: ghi chú tại Chương III và IV; SRS: Phụ lục B).
