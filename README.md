@@ -2,6 +2,10 @@
 
 ## 5 Epic và 20 User Story
 
+> **Cập nhật 06/11/2026 (URD 2.1):** phạm vi giai đoạn này chỉ gồm luồng có thiết kế Figma — Phone/Web: US01, US02, US04, US05, US07, US08, US09, US10, US17; Smart TV: US01, US17. CMS (US11–US16, US19, US20) và Thích/Báo cáo trên TV → giai đoạn sau. Tiêu chí huy hiệu mới: Fan tích cực = 7 ngày có ≥10 bình luận và đã thích ≥20 nội dung khác nhau; Fan kỳ cựu = 30 ngày có ≥30 bình luận và ≥1 bình luận nhận ≥10 like (không còn tính ngày hoạt động). Format thời gian 6 mức (Vừa mới xong / X phút / X giờ / X ngày / X tháng / X năm trước); không phân biệt UI bình luận của mình.
+>
+> **Rà soát V5 (02/11/2026):** kịch bản đã chốt theo thiết kế Figma Phone/Web/Smart TV. US03, US06, US18 chuyển **Deferred**; nhiều quyết định dưới đây được thay thế — xem [CHANGELOG_RASOAT_V5.md](CHANGELOG_RASOAT_V5.md) (có hiệu lực cao hơn khi mâu thuẫn).
+
 Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backlog sản phẩm ở cấp PO. Backlog gồm 5 Epic và 20 User Story; frontend/backend/database/infra/test là task triển khai, không phát sinh thêm User Story nếu không tạo giá trị người dùng độc lập.
 
 ## 1. Mục tiêu sản phẩm
@@ -15,11 +19,13 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 ## 2. Phạm vi hiện tại
 
 - Áp dụng trước cho Phim truyện/VOD có timeline cố định.
-- **Comment và rating ở cấp phim.** Mỗi bộ phim — phim lẻ hay phim bộ — có duy nhất một khu vực bình luận và một điểm đánh giá dùng chung.
+- **Comment ở cấp phim.** Mỗi bộ phim — phim lẻ hay phim bộ — có duy nhất một khu vực bình luận dùng chung. (Rating: Deferred theo V5.)
+- **Danh tính theo account MyTV**, không theo profile; hồ sơ Trẻ em ẩn hẳn khu vực bình luận (V5).
+- **Nội dung là văn bản thuần 1–500 ký tự**, không định dạng (V5).
 - Live/đang phát trực tiếp ngoài scope timestamp hiện tại.
-- **Không triển khai frame/clip trong MVP**; US06 dùng timestamp.
+- **Không triển khai frame/clip trong MVP**; US06 mốc thời gian **Deferred** (V5).
 - Mở rộng sang thể thao/thiếu nhi/giải trí ngoài scope 20 User Story hiện tại.
-- Lịch sử thay đổi phạm vi và các quyết định mới nhất: [CHANGELOG_RASOAT_V3.md](CHANGELOG_RASOAT_V3.md).
+- Lịch sử thay đổi phạm vi và các quyết định mới nhất: [CHANGELOG_RASOAT_V5.md](CHANGELOG_RASOAT_V5.md) (và [V4](CHANGELOG_RASOAT_V4.md), [V3](CHANGELOG_RASOAT_V3.md)).
 - Yêu cầu Accessibility (WCAG 2.1 AA) và Bảo mật (XSS/IDOR/PII) áp dụng xuyên suốt toàn bộ 20 User Story được tổng hợp tại [REQUIREMENTS_A11Y_SECURITY.md](REQUIREMENTS_A11Y_SECURITY.md).
 
 ## 3. Danh sách Epic
@@ -38,10 +44,10 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 |---|---|---|---|
 | US01 | Đọc khu vực bình luận | EP01 | Must |
 | US02 | Xem bình luận, số lượng và sắp xếp | EP01 | Must |
-| US03 | Đánh giá phim | EP01 | Must |
+| US03 | Đánh giá phim | EP01 | **Deferred** (V5) |
 | US04 | Đăng bình luận | EP01 | Must |
 | US05 | Sửa và xóa bình luận | EP01 | Must |
-| US06 | Bình luận kèm mốc thời gian (chỉ phim lẻ) | EP01 | Could |
+| US06 | Bình luận kèm mốc thời gian | EP01 | **Deferred** (V5) |
 | US07 | Like và Unlike bình luận | EP02 | Must |
 | US08 | Trả lời bình luận một cấp | EP02 | Must |
 | US09 | Mention và nhận thông báo | EP02 | Should |
@@ -53,7 +59,7 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 | US15 | Quản lý bình luận ghim và cấu hình theo phim | EP04 | Must |
 | US16 | Quản lý người dùng vi phạm và audit log | EP04 | Must |
 | US17 | Huy hiệu người dùng | EP05 | Could |
-| US18 | Chia sẻ bình luận | EP05 | Could |
+| US18 | Chia sẻ bình luận | EP05 | **Deferred** (V5) |
 | US19 | Thống kê hoạt động bình luận | EP05 | Must |
 | US20 | AI hỗ trợ vận hành cộng đồng | EP05 | Could |
 
@@ -61,15 +67,15 @@ Tài liệu chuyển yêu cầu tính năng Bình luận trên MyTV thành backl
 
 | Nền tảng | User Story áp dụng |
 |---|---|
-| **Phone** (iOS/Android) | US01, US02, US03, US04, US05, US06, US07, US08, US09, US10, US17, US18 |
-| **Web** (MyTV Web) | US01, US02, US03, US04, US05, US06, US07, US08, US09, US10, US17, US18 |
-| **Smart TV / STB** | US01, US07, US10, US17 |
+| **Phone** (iOS/Android) | US01, US02, US04, US05, US07, US08, US09, US10, US17 |
+| **Web** (MyTV Web) | US01, US02, US04, US05, US07, US08, US09, US10, US17 |
+| **Smart TV / STB** | US01 (chỉ đọc), US17 (chip). US07/US10 trên TV → giai đoạn sau (06/11/2026) |
 | **CMS Web/Desktop (quản trị)** | US11, US12, US13, US14, US15, US16, US19, US20 |
 
 Quy tắc đọc ma trận:
 
 - Phone và Web có phạm vi giống nhau; khác biệt chỉ ở dạng trình bày (composer inline đáy màn hình trên Phone, inline trên Web).
-- **Smart TV chỉ đọc và tương tác tối thiểu:** đọc danh sách bình luận gốc, mở trang thread chỉ đọc để xem reply, Thích/Bỏ thích (US07), Báo cáo bình luận với taxonomy rút gọn 5 reason (US10) và hiển thị huy hiệu (US17). TV không có ô nhập, không Trả lời, không Sửa/Xóa, không Nhắc tên, không Chia sẻ, không đổi cách sắp xếp, không đánh giá phim, không nhảy tới mốc thời gian và không áp dụng cơ chế Làm mờ (nội dung hiển thị nguyên văn).
+- **Smart TV chỉ đọc và tương tác tối thiểu:** đọc danh sách bình luận gốc, mở trang thread chỉ đọc để xem reply, Thích/Bỏ thích (US07), Báo cáo bình luận với 4 reason, không có "Khác" (US10, V5) và hiển thị huy hiệu (US17). TV không có ô nhập, không Trả lời, không Sửa/Xóa, không Nhắc tên, không Chia sẻ, không đổi cách sắp xếp, không đánh giá phim, không nhảy tới mốc thời gian và không áp dụng cơ chế Làm mờ (nội dung hiển thị nguyên văn).
 - Danh sách bình luận trên Smart TV **kế thừa quy tắc render của US02** (count trên tab, tối đa 3 pin trên cùng, thứ tự `Nổi bật`, lazy load 10 root/batch) nhưng không render control sort — xem US01 AC10.
 - US11, US12 và US16 nằm ở nhóm CMS vì thao tác thuộc về Admin; phần **hệ quả** của chúng do backend áp dụng và được hiển thị bằng các state đã đặc tả sẵn trên app, không phát sinh chức năng mới cho FE ứng dụng.
 - Mục thông báo sẵn có của ứng dụng Smart TV hiển thị **đầy đủ** notification của account (Reply/Mention, moderation/chế tài, kết quả Báo cáo, huy hiệu); bấm notification có target bình luận thì mở đúng phim/tab Bình luận hoặc trang thread chỉ đọc, fallback theo US12. TV cũng mở được link chia sẻ tới comment dù không có action Chia sẻ.
@@ -105,15 +111,15 @@ Quy tắc đọc ma trận:
 
 ### 5.3. Comment/Reply/Nickname
 
-- Comment và Reply: **1–1000 ký tự**, emoji-only hợp lệ, whitespace-only không hợp lệ.
+- Comment và Reply: **1–500 ký tự** (V5), văn bản thuần không định dạng, emoji-only hợp lệ, whitespace-only không hợp lệ.
 - URL chỉ cho `mytv.com.vn` và subdomain thực của domain này.
 - Rate limit chung Comment+Reply: **5 nội dung/1 phút/user**.
-- Nickname unique không phân biệt hoa/thường, 3–30 ký tự; cho chữ/số/khoảng trắng/`_`/`-`, không URL/phone/control char.
+- *(Deferred V5 — không có nickname riêng; tên hiển thị = tên tài khoản MyTV, chưa có tên → `0***123`.)* Nickname unique không phân biệt hoa/thường, 3–30 ký tự; cho chữ/số/khoảng trắng/`_`/`-`, không URL/phone/control char.
 - Nickname đổi tối đa **1 lần thành công/24 giờ/account** theo US04; submission bị validation/AI chặn không tiêu quota.
 - **Nickname dùng global AI moderation policy riêng**, độc lập Mode1/Mode2 và threshold override cấp phim, chỉ còn **2 kết quả**: Nhẹ/An toàn dùng ngay; Trung bình hoặc Nặng đều bị chặn ngay, không tạo hàng chờ duyệt.
 - Nickname bị chặn thì giữ nickname hợp lệ cũ; chưa có nickname hợp lệ thì giữ `0` đầu + 3 số cuối, mask toàn bộ số giữa bằng `*`.
 
-### 5.4. Rating
+### 5.4. Rating *(Deferred theo V5 — giữ để tham khảo khi bật lại)*
 
 - Một rating hiện hành/account/scope; đổi rating không tăng tổng lượt; **user không được xóa rating**, chỉ được đổi mức sao; **không có thao tác DELETE rating trong MVP** (xem US03).
 - Average hiển thị **1 chữ số thập phân và luôn làm tròn lên** đến 0.1.
@@ -138,25 +144,26 @@ Quy tắc đọc ma trận:
 - Like/Unlike dùng optimistic UI; client gom batch tối đa **5 giây** rồi sync BE, flush sớm khi rời màn hình/background; BE là source of truth.
 - Nhiều Like/Unlike liên tiếp trên cùng target trong một batch được coalesce về **state cuối cùng**.
 - Mention suggestion ưu tiên user trong thread, sau đó user đã tham gia bộ phim.
-- Một switch chung bật/tắt notification tương tác cộng đồng; in-app retention **90 ngày**.
+- *(Switch riêng: Deferred V5 — dùng cài đặt thông báo chung của app.)* In-app retention **90 ngày**. Đích đến khi bấm thông báo theo bảng §3 CHANGELOG V5 (Phone: view Bình luận toàn màn hình).
 - Notification moderation/chế tài/appeal/kết quả Report là bắt buộc và không bị switch cộng đồng tắt.
 - Khi user đang **Account Lock**, không tạo/gửi community notification mới cho Reply/Mention/badge/tương tác; sau unlock **không backfill**.
 - Account Lock không cho user vào MyTV; login dừng ở màn hình khóa hiển thị **status + reason + Tổng đài MyTV 1800 1166 (miễn phí, hỗ trợ 24/7) để appeal**. Có thể push nếu thiết bị nhận được; không phụ thuộc Notification Center trong app.
 
 ### 5.7. Report và reason taxonomy
 
-- Taxonomy chung: Spoiler; Spam/quảng cáo; Xúc phạm/ngôn từ công kích; Nội dung không phù hợp; Sai thông tin; Vi phạm khác.
+- Taxonomy báo cáo (V5): Có spoiler; Spam/Quảng cáo; Xúc phạm/ngôn từ công kích; Nội dung không phù hợp; Khác (Phone/Web — bỏ "Sai thông tin"); Smart TV chỉ 4 lý do đầu. Taxonomy chế tài CMS giữ thêm "Vi phạm khác".
 - Report chọn “Khác” bắt buộc description **1–500 ký tự hợp lệ**, không chấp nhận chỉ khoảng trắng.
 - Không được Report content của chính mình.
 - Cùng target được Report lại sau **24 giờ**; rate limit **10 Report/1 giờ/user**.
 - Report không tự Ẩn/Xóa content dù số lượng lớn.
-- Reporter nhận **in-app notification** khi Report được xử lý, không lộ sanction chi tiết.
+- Reporter nhận **in-app notification** khi Report được xử lý, không lộ sanction chi tiết, không click mở. Tác giả nhận thông báo kèm lý do; card của tác giả hiện trạng thái bị ẩn/từ chối + lý do, chỉ tác giả thấy (V5).
 - CMS dùng một action **“Bỏ qua Report”** cho kết luận không vi phạm; không có “Duyệt giữ nguyên” riêng.
 - Với Admin moderation/sanction, nếu reason = **“Vi phạm khác”** thì note **bắt buộc 1–500 ký tự**; với 5 reason chuẩn còn lại note optional.
 
 ### 5.8. AI moderation và state transition
 
-- Comment/Reply/Edit: Risk **Nhẹ → giữ nguyên text/Hiển thị ở Mode1; Trung bình → Chờ duyệt; Nặng → chặn**.
+- **Blacklist từ khóa** (V5): 1 danh sách toàn hệ thống trong CMS, khớp → chặn ngay, không gọi AI.
+- Comment/Reply/Edit: Risk **Nhẹ → giữ nguyên text/Hiển thị ở Mode1; Trung bình → Chờ duyệt; Nặng → chặn**. Pending: chỉ **Hủy đăng**, không Sửa (V5).
 - Mode2: Nhẹ/Trung bình đều Chờ Admin; Nặng chặn.
 - Nickname không dùng Mode1/Mode2; dùng global policy riêng ở 5.3.
 - AI timeout **5 giây**/lỗi/down → Chờ duyệt Admin.
@@ -196,7 +203,7 @@ Quy tắc đọc ma trận:
 - Account Lock làm content user tạm non-public nhưng **không đổi moderation state**; nếu user là root author thì toàn thread tạm non-public, replies user khác giữ state.
 - Unlock tự public lại lock-only content/thread nếu từng item còn hợp lệ; **Permanent Account Lock giữ non-public vô thời hạn** và không tự soft-delete content.
 - Pending Comment/Reply/Edit gửi trước Account Lock vẫn được moderation; nếu Duyệt trong lock thì chưa public tới unlock.
-- Khóa bình luận: user có thể appeal trong app.
+- Khóa bình luận: **appeal qua Tổng đài 1800 1166** (V5 — không có form appeal trong app).
 - **Account Lock: appeal qua Tổng đài MyTV 1800 1166 (miễn phí, hỗ trợ 24/7); Support/CSKH chuyển appeal vào CMS**, vì user không vào được app.
 - SLA appeal **48 giờ**; quá SLA giữ sanction, đánh dấu Quá SLA và ưu tiên queue.
 - Audit log retention **2 năm**, độc lập soft-delete 90 ngày.
@@ -209,7 +216,7 @@ Quy tắc đọc ma trận:
 - Rolling window tiếp tục chạy trong Account Lock, không freeze; active day đã ghi trước lock giữ nguyên, sau lock không phát sinh active day mới.
 - Auto badge evaluation mỗi ngày; không đạt thì grace **7 ngày** trước khi thu hồi Fan badge.
 - Tên badge hiển thị trên UI (theo thiết kế Phone đã chốt): **Fan tích cực**, **Fan kỳ cựu**, **Nổi bật** (badge tự động cấp toàn MyTV), **Custom** (badge Admin cấp thủ công/Chuyên gia).
-- UI hiển thị tối đa **1 badge**; ưu tiên **Custom (Admin/Chuyên gia cấp) > Nổi bật > Fan kỳ cựu > Fan tích cực**. Thứ tự liệt kê trong sheet giải thích huy hiệu chỉ để giới thiệu, **không** phải thứ tự ưu tiên hiển thị.
+- UI hiển thị tối đa **1 badge**; ưu tiên **Custom (Admin/Chuyên gia cấp) > Nổi bật > Fan kỳ cựu > Fan tích cực**. **Ghim là marker riêng, không chiếm slot badge**; sheet giải thích không hiện số liệu tiêu chí (V5). Thứ tự liệt kê trong sheet giải thích huy hiệu chỉ để giới thiệu, **không** phải thứ tự ưu tiên hiển thị.
 - Account Lock **không tự invalid Fan contribution hợp lệ** của locked user hoặc reply user khác bị ẩn chỉ do locked root.
 - Like locked user đã nhận vẫn tính Fan badge nếu source chỉ non-public do Account Lock; chỉ loại nếu source bị moderation riêng/lifecycle Delete.
 - Like do một past liker sau đó Account Lock **vẫn tính cho Fan kỳ cựu của recipient**, dù Like đó tạm bị loại public Net Like/ranking/Engagement.
@@ -220,7 +227,7 @@ Quy tắc đọc ma trận:
 - Account Lock tác giả chỉ tạm ẩn badge **Nổi bật** và unlock có thể tự hiện lại; **Undo moderation không tự restore badge**, phải re-evaluate/re-grant.
 - Badge **Custom** (Admin cấp/Chuyên gia) có expiry tùy chọn; tắt badge type ẩn UI nhưng giữ history/audit.
 
-### 5.12. Share và deep link
+### 5.12. Share và deep link *(Share: Deferred theo V5; chỉ giữ deep link nội bộ cho thông báo)*
 
 - Share là interaction, người gửi phải login; người nhận logout vẫn đọc được comment public.
 - MVP dùng **OS share sheet**, không direct SDK Facebook/Zalo/TikTok.
@@ -235,7 +242,7 @@ Quy tắc đọc ma trận:
 
 ### 5.13. Analytics và AI Ops
 
-- Engagement Score: `Comment×2 + Reply×2 + Net Like×1 + Rating×1 + Share×2`.
+- Engagement Score (V5): `Comment×2 + Reply×2 + Net Like×1` (Rating/Share bổ sung khi bật lại US03/US18).
 - `Rating` trong Engagement = **số rating hợp lệ hiện hành** trong scope/thời gian; mỗi account rating hợp lệ = +1 bất kể 1★ hay 5★.
 - `Share` trong Engagement = số **share sheet mở thành công** theo US18.
 - Public KPI/Engagement Score **KHÔNG bị loại trừ chỉ vì scope Đóng bình luận** — Đóng là gate hiển thị vận hành (chống spoiler/thời điểm nhạy cảm), không phải chế tài nội dung; dữ liệu Like/Reply/Rating/Share/Comment phát sinh trước và trong lúc Đóng vẫn tính đầy đủ. Chỉ đúng 4 nguyên nhân sau mới loại KPI: (1) Ẩn/Từ chối/Xóa do moderation, (2) self-delete cascade, (3) Admin root moderation cascade, (4) Account Lock.

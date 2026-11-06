@@ -1,0 +1,1895 @@
+{
+  "meta": {
+    "projectName": "Tính năng Bình luận MyTV",
+    "title": "TÀI LIỆU ĐẶC TẢ YÊU CẦU NGƯỜI SỬ DỤNG",
+    "subtitle": "URD - User Requirement Description",
+    "docCode": "BM03_URD",
+    "version": "1.1",
+    "effectiveDate": "25/08/2026",
+    "projectCode": "MYTV-COMMENT"
+  },
+  "approvals": [
+    {
+      "role": "Soạn thảo",
+      "name": "",
+      "title": "Business Analyst",
+      "date": ""
+    },
+    {
+      "role": "Xem xét",
+      "name": "",
+      "title": "Product Owner",
+      "date": ""
+    },
+    {
+      "role": "Thẩm định",
+      "name": "",
+      "title": "Kiến trúc sư giải pháp",
+      "date": ""
+    },
+    {
+      "role": "Phê chuẩn",
+      "name": "",
+      "title": "",
+      "date": ""
+    }
+  ],
+  "history": [
+    {
+      "no": 1,
+      "version": "1.0",
+      "author": "Business Analyst",
+      "approver": "",
+      "date": "25/08/2026",
+      "changes": "Khởi tạo tài liệu trên cơ sở backlog 5 Epic / 20 User Story và thiết kế Figma Phone đã chốt"
+    },
+    {
+      "no": 2,
+      "version": "1.1",
+      "author": "Business Analyst",
+      "approver": "",
+      "date": "25/08/2026",
+      "changes": "Chuẩn hóa phạm vi bình luận và đánh giá về cấp phim cho cả phim lẻ và phim bộ; cấu hình CMS override cấp phim; mốc thời gian chỉ áp dụng cho phim lẻ"
+    }
+  ],
+  "showInstructions": false,
+  "tocDepth": 3,
+  "body": [
+    {
+      "type": "h1",
+      "text": "TỔNG QUAN"
+    },
+    {
+      "type": "h2",
+      "text": "Mục đích"
+    },
+    {
+      "type": "p",
+      "text": "Tài liệu mô tả yêu cầu của người sử dụng đối với tính năng Bình luận trên nền tảng MyTV, bao gồm khu vực thảo luận cho phim truyện/VOD, cơ chế kiểm duyệt kết hợp AI và kiểm duyệt viên, hệ thống CMS quản trị nội dung và các tính năng tăng trưởng cộng đồng."
+    },
+    {
+      "type": "p",
+      "text": "Tài liệu là cơ sở để đội phát triển lập tài liệu Đặc tả yêu cầu phần mềm (SRS), thiết kế kiến trúc, xây dựng, kiểm thử và nghiệm thu hệ thống. Toàn bộ yêu cầu trong tài liệu được rút ra từ backlog sản phẩm gồm 5 Epic và 20 User Story đã được Product Owner chốt, cùng bộ thiết kế giao diện Phone trên Figma."
+    },
+    {
+      "type": "h2",
+      "text": "Phạm vi"
+    },
+    {
+      "type": "p",
+      "text": "Tài liệu áp dụng cho toàn bộ các bên tham gia dự án Bình luận MyTV: Ban sản phẩm, đội Business Analyst, đội thiết kế UX/UI, đội phát triển ứng dụng (Web, Mobile, Smart TV), đội phát triển CMS, đội kiểm thử, bộ phận vận hành kiểm duyệt nội dung và Tổng đài chăm sóc khách hàng."
+    },
+    {
+      "type": "p",
+      "text": "Phạm vi nghiệp vụ trong giai đoạn này:",
+      "bold": true
+    },
+    {
+      "type": "bullet",
+      "items": [
+        "Phim truyện/VOD có timeline cố định. Bình luận và đánh giá đều ở **cấp phim**: mỗi bộ phim, dù là phim lẻ hay phim bộ, có duy nhất một khu vực bình luận và một điểm đánh giá dùng chung.",
+        "Đọc bình luận công khai không cần đăng nhập; phải đăng nhập mới được Bình luận, Trả lời, Thích, Nhắc tên, Báo cáo, Đánh giá và Chia sẻ.",
+        "Trả lời bình luận chỉ sâu một cấp.",
+        "Kiểm duyệt AI hai chế độ kết hợp kiểm duyệt viên, có trạng thái và nhật ký kiểm toán rõ ràng.",
+        "CMS: tra cứu, xử lý nội dung, ghim, cấu hình theo phim, chế tài người dùng và audit log.",
+        "Tăng trưởng: huy hiệu người dùng, chia sẻ deep link, thống kê và AI hỗ trợ vận hành."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ngoài phạm vi giai đoạn này:",
+      "bold": true
+    },
+    {
+      "type": "table",
+      "widths": [
+        40,
+        60
+      ],
+      "header": [
+        "Hạng mục",
+        "Lý do loại khỏi phạm vi"
+      ],
+      "rows": [
+        [
+          "Nội dung phát trực tiếp (live)",
+          "Mốc thời gian và kiểm duyệt thời gian thực là bài toán khác"
+        ],
+        [
+          "Thể thao / thiếu nhi / giải trí",
+          "Cần chính sách kiểm duyệt riêng theo nhóm khán giả"
+        ],
+        [
+          "Frame/clip đính kèm bình luận",
+          "Đã chốt loại khỏi MVP; chỉ dùng mốc thời gian dạng chuỗi"
+        ],
+        [
+          "Trả lời lồng nhiều cấp",
+          "Quyết định sản phẩm đã khóa: chỉ một cấp"
+        ],
+        [
+          "Tin nhắn riêng giữa người dùng",
+          "Không thuộc mục tiêu thảo luận quanh nội dung"
+        ],
+        [
+          "Bình luận và đánh giá riêng cho từng tập của phim bộ",
+          "Phạm vi thảo luận là bộ phim; tách theo tập làm loãng thảo luận và nhân đôi chi phí kiểm duyệt"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Tài liệu liên quan"
+    },
+    {
+      "type": "table",
+      "widths": [
+        7,
+        55,
+        38
+      ],
+      "header": [
+        "STT",
+        "Tên tài liệu",
+        "Tên file / nguồn"
+      ],
+      "rows": [
+        [
+          "1",
+          "Backlog sản phẩm: 5 Epic, 20 User Story và các quyết định nghiệp vụ đã khóa",
+          "README.md"
+        ],
+        [
+          "2",
+          "Kiến trúc giải pháp tính năng Bình luận MyTV",
+          "SOLUTION_ARCHITECTURE.md"
+        ],
+        [
+          "3",
+          "Yêu cầu chéo: Accessibility WCAG 2.1 AA và Bảo mật",
+          "REQUIREMENTS_A11Y_SECURITY.md"
+        ],
+        [
+          "4",
+          "Bản đồ kiến trúc thông tin và danh mục màn hình",
+          "UX_INFORMATION_ARCHITECTURE_SCREEN_MAP.md"
+        ],
+        [
+          "5",
+          "Index user flow theo từng User Story",
+          "UX_USER_FLOWS.md"
+        ],
+        [
+          "6",
+          "Chi tiết 20 User Story kèm tiêu chí chấp nhận",
+          "EP01 … EP05 (thư mục theo Epic)"
+        ],
+        [
+          "7",
+          "Thiết kế giao diện Phone — canvas “T8 Bình luận”",
+          "Figma: [Phone] Play Nội dung"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Giải thích từ ngữ và các chữ viết tắt"
+    },
+    {
+      "type": "table",
+      "widths": [
+        26,
+        74
+      ],
+      "header": [
+        "Thuật ngữ",
+        "Ý nghĩa"
+      ],
+      "rows": [
+        [
+          "Scope (phạm vi bình luận)",
+          "Đơn vị nội dung mà một khu vực bình luận gắn vào: luôn là một bộ phim, kể cả phim bộ"
+        ],
+        [
+          "Root comment",
+          "Bình luận gốc, không phải trả lời của bình luận khác"
+        ],
+        [
+          "Reply",
+          "Trả lời một bình luận gốc; hệ thống chỉ hỗ trợ một cấp"
+        ],
+        [
+          "Guest",
+          "Người xem chưa đăng nhập; chỉ được đọc bình luận công khai"
+        ],
+        [
+          "Chế độ 1 (Mode 1)",
+          "Chế độ kiểm duyệt AI: rủi ro Nhẹ hiển thị ngay, Trung bình vào Chờ duyệt, Nặng bị chặn"
+        ],
+        [
+          "Chế độ 2 (Mode 2)",
+          "Chế độ kiểm duyệt AI: Nhẹ và Trung bình đều vào Chờ duyệt, Nặng bị chặn"
+        ],
+        [
+          "Effective Visibility Resolver",
+          "Module dùng chung duy nhất quyết định một nội dung có được hiển thị công khai hay không và lý do"
+        ],
+        [
+          "Ghim (Pin)",
+          "Bình luận được quản trị viên ghim lên đầu danh sách; tối đa 3 bình luận ghim trên một scope"
+        ],
+        [
+          "Sắp xếp Nổi bật",
+          "Chế độ sắp xếp mặc định dùng Featured Score"
+        ],
+        [
+          "Huy hiệu Nổi bật",
+          "Huy hiệu tự động cấp toàn MyTV, hiển thị cạnh nickname; khác với Ghim và khác với sắp xếp Nổi bật"
+        ],
+        [
+          "Featured Score",
+          "Điểm nổi bật của bình luận: 0,5×ln(1+Like) + 0,3×ln(1+Reply) + 0,2×e^(-AgeHours/72)"
+        ],
+        [
+          "Net Like",
+          "Số lượt Thích công khai hiện tại của một bình luận"
+        ],
+        [
+          "Ẩn",
+          "Trạng thái kiểm duyệt chính thức do CMS/Admin áp; không dùng cho trạng thái tạm"
+        ],
+        [
+          "Non-public tạm thời",
+          "Trạng thái tạm do Khóa tài khoản hoặc scope Đóng bình luận, không đổi trạng thái kiểm duyệt"
+        ],
+        [
+          "Khóa bình luận",
+          "Chế tài chặn tạo mới Bình luận, Trả lời, Nhắc tên và Sửa; vẫn cho tự xóa, Thích, Báo cáo, Đánh giá, Chia sẻ"
+        ],
+        [
+          "Khóa tài khoản (Account Lock)",
+          "Chế tài chặn đăng nhập và sử dụng MyTV; khiếu nại qua Tổng đài 1800 1166"
+        ],
+        [
+          "Active day",
+          "Ngày người dùng đã đăng nhập mở/đọc khu vực Bình luận đang khả dụng ít nhất một lần; tối đa 1 ngày/tài khoản/ngày"
+        ],
+        [
+          "SLA",
+          "Cam kết thời gian xử lý: kiểm duyệt 24 giờ, khiếu nại 48 giờ"
+        ],
+        [
+          "CMS",
+          "Content Management System — hệ thống quản trị nội dung dành cho kiểm duyệt viên và quản trị viên"
+        ],
+        [
+          "STB",
+          "Set-top box — đầu thu truyền hình MyTV"
+        ],
+        [
+          "PII",
+          "Personally Identifiable Information — thông tin định danh cá nhân"
+        ],
+        [
+          "WCAG 2.1 AA",
+          "Bộ tiêu chuẩn khả năng tiếp cận nội dung web, mức AA"
+        ]
+      ]
+    },
+    {
+      "type": "h1",
+      "text": "TỔNG QUAN HỆ THỐNG"
+    },
+    {
+      "type": "h2",
+      "text": "Mục tiêu hệ thống"
+    },
+    {
+      "type": "table",
+      "widths": [
+        5,
+        11,
+        29,
+        32,
+        23
+      ],
+      "header": [
+        "STT",
+        "Mã mục tiêu",
+        "Tên mục tiêu",
+        "Đối tượng liên quan",
+        "Mức độ ưu tiên"
+      ],
+      "rows": [
+        [
+          "1",
+          "MT01",
+          "Tạo không gian thảo luận quanh nội dung, tăng thời lượng xem và tần suất quay lại",
+          "Người xem, Ban sản phẩm",
+          "Cao"
+        ],
+        [
+          "2",
+          "MT02",
+          "Chuyển đổi người xem thụ động thành người dùng có tài khoản (đọc tự do, đăng nhập để tương tác)",
+          "Người xem chưa đăng nhập, Ban sản phẩm",
+          "Cao"
+        ],
+        [
+          "3",
+          "MT03",
+          "Giữ môi trường an toàn bằng kiểm duyệt AI kết hợp kiểm duyệt viên, có chế tài và khiếu nại minh bạch",
+          "Kiểm duyệt viên, Quản trị viên, Người xem",
+          "Cao"
+        ],
+        [
+          "4",
+          "MT04",
+          "Cung cấp dữ liệu vận hành để đội nội dung hiểu nội dung nào tạo ra thảo luận",
+          "Đội nội dung, Ban sản phẩm",
+          "Cao"
+        ],
+        [
+          "5",
+          "MT05",
+          "Tạo cơ chế tăng trưởng qua huy hiệu, chia sẻ deep link và AI hỗ trợ vận hành cộng đồng",
+          "Người xem, Quản trị viên",
+          "Trung bình"
+        ],
+        [
+          "6",
+          "MT06",
+          "Bảo đảm khả năng tiếp cận WCAG 2.1 AA và các yêu cầu bảo mật XSS/IDOR/PII xuyên suốt",
+          "Toàn bộ đối tượng",
+          "Cao"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Đối tượng người dùng của hệ thống"
+    },
+    {
+      "type": "p",
+      "text": "Hệ thống Bình luận là một miền nghiệp vụ mới, tiêu thụ các dịch vụ sẵn có của MyTV (Xác thực/SSO, Dịch vụ Nội dung, Trình phát video, Dịch vụ Push, Nhà cung cấp AI, Kho dữ liệu) chứ không thay thế chúng. Trình phát video là quan hệ một chiều: hệ thống chỉ ra lệnh cho trình phát nhảy tới mốc thời gian, không đọc trạng thái hiện tại của trình phát."
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 1: Đối tượng người dùng và tương tác với hệ thống",
+      "widths": [
+        5,
+        16,
+        25,
+        18,
+        18,
+        18
+      ],
+      "header": [
+        {
+          "text": "STT",
+          "rowspan": 2
+        },
+        {
+          "text": "Tên đối tượng",
+          "rowspan": 2
+        },
+        {
+          "text": "Mô tả",
+          "rowspan": 2
+        },
+        {
+          "text": "Tương tác với hệ thống",
+          "colspan": 2
+        },
+        {
+          "text": "Lợi ích mong đợi",
+          "rowspan": 2
+        }
+      ],
+      "rows": [
+        [
+          {
+            "text": "Vào",
+            "bold": true,
+            "align": "center",
+            "shade": "D9D9D9"
+          },
+          {
+            "text": "Ra",
+            "bold": true,
+            "align": "center",
+            "shade": "D9D9D9"
+          }
+        ],
+        [
+          "1",
+          "Người xem chưa đăng nhập (Guest)",
+          "Khán giả đang xem phim truyện/VOD trên MyTV nhưng chưa đăng nhập",
+          "Mở tab Bình luận, cuộn danh sách, đổi cách sắp xếp, hiện đoạn có tiết lộ",
+          "Danh sách bình luận công khai, số lượng bình luận, điểm đánh giá trung bình",
+          "Tham khảo cảm nhận cộng đồng trước và trong khi xem"
+        ],
+        [
+          "2",
+          "Người xem đã đăng nhập",
+          "Khán giả có tài khoản MyTV, được thực hiện toàn bộ thao tác tương tác",
+          "Gửi bình luận, trả lời, thích, nhắc tên, báo cáo, đánh giá sao, chia sẻ, sửa và xóa nội dung của mình",
+          "Bình luận đã đăng kèm trạng thái, thông báo tương tác, huy hiệu, liên kết chia sẻ",
+          "Bày tỏ cảm nhận, thảo luận với cộng đồng và được ghi nhận đóng góp"
+        ],
+        [
+          "3",
+          "Kiểm duyệt viên (Moderator)",
+          "Nhân sự vận hành xử lý hàng chờ kiểm duyệt trong phạm vi được cấp",
+          "Duyệt, từ chối, ẩn, xóa mềm, hoàn tác, xử lý hàng loạt, bỏ qua báo cáo",
+          "Hàng chờ ưu tiên theo mức rủi ro, cảnh báo quá SLA, kết quả tra cứu",
+          "Kiểm soát chất lượng nội dung đúng SLA 24 giờ"
+        ],
+        [
+          "4",
+          "Quản trị viên (Admin)",
+          "Nhân sự có thẩm quyền cấu hình, ghim và áp chế tài",
+          "Cấu hình chế độ kiểm duyệt và ngưỡng theo phim, ghim bình luận, áp cảnh báo/khóa bình luận/khóa tài khoản, cấp huy hiệu thủ công",
+          "Nhật ký kiểm toán, báo cáo thống kê, kết quả đề xuất của AI",
+          "Vận hành cộng đồng an toàn, đúng quy định và đo lường được"
+        ],
+        [
+          "5",
+          "Tổng đài chăm sóc khách hàng",
+          "Bộ phận tiếp nhận khiếu nại khóa tài khoản qua số 1800 1166",
+          "Nhập khiếu nại của người dùng bị khóa tài khoản vào CMS",
+          "Trạng thái và kết quả xử lý khiếu nại",
+          "Giải quyết khiếu nại cho người dùng không đăng nhập được vào ứng dụng"
+        ],
+        [
+          "6",
+          "Đội nội dung và Ban sản phẩm",
+          "Bộ phận theo dõi hiệu quả nội dung và tính năng",
+          "Chọn bộ lọc, khoảng thời gian, kết xuất báo cáo",
+          "Bảng chỉ số Engagement, tỷ lệ an toàn, thời gian xử lý hàng chờ, tệp CSV/XLSX",
+          "Ra quyết định nội dung và đầu tư dựa trên dữ liệu"
+        ]
+      ]
+    },
+    {
+      "type": "h1",
+      "text": "QUY TRÌNH NGHIỆP VỤ"
+    },
+    {
+      "type": "h2",
+      "text": "Quy trình nghiệp vụ tổng thể"
+    },
+    {
+      "type": "p",
+      "text": "Quy trình tổng thể của tính năng Bình luận đi từ lúc người xem mở khu vực bình luận, qua lớp kiểm duyệt kết hợp AI và kiểm duyệt viên, tới lúc nội dung được hiển thị công khai hoặc bị chặn, kèm nhánh chế tài và khiếu nại."
+    },
+    {
+      "type": "p",
+      "text": "Quy ước đánh mã bước quy trình:",
+      "bold": true
+    },
+    {
+      "type": "bullet",
+      "items": [
+        "Mỗi bước được đánh mã theo dạng CMT.xx.<Tên bước>, với xx chạy từ 01 đến 99.",
+        "Quy trình con mang cả mã quy trình mẹ: CMT.xx.yy.<Tên bước con>."
+      ]
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 2: Mô tả các bước của quy trình nghiệp vụ tổng thể",
+      "widths": [
+        12,
+        24,
+        20,
+        44
+      ],
+      "header": [
+        "Mã bước thực hiện",
+        "Tên bước",
+        "Người thực hiện",
+        "Diễn giải bước thực hiện"
+      ],
+      "rows": [
+        [
+          "B01",
+          "Mở khu vực bình luận",
+          "Người xem",
+          "Người xem chọn tab Bình luận trên trang nội dung. Hệ thống hiển thị số lượng bình luận và danh sách bình luận công khai theo sắp xếp Nổi bật."
+        ],
+        [
+          "B02",
+          "Xác định quyền tương tác",
+          "Hệ thống",
+          "Guest chỉ được đọc. Khi guest chọn một thao tác tương tác, hệ thống điều hướng sang đăng nhập rồi quay lại đúng phim/thread/bình luận, không tự thực hiện lại thao tác cũ."
+        ],
+        [
+          "B03",
+          "Gửi nội dung",
+          "Người xem đã đăng nhập",
+          "Người dùng gửi bình luận, trả lời hoặc bản sửa. Hệ thống kiểm tra độ dài 1–1000 ký tự, cấu trúc định dạng, tên miền liên kết và giới hạn tần suất trước khi gọi AI."
+        ],
+        [
+          "B04",
+          "Phân loại bằng AI",
+          "Hệ thống — AI Adapter",
+          "AI phân loại rủi ro Nhẹ / Trung bình / Nặng trên toàn bộ văn bản gốc, kể cả đoạn đã làm mờ. Timeout 5 giây, lỗi hoặc ngôn ngữ ngoài Việt/Anh đều chuyển sang Chờ duyệt."
+        ],
+        [
+          "B05",
+          "Quyết định hiển thị theo chế độ",
+          "Hệ thống",
+          "Chế độ 1: Nhẹ hiển thị ngay, Trung bình vào Chờ duyệt. Chế độ 2: Nhẹ và Trung bình đều vào Chờ duyệt. Rủi ro Nặng bị chặn ngay tại thời điểm gửi."
+        ],
+        [
+          "B06",
+          "Kiểm duyệt thủ công",
+          "Kiểm duyệt viên",
+          "Kiểm duyệt viên xử lý hàng chờ ưu tiên theo mức rủi ro, SLA 24 giờ. Thao tác gồm Duyệt, Từ chối, Ẩn, Xóa mềm, Hoàn tác và xử lý hàng loạt tối đa 100 mục."
+        ],
+        [
+          "B07",
+          "Xác định khả năng hiển thị thực tế",
+          "Hệ thống — Effective Visibility Resolver",
+          "Tổng hợp năm cơ chế ẩn theo thứ tự ưu tiên và trả về kết quả hiển thị kèm thông báo tương ứng cho mọi bề mặt đọc và deep link."
+        ],
+        [
+          "B08",
+          "Hiển thị công khai và tương tác",
+          "Người xem",
+          "Nội dung hợp lệ được hiển thị; người dùng đã đăng nhập có thể Thích, Trả lời, Nhắc tên, Báo cáo và Chia sẻ."
+        ],
+        [
+          "B09",
+          "Tiếp nhận báo cáo vi phạm",
+          "Người xem đã đăng nhập",
+          "Người dùng báo cáo bình luận vi phạm theo bộ lý do chuẩn. Báo cáo không tự động ẩn hoặc xóa nội dung dù số lượng lớn."
+        ],
+        [
+          "B10",
+          "Áp chế tài",
+          "Quản trị viên",
+          "Cảnh báo, Khóa bình luận tạm thời hoặc Khóa tài khoản, kèm lý do bắt buộc theo taxonomy chung."
+        ],
+        [
+          "B11",
+          "Tiếp nhận khiếu nại",
+          "Người dùng / Tổng đài",
+          "Khóa bình luận khiếu nại trong ứng dụng. Khóa tài khoản khiếu nại qua Tổng đài 1800 1166; Tổng đài nhập khiếu nại vào CMS. SLA 48 giờ."
+        ],
+        [
+          "B12",
+          "Ghi nhận chỉ số và nhật ký",
+          "Hệ thống",
+          "Ghi Engagement Score, chỉ số an toàn và vận hành; ghi nhật ký kiểm toán bất biến lưu 2 năm, độc lập với xóa mềm 90 ngày."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Thứ tự ưu tiên các cơ chế ẩn (Effective Visibility Resolver): khi một bình luận rơi vào từ hai cơ chế ẩn trở lên cùng lúc, hệ thống dùng thông báo của cơ chế có mức ưu tiên cao nhất."
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 3: Thứ tự ưu tiên các cơ chế ẩn và thông báo tương ứng",
+      "widths": [
+        10,
+        42,
+        48
+      ],
+      "header": [
+        "Ưu tiên",
+        "Cơ chế ẩn",
+        "Thông báo hiển thị cho người xem"
+      ],
+      "rows": [
+        [
+          "1",
+          "Người dùng tự xóa bình luận gốc (cascade)",
+          "Không hiển thị lại — vĩnh viễn theo vòng đời tự xóa"
+        ],
+        [
+          "2",
+          "Trạng thái kiểm duyệt riêng: Ẩn / Xóa mềm / Từ chối do CMS",
+          "“Bình luận không còn khả dụng”"
+        ],
+        [
+          "3",
+          "Quản trị viên xử lý bình luận gốc làm cả thread bị ẩn",
+          "“Bình luận không còn khả dụng”"
+        ],
+        [
+          "4",
+          "Khóa tài khoản của tác giả hoặc tác giả bình luận gốc",
+          "“Bình luận hiện không khả dụng”"
+        ],
+        [
+          "5",
+          "Scope đang Đóng bình luận",
+          "“Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Quy trình nghiệp vụ chi tiết"
+    },
+    {
+      "type": "note",
+      "text": "[Các lưu đồ dưới đây được trích xuất từ bộ thiết kế Phone trên Figma, canvas “T8 Bình luận”. Thiết kế cho Website, Smart TV và CMS hiện đang chờ hoàn thiện và sẽ được bổ sung vào tài liệu này theo cùng cách trình bày.]"
+    },
+    {
+      "type": "h3",
+      "text": "Quy trình đọc khu vực bình luận"
+    },
+    {
+      "type": "p",
+      "text": "Quy trình mô tả hai nhánh chưa đăng nhập và đã đăng nhập, trạng thái tải khung xương, trạng thái rỗng, trạng thái scope Đóng bình luận và lối vào màn hình Phản hồi."
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US01.png",
+      "widthCm": 16,
+      "caption": "Hình 1: Lưu đồ đọc khu vực bình luận (US01) — thiết kế Phone"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        24,
+        20,
+        44
+      ],
+      "header": [
+        "Mã bước thực hiện",
+        "Tên bước",
+        "Người thực hiện",
+        "Diễn giải bước thực hiện"
+      ],
+      "rows": [
+        [
+          "CMT.01.B01",
+          "Mở trang nội dung",
+          "Người xem",
+          "Phim bộ mặc định mở tab Danh sách tập, phim lẻ mặc định mở tab Đề xuất. Deep link tới bình luận/thread mở thẳng tab Bình luận."
+        ],
+        [
+          "CMT.01.B02",
+          "Chọn tab Bình luận",
+          "Người xem",
+          "Tab hiển thị nhãn “Bình luận ({count})”. Nếu scope đang Đóng thì tab vẫn còn nhưng bỏ số đếm."
+        ],
+        [
+          "CMT.01.B03",
+          "Tải danh sách",
+          "Hệ thống",
+          "Hiển thị khung xương trong lúc tải, sau đó trả 10 bình luận gốc đầu tiên theo sắp xếp Nổi bật, tải thêm 10 mục mỗi lần cuộn."
+        ],
+        [
+          "CMT.01.B04",
+          "Hiển thị theo trạng thái đăng nhập",
+          "Hệ thống",
+          "Guest thấy thanh “Đăng nhập để bình luận”. Người đã đăng nhập thấy ô soạn bình luận cố định ở đáy màn hình."
+        ],
+        [
+          "CMT.01.B05",
+          "Mở màn hình Phản hồi",
+          "Người xem",
+          "Bình luận gốc có trả lời chỉ hiện lối vào “{n} phản hồi”. Màn hình Phản hồi tải 3 trả lời đầu, nút “Xem thêm {n} phản hồi” tải tối đa 10 mục mỗi lần."
+        ]
+      ]
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US01-02.png",
+      "widthCm": 6.4,
+      "caption": "Hình 2: Tab Bình luận ở trạng thái chưa đăng nhập — có danh sách công khai và thanh nhắc đăng nhập"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US01-04.png",
+      "widthCm": 6.4,
+      "caption": "Hình 3: Trạng thái không có nội dung hiển thị — tab Bình luận bỏ số đếm, ẩn danh sách và ô soạn"
+    },
+    {
+      "type": "h3",
+      "text": "Quy trình đăng bình luận qua kiểm duyệt"
+    },
+    {
+      "type": "p",
+      "text": "Đây là quy trình lõi của hệ thống, quyết định nội dung được hiển thị ngay, vào hàng chờ duyệt hay bị chặn tại thời điểm gửi."
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US04.png",
+      "widthCm": 16,
+      "caption": "Hình 4: Lưu đồ đăng bình luận qua kiểm duyệt (US04, US11) — thiết kế Phone"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        24,
+        20,
+        44
+      ],
+      "header": [
+        "Mã bước thực hiện",
+        "Tên bước",
+        "Người thực hiện",
+        "Diễn giải bước thực hiện"
+      ],
+      "rows": [
+        [
+          "CMT.02.B01",
+          "Mở ô soạn bình luận",
+          "Người xem đã đăng nhập",
+          "Ô soạn là thanh nhập cố định đáy màn hình, nở lên khi bàn phím bật."
+        ],
+        [
+          "CMT.02.B02",
+          "Soạn nội dung có định dạng",
+          "Người xem đã đăng nhập",
+          "Người dùng bôi đen đoạn chữ và chọn Định dạng để áp Làm mờ, Gạch chân, Đậm hoặc Nghiêng. Nội dung bình luận không còn là văn bản thuần mà là văn bản kèm các dải định dạng."
+        ],
+        [
+          "CMT.02.B03",
+          "Kiểm tra hợp lệ tại client",
+          "Hệ thống",
+          "Kiểm tra độ dài 1–1000 ký tự, chặn nội dung chỉ có khoảng trắng, chỉ cho liên kết thuộc mytv.com.vn và tên miền con thực, chuẩn hóa ký tự đối kháng."
+        ],
+        [
+          "CMT.02.B04",
+          "Kiểm tra giới hạn tần suất",
+          "Hệ thống",
+          "Tối đa 5 nội dung Bình luận và Trả lời trong 1 phút cho mỗi người dùng; riêng thao tác Sửa tối đa 5 lần/phút trên mỗi bình luận."
+        ],
+        [
+          "CMT.02.B05",
+          "Gọi AI phân loại",
+          "Hệ thống — AI Adapter",
+          "Gửi toàn bộ văn bản gốc kể cả phần bị làm mờ. Timeout 5 giây; lỗi, dịch vụ không khả dụng, ngôn ngữ ngoài Việt/Anh hoặc độ tin cậy thấp đều chuyển sang Chờ duyệt."
+        ],
+        [
+          "CMT.02.B06",
+          "Áp quyết định theo chế độ",
+          "Hệ thống",
+          "Chế độ 1: Nhẹ hiển thị ngay, Trung bình vào Chờ duyệt. Chế độ 2: Nhẹ và Trung bình đều vào Chờ duyệt. Nặng bị chặn và hiển thị thông báo không được chấp thuận."
+        ],
+        [
+          "CMT.02.B07",
+          "Chờ kiểm duyệt viên xử lý",
+          "Kiểm duyệt viên",
+          "Mục Chờ duyệt vào hàng chờ ưu tiên theo mức rủi ro, SLA 24 giờ. Quá SLA vẫn giữ trạng thái chờ, được đánh dấu Quá SLA và ưu tiên trong hàng chờ, không tự động duyệt hay từ chối."
+        ],
+        [
+          "CMT.02.B08",
+          "Công khai nội dung",
+          "Hệ thống",
+          "Nội dung được duyệt trở thành công khai, trừ khi còn cơ chế ẩn khác đang có hiệu lực theo Effective Visibility Resolver."
+        ]
+      ]
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US04-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 5: Menu Định dạng khi soạn bình luận — Làm mờ, Gạch chân, Đậm, Nghiêng"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US04-06.png",
+      "widthCm": 6.4,
+      "caption": "Hình 6: Nội dung bị chặn tại thời điểm gửi — thông báo “Bình luận không được chấp thuận”"
+    },
+    {
+      "type": "h3",
+      "text": "Quy trình sắp xếp và đánh giá nội dung"
+    },
+    {
+      "type": "p",
+      "text": "Người xem đổi cách sắp xếp danh sách bình luận và gửi đánh giá sao cho bộ phim đang xem. Một tài khoản chỉ có một đánh giá hiện hành trên mỗi bộ phim; người dùng được đổi mức sao nhưng không được xóa đánh giá."
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US02.png",
+      "widthCm": 11.3,
+      "caption": "Hình 7: Lưu đồ tải thêm và sắp xếp bình luận (US02) — thiết kế Phone"
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US03.png",
+      "widthCm": 10.9,
+      "caption": "Hình 8: Lưu đồ đánh giá phim (US03) — thiết kế Phone"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US02-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 9: Bảng chọn cách sắp xếp — Nổi bật, Mới nhất, Nhiều lượt thích"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US03-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 10: Bảng đánh giá — điểm trung bình cộng đồng và bộ chọn 5 sao"
+    },
+    {
+      "type": "h3",
+      "text": "Quy trình sửa và xóa bình luận"
+    },
+    {
+      "type": "p",
+      "text": "Kết quả của một lần sửa phụ thuộc chế độ kiểm duyệt của phim. Khi bản mới đang chờ duyệt thì bản cũ vẫn công khai. Người dùng tự xóa bình luận gốc sẽ kéo theo toàn bộ trả lời bị xóa mềm, giữ 90 ngày và quản trị viên không được hoàn tác để công khai lại."
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US05.png",
+      "widthCm": 10.9,
+      "caption": "Hình 11: Lưu đồ sửa và xóa bình luận (US05) — thiết kế Phone"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US05-04.png",
+      "widthCm": 6.4,
+      "caption": "Hình 12: Xác nhận xóa bình luận không có trả lời"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US05-05.png",
+      "widthCm": 6.4,
+      "caption": "Hình 13: Xác nhận xóa bình luận có trả lời — cảnh báo trả lời của người khác sẽ bị xóa theo"
+    },
+    {
+      "type": "h3",
+      "text": "Quy trình tương tác cộng đồng"
+    },
+    {
+      "type": "p",
+      "text": "Gồm Thích/Bỏ thích với giao diện lạc quan, Trả lời một cấp và Nhắc tên kèm thông báo. Thao tác Thích được gom theo lô tối đa 5 giây rồi đồng bộ về máy chủ; nhiều lần Thích/Bỏ thích liên tiếp trên cùng đối tượng trong một lô được gộp về trạng thái cuối cùng."
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US07.png",
+      "widthCm": 15.1,
+      "caption": "Hình 14: Lưu đồ Thích và Bỏ thích bình luận (US07) — thiết kế Phone"
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US08.png",
+      "widthCm": 16,
+      "caption": "Hình 15: Lưu đồ trả lời bình luận một cấp (US08) — thiết kế Phone"
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US09.png",
+      "widthCm": 16,
+      "caption": "Hình 16: Lưu đồ nhắc tên và nhận thông báo (US09) — thiết kế Phone"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US09-01.png",
+      "widthCm": 6.4,
+      "caption": "Hình 17: Gợi ý nhắc tên — chỉ trả về nickname hoặc định danh đã che, không lộ số điện thoại đầy đủ"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US09-03.png",
+      "widthCm": 6.4,
+      "caption": "Hình 18: Trung tâm thông báo — thông báo được nhắc tên trong một bộ phim"
+    },
+    {
+      "type": "h3",
+      "text": "Quy trình báo cáo vi phạm và mốc thời gian"
+    },
+    {
+      "type": "p",
+      "text": "Người dùng báo cáo bình luận vi phạm theo bộ lý do chuẩn; chọn “Khác” bắt buộc nhập mô tả 1–500 ký tự hợp lệ. Không được báo cáo nội dung của chính mình. Cùng một đối tượng chỉ được báo cáo lại sau 24 giờ, giới hạn 10 báo cáo trong 1 giờ cho mỗi người dùng."
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US10.png",
+      "widthCm": 16,
+      "caption": "Hình 19: Lưu đồ báo cáo bình luận vi phạm (US10) — thiết kế Phone"
+    },
+    {
+      "type": "image",
+      "path": "assets/flow/US06.png",
+      "widthCm": 14.1,
+      "caption": "Hình 20: Lưu đồ bình luận kèm mốc thời gian, chỉ áp dụng cho phim lẻ (US06) — thiết kế Phone"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US10-01.png",
+      "widthCm": 6.4,
+      "caption": "Hình 21: Bảng chọn lý do báo cáo bình luận"
+    },
+    {
+      "type": "image",
+      "path": "assets/screen/US06-01.png",
+      "widthCm": 6.4,
+      "caption": "Hình 22: Ô soạn nhận diện mốc thời gian do người dùng tự gõ trong nội dung"
+    },
+    {
+      "type": "h3",
+      "text": "Quy trình kiểm duyệt và chế tài trên CMS"
+    },
+    {
+      "type": "note",
+      "text": "[Thiết kế giao diện CMS đang chờ hoàn thiện. Lưu đồ và ảnh màn hình CMS sẽ được bổ sung vào mục này theo cùng cách trình bày như phần thiết kế Phone ở trên.]"
+    },
+    {
+      "type": "table",
+      "widths": [
+        12,
+        24,
+        20,
+        44
+      ],
+      "header": [
+        "Mã bước thực hiện",
+        "Tên bước",
+        "Người thực hiện",
+        "Diễn giải bước thực hiện"
+      ],
+      "rows": [
+        [
+          "CMT.03.B01",
+          "Mở hàng chờ kiểm duyệt",
+          "Kiểm duyệt viên",
+          "Hàng chờ mặc định xếp mục rủi ro cao trước; cùng mức rủi ro thì mục chờ lâu hơn xếp trước."
+        ],
+        [
+          "CMT.03.B02",
+          "Tra cứu và lọc",
+          "Kiểm duyệt viên",
+          "Tra cứu theo phim, người dùng, trạng thái, mức rủi ro và khoảng thời gian; kết xuất CSV và XLSX theo bộ lọc."
+        ],
+        [
+          "CMT.03.B03",
+          "Xử lý nội dung",
+          "Kiểm duyệt viên",
+          "Duyệt không cần lý do. Từ chối, Ẩn và Xóa bắt buộc chọn lý do theo taxonomy chuẩn; lý do “Vi phạm khác” bắt buộc ghi chú 1–500 ký tự."
+        ],
+        [
+          "CMT.03.B04",
+          "Xử lý hàng loạt",
+          "Kiểm duyệt viên",
+          "Chỉ hỗ trợ Duyệt, Từ chối, Ẩn và Xóa mềm, tối đa 100 mục mỗi lần, cho phép thành công một phần."
+        ],
+        [
+          "CMT.03.B05",
+          "Hoàn tác",
+          "Kiểm duyệt viên",
+          "Từ chối trở về Chờ duyệt, Ẩn trở về Hiển thị, Xóa mềm trở về trạng thái ngay trước khi xóa. Hoàn tác không tự khôi phục Ghim hoặc huy hiệu đã mất."
+        ],
+        [
+          "CMT.03.B06",
+          "Ghim và cấu hình theo phim",
+          "Quản trị viên",
+          "Tối đa 3 bình luận ghim trên mỗi scope, kéo thả vị trí 1–3, có thể đặt thời hạn. Cấu hình chế độ và ngưỡng AI kế thừa theo thứ tự override cấp phim → mặc định hệ thống."
+        ],
+        [
+          "CMT.03.B07",
+          "Áp chế tài",
+          "Quản trị viên",
+          "Nhẹ áp Cảnh báo; Trung bình áp Khóa bình luận tạm thời; Nặng cho phép chọn Khóa bình luận hoặc Khóa tài khoản tùy bối cảnh."
+        ],
+        [
+          "CMT.03.B08",
+          "Xử lý khiếu nại",
+          "Quản trị viên / Tổng đài",
+          "Khóa bình luận khiếu nại trong ứng dụng. Khóa tài khoản khiếu nại qua Tổng đài 1800 1166 và được Tổng đài nhập vào CMS. SLA 48 giờ; quá hạn vẫn giữ chế tài, đánh dấu Quá SLA và ưu tiên hàng chờ."
+        ],
+        [
+          "CMT.03.B09",
+          "Ghi nhật ký kiểm toán",
+          "Hệ thống",
+          "Mọi thao tác quản trị được ghi bất biến và lưu 2 năm, độc lập với thời hạn xóa mềm 90 ngày."
+        ]
+      ]
+    },
+    {
+      "type": "h1",
+      "text": "YÊU CẦU CHỨC NĂNG"
+    },
+    {
+      "type": "p",
+      "text": "Hệ thống được chia thành 5 phân hệ tương ứng 5 Epic của backlog sản phẩm. Mỗi yêu cầu chức năng mang một mã UR duy nhất và được tham chiếu lại tại chương Tiêu chuẩn nghiệm thu."
+    },
+    {
+      "type": "table",
+      "caption": "Bảng 4: Cây chức năng tổng thể hệ thống",
+      "widths": [
+        12,
+        34,
+        20,
+        34
+      ],
+      "header": [
+        "Phân hệ",
+        "Tên phân hệ",
+        "Mã yêu cầu",
+        "Nền tảng áp dụng"
+      ],
+      "rows": [
+        [
+          "PH01",
+          "Trải nghiệm bình luận và đánh giá",
+          "UR01 – UR06",
+          "Phone, Web, Smart TV (chỉ đọc và một phần tương tác)"
+        ],
+        [
+          "PH02",
+          "Tương tác cộng đồng",
+          "UR07 – UR09",
+          "Phone, Web; Smart TV chỉ Thích/Bỏ thích"
+        ],
+        [
+          "PH03",
+          "An toàn và kiểm duyệt",
+          "UR10 – UR12",
+          "Phone, Web, CMS"
+        ],
+        [
+          "PH04",
+          "CMS quản trị bình luận",
+          "UR13 – UR16",
+          "Chỉ Web/Desktop"
+        ],
+        [
+          "PH05",
+          "Tăng trưởng và phân tích",
+          "UR17 – UR20",
+          "Phone, Web, CMS"
+        ]
+      ]
+    },
+    {
+      "type": "note",
+      "text": "[Ghi chú trạng thái thiết kế: bộ thiết kế giao diện Phone đã hoàn thiện và được trích dẫn trong tài liệu này. Thiết kế cho Website, Smart TV và CMS đang chờ hoàn thiện, sẽ được bổ sung sau theo cùng chuẩn trình bày như Phone. Yêu cầu chức năng dưới đây là yêu cầu ở cấp nghiệp vụ, không phụ thuộc việc thiết kế của từng nền tảng đã có hay chưa.]"
+    },
+    {
+      "type": "h2",
+      "text": "Phân hệ Trải nghiệm bình luận và đánh giá"
+    },
+    {
+      "type": "p",
+      "text": "Phân hệ cung cấp khu vực thảo luận gắn với từng bộ phim, gồm đọc, sắp xếp, đánh giá, đăng, sửa, xóa bình luận và gắn mốc thời gian."
+    },
+    {
+      "type": "table",
+      "widths": [
+        4,
+        8,
+        14,
+        42,
+        8,
+        8,
+        16
+      ],
+      "header": [
+        "STT",
+        "Mã yêu cầu",
+        "Tên yêu cầu",
+        "Mô tả",
+        "Mức độ ưu tiên",
+        "Mức độ quan trọng",
+        "Đối tượng liên quan"
+      ],
+      "rows": [
+        [
+          "1",
+          "UR01",
+          "Đọc khu vực bình luận",
+          "Phát biểu yêu cầu: Cho phép mọi người xem, kể cả chưa đăng nhập, đọc bình luận công khai của bộ phim đang xem.\nThông tin đầu vào:\n- Mã phim (*): lấy từ ngữ cảnh trang nội dung\n- Trạng thái đăng nhập của phiên hiện tại\nThông tin đầu ra: Số lượng bình luận trên nhãn tab, danh sách 10 bình luận gốc đầu tiên theo sắp xếp Nổi bật, lối vào “{n} phản hồi” của bình luận có trả lời, thanh nhắc đăng nhập hoặc ô soạn bình luận tùy trạng thái đăng nhập.\nChức năng xử lý: Xác định phạm vi bình luận theo bộ phim; gọi Effective Visibility Resolver để lọc nội dung được phép hiển thị; hiển thị khung xương trong lúc tải; tải thêm 10 bình luận mỗi lần cuộn; màn hình Phản hồi tải 3 trả lời đầu và thêm tối đa 10 trả lời mỗi lần.\nCác ngoại lệ: Scope đang Đóng bình luận thì giữ tab nhưng bỏ số đếm, ẩn danh sách, ô soạn và các thao tác; chưa có bình luận nào thì hiển thị trạng thái rỗng; lỗi tải danh sách thì cho thử lại.",
+          "Cao",
+          "Cao",
+          "Người xem"
+        ],
+        [
+          "2",
+          "UR02",
+          "Xem số lượng và sắp xếp bình luận",
+          "Phát biểu yêu cầu: Cho phép người xem đổi cách sắp xếp danh sách bình luận và tải thêm nội dung khi cuộn.\nThông tin đầu vào:\n- Chế độ sắp xếp (*): Nổi bật, Mới nhất hoặc Nhiều lượt thích\n- Vị trí cuộn hiện tại của danh sách\nThông tin đầu ra: Danh sách bình luận theo chế độ đã chọn, nhãn chế độ sắp xếp hiện hành, số lượng bình luận trên nhãn tab.\nChức năng xử lý: Sắp xếp Nổi bật là mặc định, dùng Featured Score 0,5×ln(1+Like) + 0,3×ln(1+Reply) + 0,2×e^(-AgeHours/72) với Like là Net Like công khai hiện tại; tối đa 3 bình luận ghim luôn đứng đầu và không tham gia tính Featured Score; tải 10 bình luận gốc mỗi lần; trả lời không xuất hiện trong danh sách gốc.\nCác ngoại lệ: Không còn dữ liệu để tải thêm; lỗi mạng khi tải thêm thì giữ danh sách hiện có và cho thử lại; bình luận ghim của tài khoản đang bị khóa tạm bị ẩn và giữ metadata.",
+          "Cao",
+          "Cao",
+          "Người xem"
+        ],
+        [
+          "3",
+          "UR03",
+          "Đánh giá phim",
+          "Phát biểu yêu cầu: Cho phép người xem đã đăng nhập chấm điểm 1–5 sao cho bộ phim đang xem.\nThông tin đầu vào:\n- Mức sao (*): số nguyên từ 1 đến 5\n- Mã phim (*)\nThông tin đầu ra: Điểm trung bình cộng đồng hiển thị một chữ số thập phân và luôn làm tròn lên đến 0,1; tổng số lượt đánh giá; thông báo cảm ơn khi gửi thành công.\nChức năng xử lý: Mỗi tài khoản chỉ có một đánh giá hiện hành trên mỗi scope; đổi mức sao không làm tăng tổng số lượt; đánh giá thuộc khối thông tin phim nên vẫn hoạt động khi khu vực bình luận đang Đóng.\nCác ngoại lệ: Chưa đăng nhập thì điều hướng sang đăng nhập rồi quay lại đúng ngữ cảnh; không có thao tác xóa đánh giá trong phạm vi này; lỗi cập nhật hiển thị thông báo “Không thể cập nhật đánh giá. Vui lòng thử lại sau”; tài khoản bị khóa thì đánh giá bị loại khỏi cả điểm trung bình và tổng số lượt công khai.",
+          "Cao",
+          "Cao",
+          "Người xem đã đăng nhập"
+        ],
+        [
+          "4",
+          "UR04",
+          "Đăng bình luận",
+          "Phát biểu yêu cầu: Cho phép người xem đã đăng nhập gửi bình luận có định dạng cho bộ phim đang xem.\nThông tin đầu vào:\n- Nội dung bình luận (*): 1–1000 ký tự, cho phép chỉ có emoji, không chấp nhận chỉ khoảng trắng\n- Dải định dạng theo đoạn: Làm mờ, Đậm, Nghiêng, Gạch chân\n- Mã phim (*)\nThông tin đầu ra: Bình luận ở trạng thái công khai hoặc Chờ duyệt kèm thông báo tương ứng; thông báo từ chối khi nội dung bị chặn.\nChức năng xử lý: Kiểm tra độ dài, cấu trúc dải định dạng, ký tự đối kháng và tên miền liên kết (chỉ mytv.com.vn và tên miền con thực); giới hạn 5 nội dung Bình luận và Trả lời trong 1 phút cho mỗi người dùng; gọi AI phân loại trên toàn bộ văn bản gốc kể cả phần làm mờ; áp quyết định theo Chế độ 1 hoặc Chế độ 2.\nCác ngoại lệ: Nội dung rỗng hoặc chỉ khoảng trắng; vượt 1000 ký tự; vượt giới hạn tần suất; AI trả rủi ro Nặng thì chặn tại thời điểm gửi; AI timeout 5 giây, lỗi hoặc ngôn ngữ ngoài tiếng Việt và tiếng Anh thì chuyển sang Chờ duyệt; tài khoản đang bị Khóa bình luận thì chặn tạo mới.",
+          "Cao",
+          "Cao",
+          "Người xem đã đăng nhập"
+        ],
+        [
+          "5",
+          "UR05",
+          "Sửa và xóa bình luận của mình",
+          "Phát biểu yêu cầu: Cho phép người dùng sửa hoặc xóa bình luận và trả lời do chính mình tạo.\nThông tin đầu vào:\n- Mã bình luận hoặc mã trả lời (*)\n- Nội dung mới khi sửa (*): áp dụng cùng ràng buộc như khi đăng mới\n- Xác nhận của người dùng khi xóa (*)\nThông tin đầu ra: Bản sửa được duyệt mang nhãn “Đã chỉnh sửa”; hộp thoại xác nhận xóa nêu rõ hệ quả; nội dung bị xóa mềm không còn hiển thị.\nChức năng xử lý: Kết quả một lần sửa phụ thuộc chế độ kiểm duyệt — Chế độ 1 với rủi ro Nhẹ thì bản mới công khai ngay, Chế độ 1 với rủi ro Trung bình hoặc Chế độ 2 thì bản mới vào Chờ duyệt và bản cũ vẫn công khai trong lúc chờ; giới hạn 5 lần sửa mỗi phút trên mỗi bình luận; người dùng tự xóa bình luận gốc kéo theo toàn bộ trả lời bị xóa mềm và giữ 90 ngày.\nCác ngoại lệ: Rủi ro Nặng bị chặn tại thời điểm gửi và bản cũ giữ nguyên; Khóa bình luận chặn sửa mới nhưng vẫn cho tự xóa; người dùng không xem được lịch sử phiên bản, chỉ CMS và nhật ký kiểm toán xem được; quản trị viên không được hoàn tác để công khai lại nội dung người dùng tự xóa.",
+          "Cao",
+          "Cao",
+          "Người xem đã đăng nhập"
+        ],
+        [
+          "6",
+          "UR06",
+          "Bình luận kèm mốc thời gian (chỉ phim lẻ)",
+          "Phát biểu yêu cầu: Cho phép người dùng gắn một mốc thời gian trong nội dung bình luận để người đọc nhảy tới đúng đoạn phim. Chức năng chỉ áp dụng cho phim lẻ.\nThông tin đầu vào:\n- Nội dung bình luận có chứa chuỗi thời gian do người dùng tự gõ, ví dụ 24:14\nThông tin đầu ra: Mốc thời gian hiển thị dạng nút bấm được; khi bấm, trình phát nhảy tới mốc và tiếp tục phát.\nChức năng xử lý: Chức năng chỉ bật với phim lẻ. Hệ thống không đọc thời gian hiện tại từ trình phát; nhận diện và kiểm tra chuỗi thời gian bằng cùng thuật toán ở cả client và máy chủ, lấy chuỗi hợp lệ đầu tiên làm mốc duy nhất; tối đa một mốc thời gian trên mỗi bình luận hoặc trả lời.\nCác ngoại lệ: Mốc thời gian vượt quá độ dài nội dung hoặc không còn hợp lệ thì hiển thị thông báo và không cho nhảy; liên kết chia sẻ mở đúng bình luận nhưng không tự động nhảy tới mốc.",
+          "Thấp",
+          "Trung bình",
+          "Người xem đã đăng nhập"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Phân hệ Tương tác cộng đồng"
+    },
+    {
+      "type": "p",
+      "text": "Phân hệ cung cấp các thao tác tương tác giữa người xem với nhau: Thích, Trả lời một cấp và Nhắc tên kèm thông báo."
+    },
+    {
+      "type": "table",
+      "widths": [
+        4,
+        8,
+        14,
+        42,
+        8,
+        8,
+        16
+      ],
+      "header": [
+        "STT",
+        "Mã yêu cầu",
+        "Tên yêu cầu",
+        "Mô tả",
+        "Mức độ ưu tiên",
+        "Mức độ quan trọng",
+        "Đối tượng liên quan"
+      ],
+      "rows": [
+        [
+          "1",
+          "UR07",
+          "Thích và bỏ thích bình luận",
+          "Phát biểu yêu cầu: Cho phép người dùng đã đăng nhập bày tỏ sự tán thành với một bình luận hoặc trả lời.\nThông tin đầu vào:\n- Mã bình luận hoặc mã trả lời (*)\n- Trạng thái Thích hiện tại của người dùng trên đối tượng đó\nThông tin đầu ra: Biểu tượng Thích đổi trạng thái ngay lập tức và số lượt Thích cập nhật theo.\nChức năng xử lý: Giao diện cập nhật lạc quan trước, client gom thao tác theo lô tối đa 5 giây rồi đồng bộ về máy chủ, đẩy sớm khi rời màn hình hoặc chuyển nền; nhiều lần Thích và Bỏ thích liên tiếp trên cùng đối tượng trong một lô được gộp về trạng thái cuối cùng; máy chủ là nguồn chân lý; người dùng được Thích nội dung của chính mình.\nCác ngoại lệ: Chưa đăng nhập thì điều hướng sang đăng nhập và không tự thực hiện lại thao tác; đồng bộ thất bại thì hoàn nguyên trạng thái trên giao diện và thông báo cho công nghệ hỗ trợ đọc màn hình; lượt Thích do tài khoản đang bị khóa tạo ra vẫn giữ bản ghi nhưng tạm không tính vào Net Like công khai.",
+          "Cao",
+          "Cao",
+          "Người xem đã đăng nhập"
+        ],
+        [
+          "2",
+          "UR08",
+          "Trả lời bình luận một cấp",
+          "Phát biểu yêu cầu: Cho phép người dùng trả lời một bình luận gốc trong màn hình Phản hồi.\nThông tin đầu vào:\n- Mã bình luận gốc (*)\n- Nội dung trả lời (*): 1–1000 ký tự, cùng ràng buộc như bình luận\nThông tin đầu ra: Trả lời hiển thị trong thread kèm trạng thái; số lượng trả lời trên lối vào “{n} phản hồi” được cập nhật.\nChức năng xử lý: Trả lời chỉ sâu một cấp; trả lời không hiển thị trong danh sách bình luận gốc; ô soạn tự chèn chip nhắc tên tác giả được trả lời; màn hình Phản hồi tải 3 trả lời đầu và thêm tối đa 10 trả lời mỗi lần, phần còn lại dưới 10 thì tải hết.\nCác ngoại lệ: Bình luận gốc đang không công khai thì trả lời cũng không hiển thị độc lập; quản trị viên ẩn bình luận gốc hoặc tác giả gốc bị khóa tài khoản làm toàn thread tạm không công khai nhưng không đổi trạng thái kiểm duyệt của trả lời do người khác tạo.",
+          "Cao",
+          "Cao",
+          "Người xem đã đăng nhập"
+        ],
+        [
+          "3",
+          "UR09",
+          "Nhắc tên và nhận thông báo",
+          "Phát biểu yêu cầu: Cho phép người dùng nhắc tên người khác trong bình luận hoặc trả lời và nhận thông báo về các tương tác liên quan.\nThông tin đầu vào:\n- Ký tự @ kèm chuỗi tìm kiếm trong ô soạn\n- Lựa chọn người dùng từ danh sách gợi ý (*)\nThông tin đầu ra: Chip nhắc tên trong nội dung; thông báo trong ứng dụng cho người được nhắc tên; danh sách thông báo trong Trung tâm thông báo.\nChức năng xử lý: Gợi ý ưu tiên người dùng trong cùng thread, sau đó người đã tham gia bộ phim; một công tắc chung bật tắt thông báo tương tác cộng đồng; thông báo trong ứng dụng lưu 90 ngày; thông báo về kiểm duyệt, chế tài, khiếu nại và kết quả báo cáo là bắt buộc và không bị công tắc này tắt.\nCác ngoại lệ: Gợi ý chỉ trả về nickname hợp lệ hoặc định danh đã che dạng 0******124, không bao giờ trả số điện thoại hay email đầy đủ; ô nhắc tên không được dùng để dò danh sách tài khoản ngoài phạm vi thread hoặc phim hiện tại; khi người dùng đang bị khóa tài khoản thì không tạo thông báo cộng đồng mới và sau khi mở khóa không bù lại; nội dung đẩy không chứa nguyên văn đoạn đã làm mờ và không chứa số điện thoại đầy đủ.",
+          "Trung bình",
+          "Trung bình",
+          "Người xem đã đăng nhập"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Phân hệ An toàn và kiểm duyệt"
+    },
+    {
+      "type": "p",
+      "text": "Phân hệ bảo đảm nội dung hiển thị công khai đã qua kiểm soát, gồm báo cáo vi phạm từ cộng đồng, kiểm duyệt AI hai chế độ và quản lý trạng thái cùng phạm vi hiển thị."
+    },
+    {
+      "type": "table",
+      "widths": [
+        4,
+        8,
+        14,
+        42,
+        8,
+        8,
+        16
+      ],
+      "header": [
+        "STT",
+        "Mã yêu cầu",
+        "Tên yêu cầu",
+        "Mô tả",
+        "Mức độ ưu tiên",
+        "Mức độ quan trọng",
+        "Đối tượng liên quan"
+      ],
+      "rows": [
+        [
+          "1",
+          "UR10",
+          "Báo cáo bình luận vi phạm",
+          "Phát biểu yêu cầu: Cho phép người dùng đã đăng nhập báo cáo một bình luận hoặc trả lời vi phạm quy tắc cộng đồng.\nThông tin đầu vào:\n- Mã bình luận hoặc mã trả lời (*)\n- Lý do báo cáo (*): Có spoiler, Spam/Quảng cáo bình luận, Xúc phạm/ngôn từ công kích, Nội dung không phù hợp, Khác\n- Mô tả bổ sung: bắt buộc 1–500 ký tự hợp lệ khi chọn lý do Khác\nThông tin đầu ra: Thông báo “Báo cáo thành công, bình luận sẽ được xem xét”; thông báo trong ứng dụng khi báo cáo được xử lý.\nChức năng xử lý: Đưa mục bị báo cáo vào hàng chờ kiểm duyệt nhưng không tự động ẩn hoặc xóa dù số lượng báo cáo lớn; giới hạn 10 báo cáo trong 1 giờ cho mỗi người dùng; cùng một đối tượng chỉ được báo cáo lại sau 24 giờ.\nCác ngoại lệ: Không được báo cáo nội dung của chính mình; mô tả chỉ có khoảng trắng khi chọn lý do Khác bị từ chối; người báo cáo chỉ nhận thông tin đã xử lý, không được biết chi tiết chế tài áp lên người khác.",
+          "Cao",
+          "Cao",
+          "Người xem đã đăng nhập"
+        ],
+        [
+          "2",
+          "UR11",
+          "Kiểm duyệt bằng AI theo hai chế độ",
+          "Phát biểu yêu cầu: Hệ thống tự động phân loại rủi ro của mọi nội dung do người dùng gửi trước khi hiển thị công khai.\nThông tin đầu vào:\n- Toàn bộ văn bản gốc của bình luận, trả lời, bản sửa hoặc nickname, kể cả đoạn đã làm mờ\n- Chế độ và ngưỡng áp dụng cho bộ phim tương ứng\nThông tin đầu ra: Mức rủi ro Nhẹ, Trung bình hoặc Nặng; trạng thái kết quả là công khai, Chờ duyệt hoặc bị chặn.\nChức năng xử lý: Chế độ 1 cho Nhẹ hiển thị ngay và Trung bình vào Chờ duyệt; Chế độ 2 cho cả Nhẹ và Trung bình vào Chờ duyệt; Nặng luôn bị chặn; ngưỡng kế thừa theo thứ tự override cấp phim → mặc định hệ thống và mọi thay đổi đều được ghi nhật ký; quản trị viên có thao tác phản hồi “AI phân loại sai” để lưu kết quả đã hiệu chỉnh.\nCác ngoại lệ: Timeout 5 giây, lỗi hoặc dịch vụ AI không khả dụng thì chuyển sang Chờ duyệt cho bình luận, trả lời và bản sửa; nickname áp dụng chính sách riêng và không bao giờ có trạng thái Chờ duyệt — khi không có kết quả AI hợp lệ thì giữ nickname cũ, báo lỗi cho thử lại và không tiêu quota đổi tên; AI phân loại theo ngữ nghĩa nên không thay thế việc làm sạch và mã hóa nội dung khi hiển thị.",
+          "Cao",
+          "Cao",
+          "Hệ thống, Kiểm duyệt viên"
+        ],
+        [
+          "3",
+          "UR12",
+          "Quản lý trạng thái và phạm vi hiển thị",
+          "Phát biểu yêu cầu: Hệ thống phải có một nguồn chân lý duy nhất trả lời câu hỏi một nội dung có được hiển thị công khai hay không và nếu không thì vì sao.\nThông tin đầu vào:\n- Trạng thái kiểm duyệt của nội dung và của bình luận gốc\n- Trạng thái khóa tài khoản của tác giả và của tác giả bình luận gốc\n- Trạng thái đóng hoặc mở của khu vực bình luận trên scope\nThông tin đầu ra: Kết quả cho phép hiển thị hoặc không, kèm thông báo tương ứng dùng chung cho mọi bề mặt đọc và cho deep link.\nChức năng xử lý: Áp dụng thứ tự ưu tiên tại Bảng 3; phân biệt rõ trạng thái kiểm duyệt chính thức với trạng thái không công khai tạm thời do khóa tài khoản hoặc đóng khu vực bình luận; mở khóa hoặc mở lại khu vực bình luận thì tự động khôi phục hiển thị cho các mục còn hợp lệ.\nCác ngoại lệ: Nội dung do người dùng tự xóa không bao giờ hiển thị lại; khóa tài khoản vĩnh viễn giữ trạng thái không công khai vô thời hạn và không tự xóa mềm nội dung; đánh giá sao không đi qua cơ chế đóng khu vực bình luận.",
+          "Cao",
+          "Cao",
+          "Hệ thống, Người xem"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Phân hệ CMS quản trị bình luận"
+    },
+    {
+      "type": "p",
+      "text": "Phân hệ dành cho kiểm duyệt viên và quản trị viên, chỉ thiết kế cho Web/Desktop. Mọi hành động ghi phải được kiểm tra quyền và phạm vi ở tầng API, không chỉ chặn ở giao diện."
+    },
+    {
+      "type": "table",
+      "widths": [
+        4,
+        8,
+        14,
+        42,
+        8,
+        8,
+        16
+      ],
+      "header": [
+        "STT",
+        "Mã yêu cầu",
+        "Tên yêu cầu",
+        "Mô tả",
+        "Mức độ ưu tiên",
+        "Mức độ quan trọng",
+        "Đối tượng liên quan"
+      ],
+      "rows": [
+        [
+          "1",
+          "UR13",
+          "Tra cứu bình luận trên CMS",
+          "Phát biểu yêu cầu: Cho phép kiểm duyệt viên tìm và lọc bình luận trong phạm vi được cấp.\nThông tin đầu vào:\n- Bộ lọc: phim, người dùng, trạng thái, mức rủi ro, khoảng thời gian\n- Tùy chọn kết xuất và tùy chọn kèm thông tin định danh cá nhân\nThông tin đầu ra: Danh sách kết quả kèm trạng thái và mức rủi ro; hàng chờ kiểm duyệt xếp mục rủi ro cao trước, cùng mức rủi ro thì mục chờ lâu hơn xếp trước; tệp kết xuất CSV và XLSX.\nChức năng xử lý: Hiển thị đầy đủ thông tin định danh cá nhân cho người có quyền trong phạm vi được cấp; kết xuất mặc định không kèm thông tin định danh đầy đủ, muốn kèm phải chủ động tích chọn; đánh dấu các mục quá SLA 24 giờ và đưa lên đầu hàng chờ.\nCác ngoại lệ: Truy vấn ngoài phạm vi được cấp bị từ chối ở tầng API với mã lỗi nhất quán và không để lộ sự tồn tại của bản ghi; nội dung kết xuất bắt đầu bằng dấu bằng, cộng, trừ hoặc a còng phải được vô hiệu hóa để tránh thực thi công thức khi mở tệp.",
+          "Cao",
+          "Cao",
+          "Kiểm duyệt viên"
+        ],
+        [
+          "2",
+          "UR14",
+          "Xử lý nội dung trên CMS",
+          "Phát biểu yêu cầu: Cho phép kiểm duyệt viên quyết định số phận của nội dung trong hàng chờ và hoàn tác khi cần.\nThông tin đầu vào:\n- Mã nội dung hoặc danh sách mã nội dung (*)\n- Thao tác (*): Duyệt, Từ chối, Ẩn, Xóa mềm, Hoàn tác, Bỏ qua báo cáo\n- Lý do theo taxonomy chuẩn và ghi chú kèm theo\nThông tin đầu ra: Trạng thái nội dung được cập nhật; tác giả nhận thông báo kèm lý do; bản ghi nhật ký kiểm toán mới.\nChức năng xử lý: Duyệt không cần lý do; Từ chối, Ẩn và Xóa mềm bắt buộc lý do, riêng lý do “Vi phạm khác” bắt buộc ghi chú 1–500 ký tự; xử lý hàng loạt chỉ hỗ trợ Duyệt, Từ chối, Ẩn và Xóa mềm, tối đa 100 mục, cho phép thành công một phần và cho phép ghi đè lý do từng mục; hoàn tác ánh xạ Từ chối về Chờ duyệt, Ẩn về Hiển thị, Xóa mềm về trạng thái ngay trước khi xóa.\nCác ngoại lệ: Hoàn tác Từ chối và Hoàn tác Ẩn không giới hạn thời gian, Hoàn tác Xóa mềm chỉ trong 90 ngày lưu trữ tính theo bình luận gốc; hoàn tác không tự khôi phục Ghim hoặc huy hiệu đã mất do kiểm duyệt; không áp dụng hoàn tác cho nội dung người dùng tự xóa.",
+          "Cao",
+          "Cao",
+          "Kiểm duyệt viên, Quản trị viên"
+        ],
+        [
+          "3",
+          "UR15",
+          "Quản lý bình luận ghim và cấu hình theo phim",
+          "Phát biểu yêu cầu: Cho phép quản trị viên ghim bình luận tiêu biểu và cấu hình chế độ kiểm duyệt cho từng bộ phim.\nThông tin đầu vào:\n- Mã bình luận cần ghim và vị trí mong muốn từ 1 đến 3\n- Thời hạn ghim (tùy chọn)\n- Chế độ kiểm duyệt và ngưỡng AI ở cấp phim hoặc mặc định hệ thống\n- Trạng thái đóng hoặc mở khu vực bình luận và thời điểm hiệu lực\nThông tin đầu ra: Danh sách bình luận ghim theo thứ tự đã đặt; cấu hình đang áp dụng cho từng bộ phim; bản ghi nhật ký kiểm toán.\nChức năng xử lý: Tối đa 3 bình luận ghim trên mỗi scope, cho phép kéo thả vị trí; cấu hình kế thừa theo thứ tự override cấp phim → mặc định hệ thống; chuyển từ Chế độ 2 sang Chế độ 1 thì mục đang chờ có kết quả AI Nhẹ tự hiển thị còn mức Trung bình tiếp tục chờ; chuyển từ Chế độ 1 sang Chế độ 2 thì nội dung đã hiển thị vẫn giữ nguyên và chế độ mới chỉ áp dụng cho dữ liệu phát sinh từ thời điểm hiệu lực.\nCác ngoại lệ: Ghim trên nội dung của tài khoản đang bị khóa chỉ tạm ẩn và giữ thông tin, tự hiện lại khi mở khóa nếu còn hợp lệ; thao tác kiểm duyệt Ẩn, Xóa hoặc Từ chối làm mất ghim; đóng khu vực bình luận vẫn giữ hàng chờ nhưng mục được duyệt chưa công khai cho tới khi mở lại.",
+          "Cao",
+          "Cao",
+          "Quản trị viên"
+        ],
+        [
+          "4",
+          "UR16",
+          "Quản lý người dùng vi phạm và nhật ký kiểm toán",
+          "Phát biểu yêu cầu: Cho phép quản trị viên áp chế tài với người dùng vi phạm, xử lý khiếu nại và tra cứu nhật ký kiểm toán.\nThông tin đầu vào:\n- Mã tài khoản người dùng (*)\n- Loại chế tài (*): Cảnh báo, Khóa bình luận tạm thời hoặc Khóa tài khoản\n- Lý do theo taxonomy chung (*) và ghi chú 1–500 ký tự khi chọn “Vi phạm khác”\n- Thời hạn chế tài với các mức 10 phút, 1 giờ, 1 ngày, 3 ngày, 7 ngày, 1 tháng hoặc tùy chọn\nThông tin đầu ra: Trạng thái chế tài của tài khoản; thông báo gửi tới người dùng; kết quả xử lý khiếu nại; nhật ký kiểm toán bất biến.\nChức năng xử lý: Mức Nhẹ áp Cảnh báo, Trung bình áp Khóa bình luận tạm, Nặng cho phép chọn Khóa bình luận hoặc Khóa tài khoản; Khóa bình luận chặn tạo mới Bình luận, Trả lời, Nhắc tên và Sửa nhưng vẫn cho tự xóa, Thích, Báo cáo, Đánh giá và Chia sẻ; Khóa tài khoản chặn đăng nhập, hiển thị màn hình khóa kèm trạng thái, lý do và số Tổng đài 1800 1166; nhật ký kiểm toán lưu 2 năm, độc lập với thời hạn xóa mềm 90 ngày.\nCác ngoại lệ: Không có Khóa bình luận vĩnh viễn; khiếu nại Khóa bình luận thực hiện trong ứng dụng, khiếu nại Khóa tài khoản đi qua Tổng đài và được nhập vào CMS; SLA khiếu nại 48 giờ, quá hạn vẫn giữ chế tài, đánh dấu Quá SLA và ưu tiên hàng chờ; khi khóa tài khoản có hiệu lực thì phiên đăng nhập hiện tại phải bị vô hiệu hóa ngay, không chỉ chặn đăng nhập mới.",
+          "Cao",
+          "Cao",
+          "Quản trị viên, Tổng đài"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Phân hệ Tăng trưởng và phân tích"
+    },
+    {
+      "type": "p",
+      "text": "Phân hệ tạo động lực đóng góp cho cộng đồng và cung cấp dữ liệu vận hành cho đội nội dung."
+    },
+    {
+      "type": "table",
+      "widths": [
+        4,
+        8,
+        14,
+        42,
+        8,
+        8,
+        16
+      ],
+      "header": [
+        "STT",
+        "Mã yêu cầu",
+        "Tên yêu cầu",
+        "Mô tả",
+        "Mức độ ưu tiên",
+        "Mức độ quan trọng",
+        "Đối tượng liên quan"
+      ],
+      "rows": [
+        [
+          "1",
+          "UR17",
+          "Huy hiệu người dùng",
+          "Phát biểu yêu cầu: Ghi nhận đóng góp của người dùng tích cực bằng huy hiệu hiển thị cạnh nickname.\nThông tin đầu vào:\n- Số ngày hoạt động, số bình luận và trả lời hợp lệ, số lượt Thích nhận được trong cửa sổ trượt\n- Quyết định cấp huy hiệu thủ công của quản trị viên\nThông tin đầu ra: Huy hiệu hiển thị cạnh nickname; bảng giải thích ý nghĩa từng huy hiệu.\nChức năng xử lý: Fan tích cực yêu cầu 30 ngày gần nhất có tối thiểu 7 ngày hoạt động và 10 bình luận hoặc trả lời hợp lệ; Fan kỳ cựu yêu cầu 90 ngày gần nhất có tối thiểu 30 ngày hoạt động, 30 bình luận hoặc trả lời hợp lệ và 30 lượt Thích nhận được; huy hiệu Nổi bật cấp khi nội dung công khai đạt tối thiểu 20 Net Like công khai, 5 trả lời và nằm trong nhóm 10% Featured Score cao nhất toàn MyTV trong 30 ngày; đánh giá lại hằng ngày, có 7 ngày ân hạn trước khi thu hồi huy hiệu Fan; giao diện hiển thị tối đa một huy hiệu theo thứ tự ưu tiên Custom, Nổi bật, Fan kỳ cựu, Fan tích cực.\nCác ngoại lệ: Ngày hoạt động chỉ tính khi người dùng đã đăng nhập mở khu vực bình luận đang khả dụng, tối đa một ngày cho mỗi tài khoản mỗi ngày; khách chưa đăng nhập và scope đang Đóng không tạo ngày hoạt động; người dùng tự xóa bình luận gốc làm mất đóng góp của các trả lời bị xóa theo; sau khi đã cấp, huy hiệu Nổi bật không tự thu hồi khi chỉ số giảm, chỉ mất khi nội dung nguồn bị kiểm duyệt.",
+          "Thấp",
+          "Trung bình",
+          "Người xem đã đăng nhập, Quản trị viên"
+        ],
+        [
+          "2",
+          "UR18",
+          "Chia sẻ bình luận",
+          "Phát biểu yêu cầu: Cho phép người dùng chia sẻ liên kết dẫn tới đúng bình luận hoặc nội dung trên MyTV.\nThông tin đầu vào:\n- Mã bình luận hoặc mã phim (*)\nThông tin đầu ra: Bảng chia sẻ của hệ điều hành kèm liên kết sâu; bản xem trước gồm ảnh đại diện nội dung, tên phim, lời kêu gọi và logo MyTV.\nChức năng xử lý: Người chia sẻ phải đăng nhập, người nhận không cần đăng nhập vẫn đọc được bình luận công khai; dùng bảng chia sẻ của hệ điều hành, không tích hợp trực tiếp bộ công cụ của mạng xã hội; nội dung chia sẻ không chứa bình luận; lời kêu gọi chính thức là “Xem nội dung này trên MyTV”; liên kết sâu không hết hạn, chưa cài ứng dụng thì mở MyTV Web đúng ngữ cảnh; ghi nhận sự kiện chia sẻ khi bảng chia sẻ mở thành công.\nCác ngoại lệ: Bản xem trước không được để lộ đoạn đã làm mờ và không chứa thông tin định danh cá nhân; nội dung đích bị ẩn, xóa hoặc từ chối thì mở phim kèm thông báo “Bình luận không còn khả dụng”; khu vực bình luận đang Đóng thì hiển thị “Khu vực bình luận hiện không khả dụng. Vui lòng quay lại sau”; bình luận có mốc thời gian thì mở đúng bình luận nhưng không tự động nhảy tới mốc.",
+          "Thấp",
+          "Trung bình",
+          "Người xem đã đăng nhập"
+        ],
+        [
+          "3",
+          "UR19",
+          "Thống kê hoạt động bình luận",
+          "Phát biểu yêu cầu: Cung cấp bảng chỉ số về mức độ tham gia, an toàn nội dung và hiệu quả vận hành.\nThông tin đầu vào:\n- Bộ lọc theo phim và khoảng thời gian\nThông tin đầu ra: Engagement Score, số người bình luận duy nhất, tỷ lệ báo cáo được xác nhận, tỷ lệ nội dung bị ẩn/xóa/từ chối, tỷ lệ nội dung an toàn được tự động hiển thị, thời gian xử lý hàng chờ; tệp kết xuất CSV và XLSX.\nChức năng xử lý: Engagement Score tính theo công thức Bình luận×2 + Trả lời×2 + Net Like×1 + Đánh giá×1 + Chia sẻ×2; bảng chỉ số có độ trễ tối đa 5 phút và được đối soát hằng ngày để tự sửa sai lệch; hiển thị song song tổng số lượt Thích và Net Like công khai, trong đó Engagement chỉ dùng Net Like công khai.\nCác ngoại lệ: Chỉ bốn nguyên nhân loại nội dung khỏi chỉ số công khai gồm kiểm duyệt Ẩn/Từ chối/Xóa, người dùng tự xóa kéo theo, quản trị viên xử lý bình luận gốc kéo theo và khóa tài khoản; việc đóng khu vực bình luận không loại nội dung khỏi chỉ số vì đó là biện pháp vận hành chứ không phải chế tài nội dung.",
+          "Cao",
+          "Cao",
+          "Đội nội dung, Ban sản phẩm"
+        ],
+        [
+          "4",
+          "UR20",
+          "AI hỗ trợ vận hành cộng đồng",
+          "Phát biểu yêu cầu: Cho phép quản trị viên nhận đề xuất nội dung khơi gợi thảo luận do AI sinh ra.\nThông tin đầu vào:\n- Thao tác bấm nút “AI đề xuất” của quản trị viên (*)\n- Dữ liệu bình luận của đúng bộ phim hiện tại\nThông tin đầu ra: Danh sách câu hỏi hoặc nội dung gợi mở thảo luận để quản trị viên xem xét.\nChức năng xử lý: AI chỉ chạy khi quản trị viên chủ động yêu cầu; quản trị viên có thể chỉnh sửa nội dung đề xuất, duyệt rồi đăng mà không cần người duyệt thứ hai; theo dõi tỷ lệ chấp nhận, chỉnh sửa và loại bỏ.\nCác ngoại lệ: AI không tự động ghim hoặc tự động đăng bất kỳ nội dung nào; ứng viên bị loại khi mức rủi ro AI là Nặng hoặc bị CMS gắn cờ nghiêm trọng; số lượng báo cáo chưa được xác minh không tự loại ứng viên; chỉ số chấp nhận thấp không tự động tắt tính năng.",
+          "Thấp",
+          "Thấp",
+          "Quản trị viên"
+        ]
+      ]
+    },
+    {
+      "type": "h1",
+      "text": "CÁC YÊU CẦU PHI CHỨC NĂNG"
+    },
+    {
+      "type": "h2",
+      "text": "Yêu cầu bảo mật, phân quyền người sử dụng"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã YC",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF01",
+          "Xác thực người dùng sử dụng hệ thống đăng nhập MyTV sẵn có (Auth/SSO), không xây dựng riêng."
+        ],
+        [
+          "UR_NF02",
+          "Hệ thống cho phép nhiều cấp quản trị; một người sử dụng có thể có nhiều vai trò. Việc phân quyền thực hiện theo chức năng."
+        ],
+        [
+          "UR_NF03",
+          "Mọi hành động ghi trên CMS — Duyệt, Ẩn, Xóa, Hoàn tác, xử lý hàng loạt, kết xuất thông tin định danh, Ghim và áp chế tài — phải được kiểm tra quyền và phạm vi ở tầng API, không chỉ chặn ở giao diện."
+        ],
+        [
+          "UR_NF04",
+          "Một kiểm duyệt viên gọi thẳng API với mã định danh ngoài phạm vi được cấp phải bị từ chối với mã lỗi nhất quán; thông điệp lỗi và siêu dữ liệu không được để lộ sự tồn tại hay nội dung của bản ghi nằm ngoài phạm vi."
+        ],
+        [
+          "UR_NF05",
+          "Toàn bộ nội dung do người dùng nhập phải được làm sạch và mã hóa ở mọi bề mặt hiển thị: web, ứng dụng di động, CMS, tệp kết xuất và bản xem trước khi chia sẻ. Kết quả phân loại của AI không thay thế cho việc làm sạch này."
+        ],
+        [
+          "UR_NF06",
+          "Kết xuất CSV phải vô hiệu hóa chèn công thức: ô có nội dung bắt đầu bằng dấu bằng, cộng, trừ hoặc a còng phải được thêm ký tự thoát trước khi ghi tệp."
+        ],
+        [
+          "UR_NF07",
+          "Chặn hoặc trung hòa các nhóm ký tự đối kháng trong bình luận, trả lời và nickname: ký tự đảo chiều văn bản U+202E, ký tự độ rộng bằng không U+200B và U+200D, ký tự điều khiển U+0000–U+001F. Nickname phải chặn ký tự nhìn giống nhau trước khi kiểm tra tính duy nhất."
+        ],
+        [
+          "UR_NF08",
+          "Nội dung thông báo đẩy không được chứa nguyên văn đoạn đã làm mờ và không chứa số điện thoại đầy đủ; tên người gửi hiển thị bằng nickname hoặc định danh đã che."
+        ],
+        [
+          "UR_NF09",
+          "Khi khóa tài khoản có hiệu lực, phiên đăng nhập hiện tại của người dùng phải bị vô hiệu hóa ngay tại thời điểm hiệu lực. Yêu cầu gửi sau thời điểm hiệu lực phải bị từ chối ở mọi API liên quan."
+        ],
+        [
+          "UR_NF10",
+          "Thông tin định danh cá nhân đầy đủ chỉ hiển thị cho người có quyền trong phạm vi được cấp. Kết xuất mặc định không kèm thông tin định danh đầy đủ; muốn kèm phải chủ động tích chọn."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yêu cầu sao lưu và phục hồi dữ liệu"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF11",
+          "Nội dung bị xóa mềm được lưu 90 ngày; nhật ký kiểm toán được lưu 2 năm. Hai mốc thời gian này chạy độc lập với nhau."
+        ],
+        [
+          "UR_NF12",
+          "Dữ liệu bình luận, đánh giá, tương tác và nhật ký kiểm toán phải được sao lưu tự động theo chu kỳ hằng ngày, giữ tối thiểu 30 bản sao lưu gần nhất."
+        ],
+        [
+          "UR_NF13",
+          "Thời gian phục hồi dịch vụ tối đa 4 giờ và mức mất mát dữ liệu tối đa 1 giờ. Phải kiểm thử quy trình phục hồi định kỳ và lập biên bản."
+        ],
+        [
+          "UR_NF14",
+          "Hủy đăng nội dung đang Chờ duyệt do chính tác giả thực hiện không tạo bản lưu và không ghi nhật ký kiểm toán, đồng thời gỡ mục khỏi hàng chờ kiểm duyệt."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yêu cầu về tính khả dụng (Usability)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF15",
+          "Toàn bộ tính năng bình luận trên web và ứng dụng di động phải tuân thủ WCAG 2.1 mức AA."
+        ],
+        [
+          "UR_NF16",
+          "Tương phản màu tối thiểu 4,5:1 cho văn bản thường và 3:1 cho thành phần giao diện, bao gồm nền của đoạn chữ bị làm mờ và trạng thái tiêu điểm của mốc thời gian."
+        ],
+        [
+          "UR_NF17",
+          "Vùng chạm tối thiểu 44×44pt cho mọi phần tử tương tác: nút Thích, nút Báo cáo, mốc thời gian, sao đánh giá, đoạn chữ bị làm mờ và nút xem thêm phản hồi."
+        ],
+        [
+          "UR_NF18",
+          "Hỗ trợ phóng chữ tới 200% mà không bị cắt nội dung, không mất chức năng và không chồng chéo bố cục."
+        ],
+        [
+          "UR_NF19",
+          "Trên web, toàn bộ luồng thao tác phải dùng được đầy đủ bằng bàn phím, có thứ tự tiêu điểm hợp lý và chỉ báo tiêu điểm rõ ràng."
+        ],
+        [
+          "UR_NF20",
+          "Trạng thái không được truyền đạt chỉ bằng màu sắc; chip trạng thái phải kết hợp biểu tượng và chữ."
+        ],
+        [
+          "UR_NF21",
+          "Hiệu ứng chuyển động của thao tác Thích và các chuyển trạng thái khác phải tôn trọng thiết lập giảm chuyển động của hệ điều hành."
+        ],
+        [
+          "UR_NF22",
+          "Kiểm duyệt viên mới phải thao tác thành thạo trên CMS sau tối đa 2 giờ đào tạo."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yêu cầu về tính ổn định (Reliability)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF23",
+          "Tính sẵn sàng của khu vực bình luận tối thiểu 99,5% theo tháng, không tính thời gian bảo trì đã thông báo trước."
+        ],
+        [
+          "UR_NF24",
+          "Khi xảy ra sự cố làm ngừng dịch vụ, hệ thống phải phục hồi 90% trong vòng 1 giờ và 100% trong vòng 24 giờ."
+        ],
+        [
+          "UR_NF25",
+          "Sự cố của dịch vụ AI không được làm hỏng luồng đăng bình luận: quá 5 giây hoặc lỗi thì nội dung chuyển sang Chờ duyệt thay vì bị mất."
+        ],
+        [
+          "UR_NF26",
+          "Sự kiện bất đồng bộ phải bảo đảm không mất và không nhân đôi tác dụng khi xử lý lại."
+        ],
+        [
+          "UR_NF27",
+          "Số liệu tổng hợp trên bảng chỉ số phải được đối soát hằng ngày; sai lệch được tự động sửa và ghi nhật ký."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yêu cầu về hiệu năng (Performance)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF28",
+          "Thời gian phản hồi khi gửi bình luận, trả lời hoặc đánh giá dưới 1 giây ở phân vị 95, đo tại tầng API và không tính độ trễ mạng của thiết bị đầu cuối."
+        ],
+        [
+          "UR_NF29",
+          "Thời gian tải danh sách 10 bình luận đầu tiên dưới 2 giây ở phân vị 95."
+        ],
+        [
+          "UR_NF30",
+          "Thao tác Thích phải phản hồi tức thời trên giao diện; đồng bộ về máy chủ theo lô tối đa 5 giây."
+        ],
+        [
+          "UR_NF31",
+          "Thời gian gọi dịch vụ AI phân loại nội dung giới hạn cứng 5 giây."
+        ],
+        [
+          "UR_NF32",
+          "Bảng chỉ số thống kê có độ trễ dữ liệu tối đa 5 phút."
+        ],
+        [
+          "UR_NF33",
+          "Hệ thống phải đáp ứng số người dùng đồng thời tương ứng quy mô nhóm phim thí điểm ở giai đoạn ra mắt giới hạn và có khả năng mở rộng theo chiều ngang khi ra mắt rộng. <Cần Ban sản phẩm xác nhận con số mục tiêu cụ thể trước pilot>"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yêu cầu về tính hỗ trợ (Supportability)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF34",
+          "Phải có đội kiểm duyệt viên trực để giữ SLA xử lý hàng chờ 24 giờ và SLA khiếu nại 48 giờ."
+        ],
+        [
+          "UR_NF35",
+          "Tổng đài MyTV 1800 1166 phải hỗ trợ miễn phí 24/7 để tiếp nhận khiếu nại khóa tài khoản và nhập khiếu nại vào CMS."
+        ],
+        [
+          "UR_NF36",
+          "Hệ thống phải có cảnh báo sớm khi tỷ lệ lỗi hoặc quá hạn của dịch vụ AI tăng, vì đây là dấu hiệu hàng chờ kiểm duyệt sắp quá tải."
+        ],
+        [
+          "UR_NF37",
+          "Mọi thay đổi cấu hình chế độ và ngưỡng kiểm duyệt phải được ghi nhật ký để truy vết."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yêu cầu các ràng buộc thiết kế (Design constraints)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF38",
+          "Toàn bộ logic quyết định khả năng hiển thị phải tập trung tại một module dùng chung duy nhất; không được sao chép logic này giữa các tầng giao diện, BFF và dịch vụ."
+        ],
+        [
+          "UR_NF39",
+          "Phải tách bạch trạng thái kiểm duyệt chính thức với khả năng hiển thị thực tế; khóa tài khoản và đóng khu vực bình luận không được làm thay đổi trạng thái kiểm duyệt."
+        ],
+        [
+          "UR_NF40",
+          "Nội dung bình luận phải được lưu dưới dạng văn bản kèm các dải định dạng, không phải văn bản thuần với một cờ đánh dấu ở cấp bình luận. Việc làm sạch phải kiểm tra cả cấu trúc định dạng vì dải định dạng chồng lấn hoặc lệch chỉ số là một hướng tấn công."
+        ],
+        [
+          "UR_NF41",
+          "Không có chức năng chèn siêu liên kết trong luồng soạn bình luận."
+        ],
+        [
+          "UR_NF42",
+          "Quan hệ với trình phát video là một chiều: hệ thống chỉ ra lệnh nhảy tới mốc, không đọc trạng thái hiện tại của trình phát."
+        ],
+        [
+          "UR_NF43",
+          "Việc nhận diện và kiểm tra chuỗi mốc thời gian phải thực hiện ở cả client và máy chủ bằng cùng một thuật toán, lấy chuỗi hợp lệ đầu tiên làm mốc duy nhất."
+        ],
+        [
+          "UR_NF44",
+          "CMS kiểm duyệt chỉ thiết kế cho Web/Desktop."
+        ],
+        [
+          "UR_NF45",
+          "Smart TV không tạo Bình luận, Trả lời, Nhắc tên, Báo cáo hoặc Chia sẻ; vẫn cho đọc, Thích, Đánh giá, đổi cách sắp xếp, hiện đoạn có tiết lộ và nhảy tới mốc thời gian. Smart TV hiển thị hướng dẫn kèm mã QR để chuyển sang điện thoại khi người dùng muốn tham gia bình luận."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Yêu cầu về giao tiếp (Interfaces)"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF46",
+          "Giao tiếp chung: hệ thống cung cấp API qua giao thức HTTPS. API Gateway/BFF chịu trách nhiệm xác thực, phân quyền và giới hạn tần suất."
+        ],
+        [
+          "UR_NF47",
+          "Giao tiếp người dùng: toàn bộ giao diện bằng tiếng Việt, phông chữ Unicode; định dạng ngày dd/mm/yyyy. Ô soạn bình luận trên điện thoại là thanh nhập cố định ở đáy màn hình, nở lên khi bàn phím bật; trên web là ô nhập nội tuyến."
+        ],
+        [
+          "UR_NF48",
+          "Giao tiếp phần cứng: hoạt động trên đầu thu MyTV hiện hành, thiết bị di động và trình duyệt web phổ biến. <Cần đội kỹ thuật chốt danh sách thiết bị và phiên bản tối thiểu để kiểm thử>"
+        ],
+        [
+          "UR_NF49",
+          "Giao tiếp phần mềm — phần mềm dùng để xây dựng hệ thống: do đơn vị phát triển đề xuất trong tài liệu giải pháp kỹ thuật giai đoạn 0, phải là công nghệ có hỗ trợ dài hạn và phù hợp nền tảng hiện có của MyTV."
+        ],
+        [
+          "UR_NF50",
+          "Giao tiếp phần mềm — giữa các thành phần bên trong hệ thống: Comment Service, Rating Service, Interaction Service và Identity Service đều gọi module quyết định khả năng hiển thị dùng chung; các miền phát sự kiện bất đồng bộ qua hàng đợi tới Notification, Badge, Analytics và Audit Log."
+        ],
+        [
+          "UR_NF51",
+          "Giao tiếp phần mềm — hệ thống bên ngoài: xác thực qua MyTV Auth/SSO; lấy siêu dữ liệu phim và tập từ Dịch vụ Nội dung; ra lệnh nhảy mốc cho Trình phát video; gửi thông báo qua Dịch vụ Push (APNs/FCM); gọi Nhà cung cấp AI để phân loại nội dung; đẩy dữ liệu sang Kho dữ liệu báo cáo doanh nghiệp."
+        ],
+        [
+          "UR_NF52",
+          "Giao tiếp truyền thông: Nhà cung cấp AI là phụ thuộc bên ngoài tính phí theo lượt gọi; cần cơ chế theo dõi chi phí và hạn mức theo lượng bình luận."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Các yêu cầu về tài liệu người dùng và hỗ trợ trực tuyến"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF53",
+          "Cung cấp tài liệu hướng dẫn sử dụng CMS cho kiểm duyệt viên và quản trị viên, kèm chương trình đào tạo trước khi ra mắt giới hạn."
+        ],
+        [
+          "UR_NF54",
+          "Cung cấp quy trình và tài liệu đào tạo cho Tổng đài chăm sóc khách hàng về tiếp nhận khiếu nại khóa tài khoản, vì Tổng đài là một người dùng thật của hệ thống chứ không phải kênh phụ."
+        ],
+        [
+          "UR_NF55",
+          "Cung cấp bộ quy tắc cộng đồng cho người xem, truy cập được từ màn hình khóa và từ thông báo vi phạm."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Các thành phần mua ngoài"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF56",
+          "Dịch vụ phân loại nội dung của nhà cung cấp AI bên ngoài, hỗ trợ tiếng Việt và tiếng Anh, tính phí theo lượt gọi. Cần chốt nhà cung cấp, hạn mức và ngân sách vận hành trước giai đoạn thí điểm."
+        ],
+        [
+          "UR_NF57",
+          "Dịch vụ đẩy thông báo APNs và FCM sử dụng hạ tầng sẵn có của MyTV."
+        ],
+        [
+          "UR_NF58",
+          "Thư viện của bên thứ ba dùng trong hệ thống phải có giấy phép cho phép sử dụng thương mại."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Các yêu cầu pháp lý, bản quyền và ghi chú khác"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF59",
+          "Toàn bộ mã nguồn và tài liệu của hệ thống được bàn giao và thuộc quyền quản lý của Tổng công ty Truyền thông."
+        ],
+        [
+          "UR_NF60",
+          "Nội dung do người dùng tạo phải tuân thủ quy định pháp luật Việt Nam về quản lý nội dung trên không gian mạng; hệ thống phải lưu đủ nhật ký để phục vụ truy vết khi có yêu cầu của cơ quan quản lý."
+        ],
+        [
+          "UR_NF61",
+          "Việc xử lý thông tin định danh cá nhân phải tuân thủ quy định bảo vệ dữ liệu cá nhân hiện hành."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Các tiêu chuẩn áp dụng"
+    },
+    {
+      "type": "table",
+      "widths": [
+        13,
+        87
+      ],
+      "header": [
+        "Mã",
+        "Yêu cầu"
+      ],
+      "rows": [
+        [
+          "UR_NF62",
+          "Khả năng tiếp cận: WCAG 2.1 mức AA."
+        ],
+        [
+          "UR_NF63",
+          "Quy trình phát triển và quản lý tài liệu tuân thủ hệ thống quản lý chất lượng đang áp dụng tại đơn vị, sử dụng bộ biểu mẫu BM01–BM10."
+        ],
+        [
+          "UR_NF64",
+          "Phân tích và thiết kế thực hiện theo chuẩn UML; tài liệu API theo chuẩn OpenAPI."
+        ]
+      ]
+    },
+    {
+      "type": "h1",
+      "text": "TIÊU CHUẨN NGHIỆM THU (*)"
+    },
+    {
+      "type": "p",
+      "text": "Hệ thống được nghiệm thu theo từng giai đoạn triển khai. Điều kiện nghiệm thu chung như sau:"
+    },
+    {
+      "type": "number",
+      "items": [
+        "Hệ thống được thiết kế và vận hành đúng như mô tả trong tài liệu này, đáp ứng trên 90% các yêu cầu chức năng có mức độ ưu tiên Cao tại Chương IV (UR01, UR02, UR03, UR04, UR05, UR07, UR08, UR10, UR11, UR12, UR13, UR14, UR15, UR16, UR19).",
+        "Toàn bộ yêu cầu phi chức năng có mức độ ưu tiên Cao tại Chương V được kiểm chứng và có biên bản kiểm thử kèm theo, đặc biệt là nhóm bảo mật UR_NF01–UR_NF10 và nhóm khả năng tiếp cận UR_NF15–UR_NF21.",
+        "Module quyết định khả năng hiển thị được kiểm thử đầy đủ với cả năm cơ chế ẩn và các trường hợp chồng lấn theo Bảng 3; không xảy ra rò rỉ nội dung đã bị ẩn trên bất kỳ bề mặt đọc nào, kể cả deep link và bản xem trước khi chia sẻ.",
+        "Hệ thống được hiệu chỉnh sau khi triển khai thử nghiệm trên nhóm phim thí điểm và đạt các tiêu chí thoát của giai đoạn thí điểm do Ban sản phẩm thống nhất.",
+        "Tổ chức đào tạo và bàn giao tài liệu hướng dẫn cho kiểm duyệt viên, quản trị viên và Tổng đài chăm sóc khách hàng; các đối tượng này thao tác thành thạo sau khóa đào tạo.",
+        "Toàn bộ tài liệu và mã nguồn được bàn giao đầy đủ cho Tổng công ty Truyền thông."
+      ]
+    },
+    {
+      "type": "note",
+      "text": "[Ghi chú: các yêu cầu chức năng có mức độ ưu tiên Thấp (UR06, UR17, UR18, UR20) thuộc giai đoạn Tăng trưởng và không phải điều kiện bắt buộc để nghiệm thu giai đoạn ra mắt giới hạn.]"
+    }
+  ]
+}
