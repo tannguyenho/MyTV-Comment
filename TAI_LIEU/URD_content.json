@@ -790,40 +790,168 @@
       "caption": "Hình 9: Web — Khu vực Bình luận trong trang phim khi chưa đăng nhập: thẻ nhắc đăng nhập, Sắp xếp theo, danh sách và liên kết Xem thêm"
     },
     {
-      "type": "image",
-      "path": "assets/tv/tv_list.jpg",
-      "widthCm": 16,
-      "caption": "Hình 10: Smart TV — Bảng bình luận bên phải trình phát, chỉ đọc, dải nhắc chuyển sang điện thoại/website"
+      "type": "p",
+      "text": "Giao diện Smart TV — US01 Đọc khu vực bình luận",
+      "bold": true
+    },
+    {
+      "type": "p",
+      "text": "Trên Smart TV người xem điều khiển bằng remote: nút Bình luận nằm trên thanh điều khiển của trình phát; bảng bình luận mở ở nửa phải màn hình, video thu nhỏ bên trái và tiếp tục phát. Tiêu điểm (focus) di chuyển theo thứ tự dải nhắc → các card; nhấn Click trên card mở trang Phản hồi; nhấn BACK quay lại. Luồng cho phim bộ và phim lẻ giống nhau (chỉ khác tiêu đề có số tập) vì bình luận ở cấp phim. Quản trị viên đóng bình luận của phim thì thanh điều khiển không hiển thị nút Bình luận."
     },
     {
       "type": "image",
-      "path": "assets/tv/tv_skeleton.jpg",
+      "path": "assets/tv/us01_overview.jpg",
       "widthCm": 16,
-      "caption": "Hình 11: Smart TV — Khung xương trong lúc tải"
+      "caption": "Hình 10: Smart TV — Lưu đồ Figma US01 Đọc khu vực bình luận (các nhánh phim bộ/phim lẻ, phản hồi, xem thêm, hướng dẫn mở ứng dụng)"
+    },
+    {
+      "type": "table",
+      "header": [
+        "Mã bước thực hiện",
+        "Tên bước",
+        "Người thực hiện",
+        "Diễn giải bước thực hiện"
+      ],
+      "rows": [
+        [
+          "CMT.01.TV.B01",
+          "Mở bảng bình luận",
+          "Người xem",
+          "Trên thanh điều khiển trình phát, di chuyển tiêu điểm tới nút “Bình luận” và nhấn Click. Nếu quản trị viên đã đóng bình luận của phim thì nút này không xuất hiện."
+        ],
+        [
+          "CMT.01.TV.B02",
+          "Tải danh sách",
+          "Hệ thống",
+          "Video thu nhỏ sang trái, bảng “Bình luận · {count}” hiện bên phải với khung xương trong lúc tải; sau đó hiển thị dải nhắc “Mở ứng dụng MyTV trên thiết bị di động hoặc website để thêm bình luận và trả lời” (tiêu điểm mặc định) và danh sách card theo sắp xếp Nổi bật, tải thêm khi cuộn tới cuối."
+        ],
+        [
+          "CMT.01.TV.B03",
+          "Duyệt card",
+          "Người xem",
+          "Di chuyển tiêu điểm xuống từng card (card có tiêu điểm nền sáng). Card hiển thị avatar, tên, chip huy hiệu hoặc marker Ghim, thời gian tương đối, nội dung (cắt bằng “…” khi dài), số lượt thích và số phản hồi. Chưa có bình luận → trạng thái rỗng “Hãy là người đầu tiên bình luận về nội dung này”."
+        ],
+        [
+          "CMT.01.TV.B04",
+          "Xem phản hồi / xem đủ nội dung",
+          "Người xem",
+          "Nhấn Click trên card mở trang “Phản hồi”: bình luận gốc hiển thị đủ nội dung ở đầu, bên dưới là các phản hồi một cấp (chỉ đọc). Nhấn Click trên một phản hồi mở trang Phản hồi của phản hồi đó (chỉ có nội dung, không có phản hồi con). Nhấn BACK quay lại danh sách."
+        ],
+        [
+          "CMT.01.TV.B05",
+          "Hướng dẫn tham gia bình luận",
+          "Người xem",
+          "Nhấn Click trên dải nhắc mở trang “Cách thêm bình luận và phản hồi”: bước 1 quét mã QR tải ứng dụng MyTV SmartPhone, bước 2 đăng nhập và tham gia bình luận; hiển thị tổng đài 1800 1166. Nhấn BACK quay lại."
+        ]
+      ],
+      "widths": [
+        14,
+        20,
+        14,
+        52
+      ]
     },
     {
       "type": "image",
-      "path": "assets/tv/tv_empty.jpg",
-      "widthCm": 16,
-      "caption": "Hình 12: Smart TV — Trạng thái rỗng"
+      "path": "assets/tv/tv_us01_r1_c1_71_3221.jpg",
+      "widthCm": 15,
+      "caption": "Hình 11: Smart TV — Trình phát phim bộ với nút Bình luận trên thanh điều khiển"
     },
     {
       "type": "image",
-      "path": "assets/tv/xemthem_233_4295.jpg",
-      "widthCm": 16,
-      "caption": "Hình 13: Smart TV — Card có nội dung dài được cắt bằng dấu ba chấm khi ở trạng thái tiêu điểm"
+      "path": "assets/tv/tv_us01_r1_c2_73_7691.jpg",
+      "widthCm": 15,
+      "caption": "Hình 12: Smart TV — Nút Bình luận đang có tiêu điểm"
     },
     {
       "type": "image",
-      "path": "assets/tv/xemthem_reply_233_4686.jpg",
-      "widthCm": 16,
-      "caption": "Hình 14: Smart TV — Trang Phản hồi chỉ đọc, hiển thị đủ nội dung bình luận"
+      "path": "assets/tv/tv_us01_r2_c2_78_10112.jpg",
+      "widthCm": 15,
+      "caption": "Hình 13: Smart TV — Phim đã đóng bình luận: thanh điều khiển không có nút Bình luận"
     },
     {
       "type": "image",
-      "path": "assets/tv/tv_login_qr.jpg",
-      "widthCm": 16,
-      "caption": "Hình 15: Smart TV — Hướng dẫn tải ứng dụng kèm mã QR và đăng nhập để tham gia bình luận"
+      "path": "assets/tv/tv_us01_r1_c3_79_22313.jpg",
+      "widthCm": 15,
+      "caption": "Hình 14: Smart TV — Khung xương trong lúc tải bảng bình luận"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r1_c4_71_3916.jpg",
+      "widthCm": 15,
+      "caption": "Hình 15: Smart TV — Bảng bình luận, tiêu điểm mặc định ở dải nhắc chuyển sang điện thoại/website"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r1_c5_78_10487.jpg",
+      "widthCm": 15,
+      "caption": "Hình 16: Smart TV — Tiêu điểm chuyển xuống card bình luận đầu tiên"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r2_c3_84_40002.jpg",
+      "widthCm": 15,
+      "caption": "Hình 17: Smart TV — Trạng thái rỗng: chưa có bình luận"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r5_c5_233_4295.jpg",
+      "widthCm": 15,
+      "caption": "Hình 18: Smart TV — Card có tiêu điểm với nội dung dài bị cắt bằng dấu ba chấm"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r6_c5_233_4296.jpg",
+      "widthCm": 15,
+      "caption": "Hình 19: Smart TV — Trang Phản hồi hiển thị đủ nội dung bình luận gốc dài"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r2_c4_148_4134.jpg",
+      "widthCm": 15,
+      "caption": "Hình 20: Smart TV — Trang Phản hồi của bình luận chưa có phản hồi nào"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r5_c1_82_32806.jpg",
+      "widthCm": 15,
+      "caption": "Hình 21: Smart TV — Trang Phản hồi: bình luận gốc và các phản hồi một cấp"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r5_c2_82_32931.jpg",
+      "widthCm": 15,
+      "caption": "Hình 22: Smart TV — Tiêu điểm trên một phản hồi trong trang Phản hồi"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r5_c3_82_33242.jpg",
+      "widthCm": 15,
+      "caption": "Hình 23: Smart TV — Nhấn Click trên phản hồi: trang Phản hồi của phản hồi đó (không có phản hồi con)"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r2_c5_78_10689.jpg",
+      "widthCm": 15,
+      "caption": "Hình 24: Smart TV — Trang Phản hồi theo thiết kế hiện tại; các nút Thích và Báo cáo trên bình luận gốc thuộc giai đoạn sau"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r3_c1_79_23737.jpg",
+      "widthCm": 15,
+      "caption": "Hình 25: Smart TV — Trình phát phim lẻ: luồng giống phim bộ, chỉ khác tiêu đề không có số tập"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r6_c1_86_40605.jpg",
+      "widthCm": 15,
+      "caption": "Hình 26: Smart TV — Nhấn Click trên dải nhắc để mở hướng dẫn"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us01_r6_c2_86_40747.jpg",
+      "widthCm": 15,
+      "caption": "Hình 27: Smart TV — Trang Cách thêm bình luận và phản hồi: mã QR tải ứng dụng, đăng nhập, tổng đài 1800 1166"
     },
     {
       "type": "h3",
@@ -837,19 +965,19 @@
       "type": "image",
       "path": "assets/flow/US02.jpg",
       "widthCm": 11,
-      "caption": "Hình 16: Lưu đồ tải thêm và sắp xếp bình luận (US02) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
+      "caption": "Hình 28: Lưu đồ tải thêm và sắp xếp bình luận (US02) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
     },
     {
       "type": "image",
       "path": "assets/phone/06_sort_sheet.png",
       "widthCm": 5.2,
-      "caption": "Hình 17: Phone — Bottom sheet Sắp xếp theo: Nổi bật, Mới nhất, Nhiều lượt thích"
+      "caption": "Hình 29: Phone — Bottom sheet Sắp xếp theo: Nổi bật, Mới nhất, Nhiều lượt thích"
     },
     {
       "type": "image",
       "path": "assets/web/web_sort.jpg",
       "widthCm": 16,
-      "caption": "Hình 18: Web — Dropdown Sắp xếp theo"
+      "caption": "Hình 30: Web — Dropdown Sắp xếp theo"
     },
     {
       "type": "h3",
@@ -863,7 +991,7 @@
       "type": "image",
       "path": "assets/flow/US04.jpg",
       "widthCm": 16,
-      "caption": "Hình 19: Lưu đồ đăng bình luận qua kiểm duyệt (US04) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
+      "caption": "Hình 31: Lưu đồ đăng bình luận qua kiểm duyệt (US04) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
     },
     {
       "type": "table",
@@ -940,31 +1068,31 @@
       "type": "image",
       "path": "assets/phone/21_composer_typing.png",
       "widthCm": 5.2,
-      "caption": "Hình 20: Phone — Ô soạn khi bàn phím bật, overlay tối phủ trình phát"
+      "caption": "Hình 32: Phone — Ô soạn khi bàn phím bật, overlay tối phủ trình phát"
     },
     {
       "type": "image",
       "path": "assets/phone/22_rejected.png",
       "widthCm": 5.2,
-      "caption": "Hình 21: Phone — Nội dung bị chặn tại thời điểm gửi: lỗi nội tuyến “Bình luận không được chấp thuận”"
+      "caption": "Hình 33: Phone — Nội dung bị chặn tại thời điểm gửi: lỗi nội tuyến “Bình luận không được chấp thuận”"
     },
     {
       "type": "image",
       "path": "assets/phone/40195_82744.png",
       "widthCm": 5.2,
-      "caption": "Hình 22: Phone — Bình luận đang Chờ duyệt (chỉ tác giả thấy) và menu Chỉnh sửa / Hủy đăng"
+      "caption": "Hình 34: Phone — Bình luận đang Chờ duyệt (chỉ tác giả thấy) và menu Chỉnh sửa / Hủy đăng"
     },
     {
       "type": "image",
       "path": "assets/web/web_500char_limit.jpg",
       "widthCm": 16,
-      "caption": "Hình 23: Web — Trạng thái vượt quá 500 ký tự"
+      "caption": "Hình 35: Web — Trạng thái vượt quá 500 ký tự"
     },
     {
       "type": "image",
       "path": "assets/web/web_pending_moderation.jpg",
       "widthCm": 16,
-      "caption": "Hình 24: Web — Bình luận chờ xét duyệt"
+      "caption": "Hình 36: Web — Bình luận chờ xét duyệt"
     },
     {
       "type": "h3",
@@ -978,7 +1106,7 @@
       "type": "image",
       "path": "assets/flow/US05.jpg",
       "widthCm": 11,
-      "caption": "Hình 25: Lưu đồ sửa và xóa bình luận (US05) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
+      "caption": "Hình 37: Lưu đồ sửa và xóa bình luận (US05) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
     },
     {
       "type": "table",
@@ -1019,31 +1147,31 @@
       "type": "image",
       "path": "assets/phone/16_own_kebab_edit_delete.png",
       "widthCm": 5.2,
-      "caption": "Hình 26: Phone — Menu của bình luận của mình: Chỉnh sửa / Xóa"
+      "caption": "Hình 38: Phone — Menu của bình luận của mình: Chỉnh sửa / Xóa"
     },
     {
       "type": "image",
       "path": "assets/phone/17_delete_dialog.png",
       "widthCm": 5.2,
-      "caption": "Hình 27: Phone — Xác nhận xóa bình luận không có trả lời"
+      "caption": "Hình 39: Phone — Xác nhận xóa bình luận không có trả lời"
     },
     {
       "type": "image",
       "path": "assets/phone/18_delete_dialog_has_reply.png",
       "widthCm": 5.2,
-      "caption": "Hình 28: Phone — Xác nhận xóa bình luận có trả lời"
+      "caption": "Hình 40: Phone — Xác nhận xóa bình luận có trả lời"
     },
     {
       "type": "image",
       "path": "assets/phone/19_edited_toast.png",
       "widthCm": 5.2,
-      "caption": "Hình 29: Phone — Sửa thành công, bình luận mang nhãn Đã chỉnh sửa"
+      "caption": "Hình 41: Phone — Sửa thành công, bình luận mang nhãn Đã chỉnh sửa"
     },
     {
       "type": "image",
       "path": "assets/web/web_editdelete_menu.jpg",
       "widthCm": 16,
-      "caption": "Hình 30: Web — Menu Chỉnh sửa / Xóa trên bình luận của mình"
+      "caption": "Hình 42: Web — Menu Chỉnh sửa / Xóa trên bình luận của mình"
     },
     {
       "type": "h3",
@@ -1057,19 +1185,19 @@
       "type": "image",
       "path": "assets/flow/US07.jpg",
       "widthCm": 15,
-      "caption": "Hình 31: Lưu đồ Thích và Bỏ thích bình luận (US07) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
+      "caption": "Hình 43: Lưu đồ Thích và Bỏ thích bình luận (US07) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
     },
     {
       "type": "image",
       "path": "assets/phone/20_like_a.png",
       "widthCm": 5.2,
-      "caption": "Hình 32: Phone — Bình luận chưa thích"
+      "caption": "Hình 44: Phone — Bình luận chưa thích"
     },
     {
       "type": "image",
       "path": "assets/phone/20_like_b.png",
       "widthCm": 5.2,
-      "caption": "Hình 33: Phone — Bình luận đã thích, biểu tượng và số đếm chuyển màu cam"
+      "caption": "Hình 45: Phone — Bình luận đã thích, biểu tượng và số đếm chuyển màu cam"
     },
     {
       "type": "h3",
@@ -1083,7 +1211,7 @@
       "type": "image",
       "path": "assets/flow/US08.jpg",
       "widthCm": 16,
-      "caption": "Hình 34: Lưu đồ trả lời bình luận một cấp (US08) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
+      "caption": "Hình 46: Lưu đồ trả lời bình luận một cấp (US08) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
     },
     {
       "type": "table",
@@ -1124,19 +1252,19 @@
       "type": "image",
       "path": "assets/phone/05_reply_view.png",
       "widthCm": 5.2,
-      "caption": "Hình 35: Phone — Màn Phản hồi: bình luận gốc và các trả lời một cấp"
+      "caption": "Hình 47: Phone — Màn Phản hồi: bình luận gốc và các trả lời một cấp"
     },
     {
       "type": "image",
       "path": "assets/phone/07_reply_sheet_compose.png",
       "widthCm": 5.2,
-      "caption": "Hình 36: Phone — Soạn trả lời với ô nhập điền sẵn @tên người được trả lời"
+      "caption": "Hình 48: Phone — Soạn trả lời với ô nhập điền sẵn @tên người được trả lời"
     },
     {
       "type": "image",
       "path": "assets/web/web_reply.jpg",
       "widthCm": 16,
-      "caption": "Hình 37: Web — Ô nhập trả lời nội tuyến dưới bình luận gốc"
+      "caption": "Hình 49: Web — Ô nhập trả lời nội tuyến dưới bình luận gốc"
     },
     {
       "type": "h3",
@@ -1150,7 +1278,7 @@
       "type": "image",
       "path": "assets/flow/US09.jpg",
       "widthCm": 16,
-      "caption": "Hình 38: Lưu đồ nhắc tên và nhận thông báo (US09) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
+      "caption": "Hình 50: Lưu đồ nhắc tên và nhận thông báo (US09) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
     },
     {
       "type": "table",
@@ -1239,43 +1367,43 @@
       "type": "image",
       "path": "assets/phone/08_mention_picker.png",
       "widthCm": 5.2,
-      "caption": "Hình 39: Phone — Gợi ý nhắc tên khi gõ @"
+      "caption": "Hình 51: Phone — Gợi ý nhắc tên khi gõ @"
     },
     {
       "type": "image",
       "path": "assets/phone/noti_click_1_40217_96295.png",
       "widthCm": 5.2,
-      "caption": "Hình 40: Phone — Thông báo đẩy khi được nhắc tên"
+      "caption": "Hình 52: Phone — Thông báo đẩy khi được nhắc tên"
     },
     {
       "type": "image",
       "path": "assets/phone/noti_click_2_40217_96311.png",
       "widthCm": 5.2,
-      "caption": "Hình 41: Phone — Màn Bình luận của nội dung mở từ thông báo: thẻ phim kèm nút Xem ngay và danh sách bình luận"
+      "caption": "Hình 53: Phone — Màn Bình luận của nội dung mở từ thông báo: thẻ phim kèm nút Xem ngay và danh sách bình luận"
     },
     {
       "type": "image",
       "path": "assets/phone/noti_click_3_41209_35118.png",
       "widthCm": 5.2,
-      "caption": "Hình 42: Phone — Màn Bình luận của nội dung với tên phim dài 2 dòng"
+      "caption": "Hình 54: Phone — Màn Bình luận của nội dung với tên phim dài 2 dòng"
     },
     {
       "type": "image",
       "path": "assets/phone/noti_click_4_41209_35408.png",
       "widthCm": 5.2,
-      "caption": "Hình 43: Phone — Màn Phản hồi toàn màn hình mở từ thông báo"
+      "caption": "Hình 55: Phone — Màn Phản hồi toàn màn hình mở từ thông báo"
     },
     {
       "type": "image",
       "path": "assets/phone/10_notification_center.png",
       "widthCm": 5.2,
-      "caption": "Hình 44: Phone — Trung tâm thông báo"
+      "caption": "Hình 56: Phone — Trung tâm thông báo"
     },
     {
       "type": "image",
       "path": "assets/web/noti_click_16782_40718.jpg",
       "widthCm": 16,
-      "caption": "Hình 45: Web — Danh sách thông báo (Tất cả / Chưa đọc) với thông báo nhắc tên"
+      "caption": "Hình 57: Web — Danh sách thông báo (Tất cả / Chưa đọc) với thông báo nhắc tên"
     },
     {
       "type": "h3",
@@ -1289,7 +1417,7 @@
       "type": "image",
       "path": "assets/flow/US10.jpg",
       "widthCm": 16,
-      "caption": "Hình 46: Lưu đồ báo cáo bình luận vi phạm (US10) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
+      "caption": "Hình 58: Lưu đồ báo cáo bình luận vi phạm (US10) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
     },
     {
       "type": "table",
@@ -1330,25 +1458,25 @@
       "type": "image",
       "path": "assets/phone/40220_29447.png",
       "widthCm": 5.2,
-      "caption": "Hình 47: Phone — Menu của bình luận người khác: Báo cáo bình luận"
+      "caption": "Hình 59: Phone — Menu của bình luận người khác: Báo cáo bình luận"
     },
     {
       "type": "image",
       "path": "assets/phone/40220_31205.png",
       "widthCm": 5.2,
-      "caption": "Hình 48: Phone — Bottom sheet chọn lý do báo cáo"
+      "caption": "Hình 60: Phone — Bottom sheet chọn lý do báo cáo"
     },
     {
       "type": "image",
       "path": "assets/phone/14_report_toast.png",
       "widthCm": 5.2,
-      "caption": "Hình 49: Phone — Toast báo cáo thành công"
+      "caption": "Hình 61: Phone — Toast báo cáo thành công"
     },
     {
       "type": "image",
       "path": "assets/web/web_report.jpg",
       "widthCm": 16,
-      "caption": "Hình 50: Web — Modal Báo cáo bình luận"
+      "caption": "Hình 62: Web — Modal Báo cáo bình luận"
     },
     {
       "type": "h3",
@@ -1362,7 +1490,7 @@
       "type": "image",
       "path": "assets/flow/US17.jpg",
       "widthCm": 12,
-      "caption": "Hình 51: Lưu đồ huy hiệu người dùng (US17) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
+      "caption": "Hình 63: Lưu đồ huy hiệu người dùng (US17) — lưu đồ trích từ Figma Phone; đồ họa sẽ được cập nhật khi đội thiết kế xử lý xong các ghi chú [BA] còn lại"
     },
     {
       "type": "table",
@@ -1404,19 +1532,40 @@
       "type": "image",
       "path": "assets/phone/40227_34309.png",
       "widthCm": 5.2,
-      "caption": "Hình 52: Phone — Sheet Huy hiệu thành viên"
+      "caption": "Hình 64: Phone — Sheet Huy hiệu thành viên"
     },
     {
       "type": "image",
       "path": "assets/web/web_badge.jpg",
       "widthCm": 16,
-      "caption": "Hình 53: Web — Modal Huy hiệu thành viên"
+      "caption": "Hình 65: Web — Modal Huy hiệu thành viên"
+    },
+    {
+      "type": "p",
+      "text": "Giao diện Smart TV — US17 Huy hiệu người dùng",
+      "bold": true
+    },
+    {
+      "type": "p",
+      "text": "Trên Smart TV huy hiệu chỉ hiển thị dưới dạng chip cạnh tên trong card (tối đa một chip; marker Ghim hiển thị riêng); không có trang giải thích huy hiệu và không có thao tác trên chip."
     },
     {
       "type": "image",
-      "path": "assets/tv/tv_badge_list.jpg",
+      "path": "assets/tv/us17_overview.jpg",
       "widthCm": 16,
-      "caption": "Hình 54: Smart TV — Chip huy hiệu cạnh tên trong danh sách"
+      "caption": "Hình 66: Smart TV — Lưu đồ Figma US17 Huy hiệu người dùng"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us17_r1_c2_89_41320.jpg",
+      "widthCm": 15,
+      "caption": "Hình 67: Smart TV — Danh sách bình luận với marker Ghim và các chip Fan tích cực, Fan kỳ cựu, Nổi bật"
+    },
+    {
+      "type": "image",
+      "path": "assets/tv/tv_us17_r1_c1_84_39415.jpg",
+      "widthCm": 15,
+      "caption": "Hình 68: Smart TV — Card có tiêu điểm mang chip Fan kỳ cựu"
     },
     {
       "type": "h1",
@@ -1495,7 +1644,7 @@
           "Khung xương, trạng thái rỗng, trạng thái bị khóa",
           "Có",
           "Có",
-          "Có (rỗng, khung xương)",
+          "Có (rỗng, khung xương; bị khóa = ẩn nút Bình luận)",
           "US01"
         ],
         [
@@ -1509,7 +1658,7 @@
           "Thanh nhắc đăng nhập / hướng dẫn QR",
           "Thanh “Đăng nhập để bình luận”",
           "Thẻ “Đăng nhập để bình luận”",
-          "Màn hướng dẫn QR + hotline",
+          "Dải nhắc + trang hướng dẫn QR, hotline",
           "US01"
         ],
         [
@@ -1544,7 +1693,7 @@
           "Thread Phản hồi + ô trả lời điền sẵn @",
           "Màn Phản hồi",
           "Mở rộng inline",
-          "Trang Phản hồi chỉ đọc",
+          "Trang Phản hồi chỉ đọc (Click vào card; BACK quay lại)",
           "US08, US01"
         ],
         [

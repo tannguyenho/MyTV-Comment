@@ -50,7 +50,7 @@ node .claude/skills/urd-docx/scripts/inspect-docx.js <file.docx>           # in 
 | `assets/flow/` | 11 lưu đồ theo User Story (US01–US10, US17); bản `.jpg` dùng cho URD 2.0 |
 | `assets/phone/` | 44 ảnh màn hình Phone 375×812 (xuất 02/11 và 06/11/2026) |
 | `assets/web/` | 14 ảnh màn hình Web |
-| `assets/tv/` | 13 ảnh màn hình Smart TV |
+| `assets/tv/` | 41 ảnh màn hình Smart TV (đủ luồng US01, US17 + 2 lưu đồ section) |
 | `assets/screen/` | 45 ảnh màn hình 375×812 xuất ở tỉ lệ 2× |
 
 ## Trạng thái thiết kế theo nền tảng
